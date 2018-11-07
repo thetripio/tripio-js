@@ -1,2 +1,2 @@
-# tripio-js
+# Tripio.js
 Tripio.js

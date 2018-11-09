@@ -15,6 +15,8 @@ describe('create tripio', () => {
         else {
             console.log(vendors);
         }
+
+        expect(3).toBe(vendors.length);
     });
 
 });

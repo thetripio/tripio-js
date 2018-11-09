@@ -3,7 +3,15 @@ import RoomNightVendor from './room-night/vendor';
 import RoomNightAdmin from './room-night/admin';
 import RoomNightCustomer from './room-night/customer';
 
-export default class Tripio {
+/** 
+ * Tripio
+ * @class
+ */
+class Tripio {
+    /**
+     * Create a Tripio.
+     * @param {Web3} web3 - The Web3.
+     */
     constructor() {
         console.log('Hello Tripio!');
 
@@ -21,3 +29,5 @@ export default class Tripio {
         this.roomNightCustomer = new RoomNightCustomer(web3);
     }
 }
+
+export default Tripio;

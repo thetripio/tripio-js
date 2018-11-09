@@ -1,12 +1,22 @@
 import ABI from '../abis/roomnight-admin';
 
-export default class RoomNightAdmin {
+/** 
+ * RoomNightAdmin
+ * @class
+ */
+class RoomNightAdmin {
     constructor(web3) {
         this.web3 = web3;
         
         this.contract = this.web3.eth.contract(ABI).at('0x1E212155EF1197cC42B8A8D5dDffF6Dc4C584CE7');
     }
 
+    /**
+     * Create a Tripio.
+     * @param {Number} offset.
+     * @param {Number} limit.
+     * @return {Promise}
+     */
     getVendorIds(offset, limit) {
 
         return new Promise((resolve, reject) => {
@@ -24,7 +34,8 @@ export default class RoomNightAdmin {
     getToken() {
         //this.web3
 
-
         console.log('getToken!');
     }
 }
+
+export default RoomNightAdmin;

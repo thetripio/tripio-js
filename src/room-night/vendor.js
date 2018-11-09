@@ -1,6 +1,8 @@
+//import ABI from '../abis/vendor';
 
 export default class RoomNightVendor {
-    constructor() {
+    constructor(web3) {
+        this.web3 = web3;
     }
 
     priceOfDate() {

@@ -1,16 +1,20 @@
 import Tripio from '../src/index';
+import to from 'await-to-js';
 
 describe('create tripio', () => {
 
-     //tripio.roomNightVendor
-    let tripio = new Tripio({
-        web3: ''
-    });
+    let tripio = new Tripio();
 
-    test('room night', () => {
+    test('room night admin', async () => {
 
-        tripio.roomNightVendor.priceOfDate();
-        tripio.roomNightAdmin.getToken();
+        let [vendors, err] = await to(tripio.roomNightAdmin.getVendorIds(0, 100));
+
+        if(err) {
+            console.log(err);
+        }
+        else {
+            console.log(vendors);
+        }
     });
 
 });

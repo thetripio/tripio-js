@@ -1,6 +1,7 @@
 
 export default class RoomNightCustomer {
-    constructor() {
+    constructor(web3) {
+        this.web3 = web3;
     }
 
     buyInBatch() {

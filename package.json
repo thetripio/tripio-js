@@ -22,12 +22,16 @@
         "trio"
     ],
     "main": "dist/index.js",
-    "dependencies": {},
+    "dependencies": {
+        "await-to-js": "^2.0.1",
+        "web3": "0.19.1"
+    },
     "scripts": {
         "test": "BABEL_ENV=test jest",
         "coverage": "BABEL_ENV=test jest --coverage",
-        "build": "BABEL_ENV=build rollup -c",
-        "deploy": "yarn build && yarn publish"
+        "build": "BABEL_ENV=build rollup -c build/rollup.config.js",
+        "deploy": "yarn build && yarn publish",
+        "doc": "node build/jsdoc.js"
     },
     "devDependencies": {
         "babel-core": "^6.26.3",
@@ -36,6 +40,7 @@
         "babel-preset-es2015": "^6.24.1",
         "babel-preset-stage-2": "^6.24.1",
         "jest": "^23.6.0",
+        "jsdoc-to-markdown": "^4.0.1",
         "rollup": "^0.67.0",
         "rollup-plugin-babel": "3.0.7"
     }

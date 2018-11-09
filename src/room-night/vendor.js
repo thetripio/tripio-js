@@ -1,11 +1,23 @@
 //import ABI from '../abis/vendor';
 
-export default class RoomNightVendor {
+/** 
+ * RoomNightVendor
+ * @class
+ */
+class RoomNightVendor {
     constructor(web3) {
         this.web3 = web3;
     }
 
-    priceOfDate() {
+    /**
+     * Get price and inventory of date.
+     * @param {Number} vendorId.
+     * @param {Number} rpid.
+     * @return {Promise}
+     */
+    priceOfDate(vendorId, rpid) {
         console.log('priceOfDate!');
     }
 }
+
+export default RoomNightVendor;

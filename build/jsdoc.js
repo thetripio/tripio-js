@@ -5,43 +5,34 @@ const path = require('path');
 const srcPath = './src/';
 const distPath = './doc/';
 
-fs.readdirSync(srcPath).forEach((file) => {
-    if (file.indexOf('.js') > 0) {
-        jsdoc2md.render({
-            files: srcPath + file
-        }).then((markdown) => {
-            let fileName = distPath + file;
-            fileName = fileName.split('.js')[0]
-            fs.writeFile(fileName + '.md', markdown);
-        });
-    }
-})
+function createDoc(path, filesList = []) {
+    fs.readdirSync(path).forEach((file, index) => {
+        const stat = fs.statSync(path + file);
+        
+        if (stat.isDirectory()) {
+            if (file === 'room-night')
+                createDoc(path + file + "/", filesList);
+        } else {
+            filesList.push({
+                path: path,
+                filename: file
+            });
 
-// function jsFiles() {
-//     fs.readdirSync(path).forEach((itm, index) => {
-//         const stat = fs.statSync(path + itm);
-//         if (stat.isDirectory()) {
-//             //递归读取文件
-//             jsFiles(path + itm + "/", filesList);
-//         } else {
-//             const obj = {}; //定义一个对象存放文件的路径和名字
-//             obj.path = path; //路径
-//             obj.filename = itm; //名字
-//             filesList.push(obj);
+            if (file.indexOf('.js') > 0) {
+                jsdoc2md.render({
+                    files: path + file
+                }).then((markdown) => {
+                    let fileName = distPath + file;
+                    fileName = fileName.split('.js')[0]
+                    console.log(fileName);
+                    console.log(markdown);
+                    fs.writeFile(fileName + '.md', markdown);
+                });
+            }
+        }
+    });
+    
+    return filesList;
+}
 
-
-//             // if (itm.indexOf('.js') > 0) {
-//             //     jsdoc2md.render({
-//             //         files: path + itm
-//             //     }).then((markdown) => {
-//             //         let fileName = distPath + itm;
-//             //         fileName = fileName.split('.js')[0]
-//             //         fs.writeFile(fileName + '.md', markdown);
-//             //     });
-//             // }
-//         }
-//     });
-//     return filesList;
-// }
-
-// jsFiles(srcPath);
+createDoc(srcPath);

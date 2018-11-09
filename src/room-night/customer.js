@@ -1,5 +1,5 @@
 
-export default class RoomNightCustomer {
+class RoomNightCustomer {
     constructor(web3) {
         this.web3 = web3;
     }
@@ -8,3 +8,5 @@ export default class RoomNightCustomer {
         console.log('buyInBatch!');
     }
 }
+
+export default RoomNightCustomer;

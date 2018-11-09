@@ -5,10 +5,10 @@ import ABI from '../abis/roomnight-admin';
  * @class
  */
 class RoomNightAdmin {
-    constructor(web3) {
+    constructor(web3, contractAddress, options) {
         this.web3 = web3;
         
-        this.contract = this.web3.eth.contract(ABI).at('0x1E212155EF1197cC42B8A8D5dDffF6Dc4C584CE7');
+        this.contract = this.web3.eth.contract(ABI).at(contractAddress);
     }
 
     /**
@@ -24,8 +24,11 @@ class RoomNightAdmin {
                 if(err) {
                     reject(err);
                 }
-                else {
-                    resolve(res);
+                else if(res) {
+                    resolve({
+                        vendorIds :res[0],
+                        nextVendorId: res[1]
+                    });
                 }
             });
         });
@@ -43,8 +46,13 @@ class RoomNightAdmin {
                 if (err) {
                     reject(err);
                 }
-                else {
-                    resolve(res);
+                else if(res) {
+                    resolve({
+                        name: res[0],
+                        address: res[1],
+                        createTime: res[2],
+                        isValid: res[3]
+                    });
                 }
                 
             });
@@ -63,8 +71,13 @@ class RoomNightAdmin {
                 if (err) {
                     reject(err);
                 }
-                else {
-                    resolve(res);
+                else if (res) {
+                    resolve({
+                        name: res[0],
+                        address: address,
+                        createTime: res[2],
+                        isValid: res[3]
+                    });
                 }
             });
         });
@@ -83,8 +96,11 @@ class RoomNightAdmin {
                 if (err) {
                     reject(err);
                 }
-                else {
-                    resolve(res);
+                else if (res) {
+                    resolve({
+                        tokenIds: res[0],
+                        nextVendorId: res[1]
+                    });
                 }
             });
         });
@@ -102,8 +118,13 @@ class RoomNightAdmin {
                 if (err) {
                     reject(err);
                 }
-                else {
-                    resolve(res);
+                else if(res) {
+                    resolve({
+                        symbole: res[0],
+                        name: res[1],
+                        decimal: res[2],
+                        address: res[3]
+                    });
                 }
             });
         });

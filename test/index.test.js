@@ -3,7 +3,9 @@ import to from 'await-to-js';
 
 describe('create tripio', () => {
 
-    let tripio = new Tripio();
+    let tripio = new Tripio(null, {
+        env: 'ropsten'
+    });
 
     test('room night admin getVendorIds', async () => {
 

@@ -5,7 +5,7 @@ import to from 'await-to-js';
 describe('create RoomNightAdmin', () => {
     let web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/9WfBzi6QFGrAWBYZKq57'));
 
-    let roomNightAdmin = new RoomNightAdmin(web3);
+    let roomNightAdmin = new RoomNightAdmin(web3, '0x1E212155EF1197cC42B8A8D5dDffF6Dc4C584CE7');
 
     test('RoomNightAdmin getVendorIds', async () => {
 

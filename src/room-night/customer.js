@@ -1,6 +1,6 @@
 
 class RoomNightCustomer {
-    constructor(web3) {
+    constructor(web3, contractAddress, options) {
         this.web3 = web3;
     }
 

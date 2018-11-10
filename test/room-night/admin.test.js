@@ -1,6 +1,5 @@
 import Web3 from 'web3';
 import RoomNightAdmin from '../../src/room-night/admin';
-import to from 'await-to-js';
 
 describe('create RoomNightAdmin', () => {
     let web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/9WfBzi6QFGrAWBYZKq57'));
@@ -9,62 +8,32 @@ describe('create RoomNightAdmin', () => {
 
     test('RoomNightAdmin getVendorIds', async () => {
 
-        let [vendors, err] = await to(roomNightAdmin.getVendorIds(0, 100));
-
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log(vendors);
-        }
+        let vendors = await roomNightAdmin.getVendorIds(0, 100);
+        expect(vendors.length).toBeGreaterThan(0);
     }, 30000);
 
     test('RoomNightAdmin getVendor', async () => {
 
-        let [vendor, err] = await to(roomNightAdmin.getVendor(1));
-
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log(vendor);
-        }
+        let vendor = await roomNightAdmin.getVendor(1);
+        expect(vendor.address).toBe('0x262bab6a90aa1741390c4a3ec58855c81d9728e1');
     }, 30000);
 
     test('RoomNightAdmin getVendorByAddress', async () => {
 
-        let [vendor, err] = await to(roomNightAdmin.getVendorByAddress('0x0b3cbb67ebafbf6c9d8d17f5db1bada4b2cffc5a'));
-
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log(vendor);
-        }
+        let vendor = await roomNightAdmin.getVendorByAddress('0x0b3cbb67ebafbf6c9d8d17f5db1bada4b2cffc5a');
+        expect(vendor.address).toBe('0x0b3cbb67ebafbf6c9d8d17f5db1bada4b2cffc5a');
     }, 30000);
 
     test('RoomNightAdmin supportedTokens', async () => {
 
-        let [tokens, err] = await to(roomNightAdmin.supportedTokens(0, 10));
-
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log(tokens);
-        }
+        let tokens = await roomNightAdmin.supportedTokens(0, 10);
+        expect(tokens.length).toBeGreaterThan(0);
     }, 30000);
 
     test('RoomNightAdmin getToken', async () => {
 
-        let [token, err] = await to(roomNightAdmin.getToken(1));
-
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log(token);
-        }
+        let token = await roomNightAdmin.getToken(1);
+        expect(token.symbole).toBe('TRIO');
     }, 30000);
 
 });

@@ -1,6 +1,5 @@
 import Web3 from 'web3';
 import RoomNightVendor from '../../src/room-night/vendor';
-import to from 'await-to-js';
 
 describe('create RoomNightVendor', () => {
     let web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/9WfBzi6QFGrAWBYZKq57'));
@@ -9,14 +8,38 @@ describe('create RoomNightVendor', () => {
 
     test('RoomNightVendor inventoriesOfDate', async () => {
 
-        let [inventories, err] = await to(vendor.inventoriesOfDate(1, 3, [20180610, 20180611]));
+        let inventories = await vendor.inventoriesOfDate(1, 3, [20180610, 20180611]);
+        console.log(inventories);
+    }, 30000);
 
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log(inventories);
-        }
+    test('RoomNightVendor pricesOfDate', async() => {
+
+        let prices = await vendor.pricesOfDate(1, 3, [20180610, 20180611], 0);
+        console.log(prices);
+    }, 30000);
+
+    test('RoomNightVendor priceOfDate', async () => {
+
+        let price = await vendor.priceOfDate(1, 3, 20180610, 0);
+        console.log(price);
+    }, 30000);
+
+    test('RoomNightVendor ratePlansOfVendor', async () => {
+
+        let ratePlans = await vendor.ratePlansOfVendor(1, 0, 10);
+        console.log(ratePlans);
+    }, 30000);
+
+    test('RoomNightVendor ratePlanOfVendor', async () => {
+
+        let ratePlan = await vendor.ratePlanOfVendor(1, 3);
+        console.log(ratePlan);
+    }, 30000);
+
+    test('RoomNightVendor pricesAndInventoriesOfDate', async () => {
+
+        let prices = await vendor.pricesAndInventoriesOfDate(1, 3, [20180610, 20180611], 0);
+        console.log(prices);
     }, 30000);
 
 });

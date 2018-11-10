@@ -41,6 +41,7 @@ class RoomNightCustomer {
         return bs58.encode(ipfsBuffer);
     }
 
+    
     /**
      * The name of current room night token
      * @returns {Promise} {String} The name of current room night token 
@@ -247,9 +248,293 @@ class RoomNightCustomer {
         });
     }
 
-    
-    buyInBatch() {
-        console.log('buyInBatch!');
+    /**
+     * Transfers the ownership of an room night token from one address to another address.
+     * When transfer is complete, this function checks if _to is a smart contract (code size > 0). 
+     * If so, it calls onERC721Received on _to and throws if the return value is not bytes4(keccak256("onERC721Received(address,uint256,bytes)")).
+     * @param {String} from The current owner of the room night token
+     * @param {String} to The new owner
+     * @param {Number} tokenId The token to transfer
+     * @param {Promise} {tx: String, from: BigNumber, to: BigNumber, tokenId: BigNumber}
+     * * tx: Transaction number
+     * * from: The current owner of the room night token
+     * * to: The new owner
+     * * tokenId: The token to transfer
+     */
+    safeTransferFrom(from, to, tokenId) {
+        return new Promise((resolve, reject) => {
+            this.contract.safeTransferFrom(from, to, tokenId, (err, tx) => {
+                if(err) {
+                    reject(err);
+                }
+                else {
+                    let event = this.contract.Transfer((err, res) => {
+                        event.stopWatching();
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve({
+                                tx: tx,
+                                from: res[0],
+                                to: res[1],
+                                tokenId: res[2]
+                            });   
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    /**
+     * Transfers the ownership of an room night token from one address to another address
+     * @param {String} from The current owner of the room night token
+     * @param {String} to The new owner
+     * @param {Number} tokenId The token to transfer
+     * @param {Promise} {tx: String, from: BigNumber, to: BigNumber, tokenId: BigNumber}
+     * * tx: Transaction number
+     * * from: The current owner of the room night token
+     * * to: The new owner
+     * * tokenId: The token to transfer
+     */
+    transferFrom(from, to, tokenId) {
+        return new Promise((resolve, reject) => {
+            this.contract.transferFrom(from, to, tokenId, (err, tx) => {
+                if(err) {
+                    reject(err);
+                }
+                else {
+                    let event = this.contract.Transfer((err, res) => {
+                        event.stopWatching();
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve({
+                                tx: tx,
+                                from: res[0],
+                                to: res[1],
+                                tokenId: res[2]
+                            });   
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    /**
+     * Transfers the ownership of tokens from one address to another address
+     * @param {String} from The current owner of the room night token
+     * @param {String} to The new owner
+     * @param {Number|Array} tokenIds The tokens to transfer
+     * @param {Promise} {tx: String, from: BigNumber, to: BigNumber, tokenIds: Number|Array}
+     * * tx: Transaction number
+     * * from: The current owner of the room night token
+     * * to: The new owner
+     * * tokenIds: The token to transfer
+     */
+    transferFromInBatch(from, to, tokenIds) {
+        return new Promise((resolve, reject) => {
+            this.contract.transferFromInBatch(from, to, tokenIds, (err, tx) => {
+                if(err) {
+                    reject(err);
+                }
+                else {
+                    let event = this.contract.Transfer((err, res) => {
+                        event.stopWatching();
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve({
+                                tx: tx,
+                                from: res[0],
+                                to: res[1],
+                                tokenIds: tokenIds
+                            });   
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    /**
+     * Set or reaffirm the approved address for an room night token
+     * @param {String} approved The new approved token controller
+     * @param {Number} tokenId The token to approve
+     * @param {Promise} {tx: String, owner: String, approved: String, tokenId: BigNumber}
+     * * tx: Transaction number
+     * * owner: The current owner of the room night token
+     * * approved: The new approved token controller
+     * * tokenId: The token to approve
+     */
+    approve(approved, tokenId) {
+        return new Promise((resolve, reject) => {
+            this.contract.approve(approved, tokenId, (err, tx) => {
+                if(err) {
+                    reject(err);
+                }
+                else {
+                    let event = this.contract.Approval((err, res) => {
+                        event.stopWatching();
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve({
+                                tx: tx,
+                                owner: res[0],
+                                approved: res[1],
+                                tokenId: res[2]
+                            });   
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    /**
+     * Enable or disable approval for a third party ("operator") to manage all of msg.sender's assets
+     * @param {String} operator The new approved token controller
+     * @param {Boolean} approved The token to approve
+     * @param {Promise} {tx: String, owner: String, operator: String, approved: Boolean}
+     * * tx: Transaction number
+     * * owner: The current owner of the room night token
+     * * operator: The new approved token controller
+     * * approved: The token to approve
+     */
+    setApprovalForAll(operator, approved) {
+        return new Promise((resolve, reject) => {
+            this.contract.setApprovalForAll(operator, approved, (err, tx) => {
+                if(err) {
+                    reject(err);
+                }
+                else {
+                    let event = this.contract.ApprovalForAll((err, res) => {
+                        event.stopWatching();
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve({
+                                tx: tx,
+                                owner: res[0],
+                                operator: res[1],
+                                approved: res[2]
+                            });   
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    /**
+     * By room nigth in batch through ETH(`token` == 0) or other digital token(`token` != 0)
+     * @param {Number} vendorId The vendor Id
+     * @param {Number} rpid The vendor's rate plan id
+     * @param {Number|Array} dates The booking dates
+     * @param {Number} token The digital currency token
+     * @param {Promise} {tx: String, customer: String, vendor: String, rpid: BigNumber, dates: Number|Array, token: BigNumber}
+     * * tx: Transaction number
+     * * customer: The customer address
+     * * vendor: Then vendor address
+     * * rpid: The rateplan id
+     * * dates: The booking dates
+     * * token: The digital currency token
+     */
+    buyInBatch(vendorId, rpid, dates, token) {
+        return new Promise((resolve, reject) => {
+            this.contract.buyInBatch(vendorId, rpid, dates, token, (err, tx) => {
+                if(err) {
+                    reject(err);
+                }
+                else {
+                    let event = this.contract.BuyInBatch((err, res) => {
+                        event.stopWatching();
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve({
+                                tx: tx,
+                                customer: res[0],
+                                vendor: res[1],
+                                rpid: res[2],
+                                dates: dates,
+                                token: res[4]
+                            });   
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    /**
+     * Apply room night refund
+     * @param {Number} vendorId The vendor Id
+     * @param {Number} rnid Room night token id
+     * @param {Boolean} isRefund if true the `rnid` can refund else not
+     * @param {Promise} {tx: String, customer: String, rnid: BigNumber, isRefund: Boolean}
+     * * tx: Transaction number
+     * * customer: The customer address
+     * * rnid: The rateplan id
+     * * isRefund: if true the `rnid` can refund else not
+     */
+    applyRefund(vendorId, rnid, isRefund) {
+        return new Promise((resolve, reject) => {
+            this.contract.applyRefund(vendorId, rnid, isRefund, (err, tx) => {
+                if(err) {
+                    reject(err);
+                }
+                else {
+                    let event = this.contract.ApplyRefund((err, res) => {
+                        event.stopWatching();
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve({
+                                tx: tx,
+                                customer: res[0],
+                                rnid: res[1],
+                                isRefund: res[2]
+                            });   
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    /**
+     * Refund through ETH or other digital token, give the room night ETH/TOKEN to customer and take back inventory
+     * @param {Number} rnid Room night token id
+     * @param {Promise} {tx: String, vendor: String, rnid: BigNumber}
+     * * tx: Transaction number
+     * * vendor: Then vendor address
+     * * rnid: Room night token id
+     */
+    refund(rnid) {
+        return new Promise((resolve, reject) => {
+            this.contract.refund(rnid, (err, tx) => {
+                if(err) {
+                    reject(err);
+                }
+                else {
+                    let event = this.contract.Refund((err, res) => {
+                        event.stopWatching();
+                        if (err) {
+                            reject(err);
+                        } else {
+                            resolve({
+                                tx: tx,
+                                vendor: res[0],
+                                rnid: res[1]
+                            });   
+                        }
+                    });
+                }
+            });
+        });
     }
 }
 

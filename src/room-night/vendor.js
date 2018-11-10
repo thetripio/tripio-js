@@ -16,7 +16,7 @@ class RoomNightVendor {
      * @param {Number} vendorId - Vendor id
      * @param {Number} rpid - Rateplan id
      * @param {Object} options
-     * @return {Promise}
+     * @returns {Promise}
      */
     inventoriesOfDate(vendorId, rpid, dates, options) {
         return new Promise((resolve, reject) => {
@@ -38,7 +38,7 @@ class RoomNightVendor {
      * @param {Number} dates - Dates E.g: [20180610,20180611]
      * @param {Number} token - Token id
      * @param {Object} options
-     * @return {Promise}
+     * @returns {Promise}
      */
     pricesOfDate(vendorId, rpid, dates, token, options) {
         return new Promise((resolve, reject) => {
@@ -53,6 +53,17 @@ class RoomNightVendor {
         });
     }
 
+    /**
+     * Get price and inventory of date
+     * @param {Number} vendorId - Vendor id
+     * @param {Number} rpid - Rateplan id
+     * @param {Number} date - Date E.g: 20180630
+     * @param {Number} token - Token id
+     * @param {Object} options
+     * @returns {Promise} {inventory: Number, price: Number}
+     * * inventory: Inventory
+     * * price: Price
+     */
     priceOfDate(vendorId, rpid, date, token, options) {
         return new Promise((resolve, reject) => {
             this.contract.priceOfDate(vendorId, rpid, date, token, {}, (err, res) => {
@@ -69,6 +80,16 @@ class RoomNightVendor {
         });
     }
 
+    /**
+     * Get rateplans of vendor by vendor id
+     * @param {Number} vendorId - Vendor id
+     * @param {Number} offset - The begin id, if id = 0 search from the begin
+     * @param {Number} limit - The limit of one page
+     * @param {Object} options 
+     * @returns {Promise} {rateplanIds: Number, nextRateplanId: Number}
+     * * rateplanIds: Rateplan ids
+     * * nextRateplanId: The next id of rateplan, if id = 0 the next rateplan is null
+     */
     ratePlansOfVendor(vendorId, offset, limit, options) {
         return new Promise((resolve, reject) => {
             this.contract.ratePlansOfVendor(vendorId, offset, limit, {}, (err, res) => {
@@ -85,6 +106,16 @@ class RoomNightVendor {
         });
     }
 
+    /**
+     * Get rateplan information by vendor id and rateplan id
+     * @param {Number} vendorId - Vendor id
+     * @param {Number} rpid - Rateplan id
+     * @param {Object} options
+     * @returns {Promise} {name: String, createTime: Number, ipfsAddress: String}
+     * * name: Rateplan name
+     * * createTime: Create time: UTC timestamp(s)
+     * * ipfsAddress: IPFS file address
+     */
     ratePlanOfVendor(vendorId, rpid, options) {
         return new Promise((resolve, reject) => {
             this.contract.ratePlanOfVendor(vendorId, rpid, {}, (err, res) => {
@@ -102,6 +133,17 @@ class RoomNightVendor {
         });
     }
 
+    /**
+     * Get prices and inventories by vendor id, rateplan id, dates, token id
+     * @param {Number} vendorId - Vendor id
+     * @param {Number} rpid - Rateplan Id
+     * @param {Array} dates - Date E.g: [20180610,20180611]
+     * @param {Number} token - Token id
+     * @param {Object} options
+     * @returns {Promise} {prices: Array, inventorys: Array}
+     * * prices: Prices
+     * * inventorys: Inventories
+     */
     pricesAndInventoriesOfDate(vendorId, rpid, dates, token, options) {
         return new Promise((resolve, reject) => {
             this.contract.pricesAndInventoriesOfDate(vendorId, rpid, dates, token, {}, (err, res) => {
@@ -118,27 +160,167 @@ class RoomNightVendor {
         });
     }
 
+
     updatePrices(rpid, dates, inventory, tokens, prices, options) {
-        return new Promise();
+
+        return new Promise((resolve, reject) => {
+            this.contract.updatePrices(rpid, dates, inventory, tokens, prices, {}, (err, tx) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    let event = this.contract.RatePlanPriceChanged((err, res) => {
+                        event.stopWatching();
+
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve({
+                                tx,
+                                rpid: res[0]
+                            });
+                        }
+                    })
+                }
+            });
+        });
     }
 
     updateInventories(rpid, dates, inventory, options) {
 
+        return new Promise((resolve, reject) => {
+            this.contract.updateInventories(rpid, dates, inventory, {}, (err, tx) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    let event = this.contract.RatePlanInventoryChanged((err, res) => {
+                        event.stopWatching();
+
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve({
+                                tx,
+                                rpid: res[0]
+                            });
+                        }
+                    })
+                }
+            });
+        });
     }
 
     updateBasePrice(rpid, tokens, prices, inventory, options) {
 
+        return new Promise((resolve, reject) => {
+            this.contract.updateBasePrice(rpid, tokens, prices, inventory, {}, (err, tx) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    let event = this.contract.RatePlanBasePriceChanged((err, res) => {
+                        event.stopWatching();
+
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve({
+                                tx,
+                                rpid: res[0]
+                            });
+                        }
+                    })
+                }
+            });
+        });
     }
 
     createRatePlan(name, ipfs, options) {
 
+        return new Promise((resolve, reject) => {
+            this.contract.createRatePlan(name, ipfs, {}, (err, tx) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    let event = this.contract.RatePlanCreated((err, res) => {
+                        event.stopWatching();
+
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve({
+                                tx,
+                                vendorId: res[0],
+                                name: res[1],
+                                ipfs: res[2]
+                            });
+                        }
+                    })
+                }
+            });
+        });
     }
 
     removeRatePlan(rpid, options) {
 
+        return new Promise((resolve, reject) => {
+            this.contract.removeRatePlan(rpid, {}, (err, tx) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    let event = this.contract.RatePlanRemoved((err, res) => {
+                        event.stopWatching();
+
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve({
+                                tx,
+                                vendorId: res[0],
+                                rpid: res[1]
+                            });
+                        }
+                    })
+                }
+            });
+        });
     }
 
     modifyRatePlan(rpid, name, ipfs, options) {
+
+        return new Promise((resolve, reject) => {
+            this.contract.modifyRatePlan(rpid, name, ipfs, {}, (err, tx) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    let event = this.contract.RatePlanModified((err, res) => {
+                        event.stopWatching();
+
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve({
+                                tx,
+                                vendorId: res[0],
+                                rpid: res[1],
+                                name: res[2],
+                                ipfs: res[3]
+                            });
+                        }
+                    })
+                }
+            });
+        });
 
     }
 }

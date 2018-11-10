@@ -160,7 +160,18 @@ class RoomNightVendor {
         });
     }
 
-
+    /**
+     * Update prices and inventory of rateplan
+     * @param {Number} rpid - Rateplan Id
+     * @param {Array} dates - Date E.g: [20180610,20180611]
+     * @param {Number} inventory - Inventory
+     * @param {Array} tokens - Token ids
+     * @param {Array} prices - Prices of tokens
+     * @param {Object} options
+     * @returns {Promise} {tx: String, rpid: Number}
+     * * tx: Transaction Address
+     * * rpid: Rateplan Id
+     */
     updatePrices(rpid, dates, inventory, tokens, prices, options) {
 
         return new Promise((resolve, reject) => {
@@ -187,6 +198,16 @@ class RoomNightVendor {
         });
     }
 
+    /**
+     * Update inventories of rateplan
+     * @param {Number} rpid - Rateplan Id
+     * @param {Array} dates - Date E.g: [20180610,20180611]
+     * @param {Number} inventory - Inventory
+     * @param {Object} options
+     * @returns {Promise} {tx: String, rpid: Number}
+     * * tx: Transaction Address
+     * * rpid: Rateplan Id
+     */
     updateInventories(rpid, dates, inventory, options) {
 
         return new Promise((resolve, reject) => {
@@ -213,6 +234,17 @@ class RoomNightVendor {
         });
     }
 
+    /**
+     * Update the base price of all rateplans
+     * @param {Number} rpid - Rateplan Id
+     * @param {Array} tokens - Token ids
+     * @param {Array} prices - Prices of tokens
+     * @param {Number} inventory - Inventory
+     * @param {Object} options
+     * @returns {Promise} {tx: String, rpid: Number}
+     * * tx: Transaction Address
+     * * rpid: Rateplan Id
+     */
     updateBasePrice(rpid, tokens, prices, inventory, options) {
 
         return new Promise((resolve, reject) => {
@@ -239,6 +271,17 @@ class RoomNightVendor {
         });
     }
 
+    /**
+     * Create new rateplan
+     * @param {String} name - Rateplan name
+     * @param {String} ipfs - The IPFS's address of rateplan's desc
+     * @param {Object} options
+     * @returns {Promise} {tx: String, vendorId: String, name: String, ipfs: String}
+     * * tx: Transaction Address
+     * * vendorId: Vendor Id
+     * * name: Rateplan name
+     * * ipfs: The IPFS's address of rateplan's desc
+     */
     createRatePlan(name, ipfs, options) {
 
         return new Promise((resolve, reject) => {
@@ -267,6 +310,15 @@ class RoomNightVendor {
         });
     }
 
+    /**
+     * Remove rateplan
+     * @param {Number} rpid - Rateplan Id
+     * @param {Object} options
+     * @returns {Promise} {tx: String, vendorId: String, rpid: Number}
+     * * tx: Transaction Address
+     * * vendorId: Vendor Id
+     * * rpid: Rateplan Id
+     */
     removeRatePlan(rpid, options) {
 
         return new Promise((resolve, reject) => {
@@ -294,6 +346,19 @@ class RoomNightVendor {
         });
     }
 
+    /**
+     * Modify rateplan
+     * @param {Number} rpid
+     * @param {String} name 
+     * @param {String} ipfs 
+     * @param {Object} options
+     * @returns {Promise} {tx: String, vendorId: String, rpid: Number, name: String, ipfs: String}
+     * * tx: Transaction Address
+     * * vendorId: Vendor Id
+     * * rpid: Rateplan Id
+     * * name: Rateplan name
+     * * ipfs: The IPFS's address of rateplan's desc
+     */
     modifyRatePlan(rpid, name, ipfs, options) {
 
         return new Promise((resolve, reject) => {

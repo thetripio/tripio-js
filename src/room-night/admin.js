@@ -13,8 +13,8 @@ class RoomNightAdmin {
 
     /**
      * Get Vendor ids by page
-     * @param {Number} offset The begin id, if id = 0 search from the begin
-     * @param {Number} limit The limit of one page
+     * @param {Number} offset - The begin id, if id = 0 search from the begin
+     * @param {Number} limit - The limit of one page
      * @param {Object} options
      * @returns {Promise} {vendorIds: Number, nextVendorId: Number }
      * * vendorIds: Vendor ids, 
@@ -39,7 +39,7 @@ class RoomNightAdmin {
 
     /**
      * Get the vendor info by id
-     * @param {Number} vendorId Vendor id
+     * @param {Number} vendorId - Vendor id
      * @param {Object} options
      * @returns {Promise} {name: String, address: String, createTime: Number, isValid: Boolean}
      * * name: Vendor name
@@ -69,7 +69,7 @@ class RoomNightAdmin {
 
     /**
      * Get vendor info by vendor address
-     * @param {String} address Vendor address
+     * @param {String} address - Vendor address
      * @param {Object} options
      * @returns {Promise} {name: String, address: String, createTime: Number, isValid: Boolean}
      * * name: Vendor name
@@ -98,8 +98,8 @@ class RoomNightAdmin {
 
     /**
      * Get all supported tokens ids
-     * @param {Number} offset The begin id, if id = 0 search from the begin
-     * @param {Number} limit The limit of one page
+     * @param {Number} offset - The begin id, if id = 0 search from the begin
+     * @param {Number} limit - The limit of one page
      * @param {Object} options
      * @returns {Promise} {tokenIds: Number, nextVendorId: Number}
      * * tokenIds: Token ids
@@ -124,7 +124,7 @@ class RoomNightAdmin {
 
     /**
      * Get token information by token id
-     * @param {Number} tokenId Token id
+     * @param {Number} tokenId - Token id
      * @param {Object} options
      * @returns {Promise} {symbole: String, name: String, decimal: Number, address: String}
      * * symbole: Token symbole
@@ -153,7 +153,7 @@ class RoomNightAdmin {
 
     /**
      * Update the base URI of token
-     * @param {String} uri 
+     * @param {String} uri - The base URI of token
      * @param {Object} options
      * @returns {Promise} {String}
      */
@@ -165,7 +165,9 @@ class RoomNightAdmin {
                     reject(err);
                 }
                 else {
-                    this.contract.TokenBaseURIChanged((err, res) => {
+                    let event = this.contract.TokenBaseURIChanged((err, res) => {
+                        event.stopWatching();
+                        
                         if(err) {
                             reject(err);
                         }
@@ -180,8 +182,8 @@ class RoomNightAdmin {
 
     /**
      * Add vendor
-     * @param {String} address Vendor address
-     * @param {String} name Vendor name
+     * @param {String} address - Vendor address
+     * @param {String} name - Vendor name
      * @param {Object} options 
      * @returns {Promise} {vendor: String, name: String}
      * * vendor: Vendor index
@@ -195,7 +197,9 @@ class RoomNightAdmin {
                     reject(err);
                 }
                 else {
-                    this.contract.VendorAdded((err, res) => {
+                    let event = this.contract.VendorAdded((err, res) => {
+                        event.stopWatching();
+
                         if (err) {
                             reject(err);
                         }
@@ -213,7 +217,7 @@ class RoomNightAdmin {
 
     /**
      * Remove vendor by vendor address
-     * @param {String} address Vendor address
+     * @param {String} address - Vendor address
      * @param {Object} options
      * @returns {Promise} {String}
      */
@@ -225,7 +229,9 @@ class RoomNightAdmin {
                     reject(err);
                 }
                 else {
-                    this.contract.VendorRemoved((err, res) => {
+                    let event = this.contract.VendorRemoved((err, res) => {
+                        event.stopWatching();
+
                         if(err) {
                             reject(err);
                         }
@@ -240,7 +246,7 @@ class RoomNightAdmin {
 
     /**
      * Remove vendor by vendor id
-     * @param {Number} vendorId Vendor id
+     * @param {Number} vendorId - Vendor id
      * @param {Object} options
      * @returns {Promise} {String}
      */
@@ -252,7 +258,9 @@ class RoomNightAdmin {
                     reject(err);
                 }
                 else {
-                    this.contract.VendorRemoved((err, res) => {
+                    let event = this.contract.VendorRemoved((err, res) => {
+                        event.stopWatching();
+
                         if(err) {
                             reject(err);
                         }
@@ -267,8 +275,8 @@ class RoomNightAdmin {
 
     /**
      * Make vendor valid or invalid
-     * @param {Number} vendorId Vendor id
-     * @param {Boolean} valid Vendor is valid or not
+     * @param {Number} vendorId - Vendor id
+     * @param {Boolean} valid - Vendor is valid or not
      * @param {Object} options
      * @returns {Promise} {vendorId: String, valid: Boolean}
      */
@@ -280,7 +288,9 @@ class RoomNightAdmin {
                     reject(err);
                 }
                 else {
-                    this.contract.VendorValid((err, res) => {
+                    let event = this.contract.VendorValid((err, res) => {
+                        event.stopWatching();
+
                         if (err) {
                             reject(err);
                         }
@@ -290,7 +300,6 @@ class RoomNightAdmin {
                                 valid: res[1]
                             });
                         }
-
                     });
                 }
             });
@@ -299,7 +308,7 @@ class RoomNightAdmin {
 
     /**
      * Add token
-     * @param {String} contractAddress Token contract address
+     * @param {String} contractAddress - Token contract address
      * @param {Object} options
      * @returns {Promise} {String}
      */
@@ -311,14 +320,15 @@ class RoomNightAdmin {
                     reject(err);
                 }
                 else {
-                    this.contract.TokenAdded((err, res) => {
+                    let event = this.contract.TokenAdded((err, res) => {
+                        event.stopWatching();
+
                         if (err) {
                             reject(err);
                         }
                         else {
                             resolve(res[0]);
                         }
-
                     });
                 }
 
@@ -328,7 +338,7 @@ class RoomNightAdmin {
 
     /**
      * Remove token
-     * @param {Number} tokenId 	Token id
+     * @param {Number} tokenId - Token id
      * @param {Object} options
      * @returns {Promise} {Number}
      */
@@ -340,7 +350,9 @@ class RoomNightAdmin {
                     reject(err);
                 }
                 else {
-                    this.contract.TokenRemoved((err, res) => {
+                    let event = this.contract.TokenRemoved((err, res) => {
+                        event.stopWatching();
+
                         if (err) {
                             reject(err);
                         }

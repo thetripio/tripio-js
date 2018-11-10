@@ -13,8 +13,9 @@ class RoomNightVendor {
 
     /**
      * Get inventories of dates
-     * @param {Number} vendorId.
-     * @param {Number} rpid.
+     * @param {Number} vendorId - Vendor id
+     * @param {Number} rpid - Rateplan id
+     * @param {Object} options
      * @return {Promise}
      */
     inventoriesOfDate(vendorId, rpid, dates, options) {
@@ -31,11 +32,13 @@ class RoomNightVendor {
     }
 
     /**
-     * 
-     * @param {*} vendorId 
-     * @param {*} rpid 
-     * @param {*} dates 
-     * @param {*} token 
+     * Get prices of dates
+     * @param {Number} vendorId - Vendor id
+     * @param {Number} rpid - Rateplan id
+     * @param {Number} dates - Dates E.g: [20180610,20180611]
+     * @param {Number} token - Token id
+     * @param {Object} options
+     * @return {Promise}
      */
     pricesOfDate(vendorId, rpid, dates, token, options) {
         return new Promise((resolve, reject) => {
@@ -113,6 +116,30 @@ class RoomNightVendor {
                 }
             });
         });
+    }
+
+    updatePrices(rpid, dates, inventory, tokens, prices, options) {
+        return new Promise();
+    }
+
+    updateInventories(rpid, dates, inventory, options) {
+
+    }
+
+    updateBasePrice(rpid, tokens, prices, inventory, options) {
+
+    }
+
+    createRatePlan(name, ipfs, options) {
+
+    }
+
+    removeRatePlan(rpid, options) {
+
+    }
+
+    modifyRatePlan(rpid, name, ipfs, options) {
+
     }
 }
 

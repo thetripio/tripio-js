@@ -108,7 +108,9 @@ Get token information by token id
 Update the base URI of token
 
 **Kind**: instance method of [<code>RoomNightAdmin</code>](#RoomNightAdmin)  
-**Returns**: <code>Promise</code> - {String}  
+**Returns**: <code>Promise</code> - {tx: String, uri: String}
+* tx: Transaction address
+* uri: The base URI of token  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -121,8 +123,9 @@ Update the base URI of token
 Add vendor
 
 **Kind**: instance method of [<code>RoomNightAdmin</code>](#RoomNightAdmin)  
-**Returns**: <code>Promise</code> - {vendor: String, name: String}
-* vendor: Vendor index
+**Returns**: <code>Promise</code> - {tx: String, address: String, name: String}
+* tx: Transaction address
+* address: Vendor address
 * name: Vendor name  
 
 | Param | Type | Description |
@@ -137,7 +140,9 @@ Add vendor
 Remove vendor by vendor address
 
 **Kind**: instance method of [<code>RoomNightAdmin</code>](#RoomNightAdmin)  
-**Returns**: <code>Promise</code> - {String}  
+**Returns**: <code>Promise</code> - {tx: String, address: String}
+* tx: Transaction address
+* address: Vendor address  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -150,7 +155,9 @@ Remove vendor by vendor address
 Remove vendor by vendor id
 
 **Kind**: instance method of [<code>RoomNightAdmin</code>](#RoomNightAdmin)  
-**Returns**: <code>Promise</code> - {String}  
+**Returns**: <code>Promise</code> - {tx: String, address: String}
+* tx: Transaction address
+* address: Vendor address  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -163,7 +170,10 @@ Remove vendor by vendor id
 Make vendor valid or invalid
 
 **Kind**: instance method of [<code>RoomNightAdmin</code>](#RoomNightAdmin)  
-**Returns**: <code>Promise</code> - {vendorId: String, valid: Boolean}  
+**Returns**: <code>Promise</code> - {tx: String, address: String, valid: Boolean}
+* tx: Transaction address
+* address: Vendor address
+* valid: Vendor is valid or not  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -177,7 +187,9 @@ Make vendor valid or invalid
 Add token
 
 **Kind**: instance method of [<code>RoomNightAdmin</code>](#RoomNightAdmin)  
-**Returns**: <code>Promise</code> - {String}  
+**Returns**: <code>Promise</code> - {tx: String, address: String}
+* tx: Transaction address
+* address: Token contract address  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -190,7 +202,9 @@ Add token
 Remove token
 
 **Kind**: instance method of [<code>RoomNightAdmin</code>](#RoomNightAdmin)  
-**Returns**: <code>Promise</code> - {Number}  
+**Returns**: <code>Promise</code> - {tx: String, id: Number}
+* tx: Transaction address
+* id: Token id  
 
 | Param | Type | Description |
 | --- | --- | --- |

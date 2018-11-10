@@ -155,12 +155,14 @@ class RoomNightAdmin {
      * Update the base URI of token
      * @param {String} uri - The base URI of token
      * @param {Object} options
-     * @returns {Promise} {String}
+     * @returns {Promise} {tx: String, uri: String}
+     * * tx: Transaction address
+     * * uri: The base URI of token
      */
     updateBaseTokenURI(uri, options) {
 
         return new Promise((resolve, reject) => {
-            this.contract.updateBaseTokenURI(uri, {}, (err, res) => {
+            this.contract.updateBaseTokenURI(uri, {}, (err, tx) => {
                 if(err) {
                     reject(err);
                 }
@@ -172,7 +174,10 @@ class RoomNightAdmin {
                             reject(err);
                         }
                         else {
-                            resolve(res[0]);
+                            resolve({
+                                tx,
+                                uri: res[0]
+                            });
                         }
                     });
                 }
@@ -185,14 +190,15 @@ class RoomNightAdmin {
      * @param {String} address - Vendor address
      * @param {String} name - Vendor name
      * @param {Object} options 
-     * @returns {Promise} {vendor: String, name: String}
-     * * vendor: Vendor index
+     * @returns {Promise} {tx: String, address: String, name: String}
+     * * tx: Transaction address
+     * * address: Vendor address
      * * name: Vendor name
      */
     addVendor(address, name, options) {
 
         return new Promise((resolve, reject) => {
-            this.contract.addVendor(address, name, {}, (err, res) => {
+            this.contract.addVendor(address, name, {}, (err, tx) => {
                 if(err) {
                     reject(err);
                 }
@@ -205,7 +211,8 @@ class RoomNightAdmin {
                         }
                         else {
                             resolve({
-                                vendor: res[0],
+                                tx,
+                                address: res[0],
                                 name: res[1]
                             });
                         }
@@ -219,12 +226,14 @@ class RoomNightAdmin {
      * Remove vendor by vendor address
      * @param {String} address - Vendor address
      * @param {Object} options
-     * @returns {Promise} {String}
+     * @returns {Promise} {tx: String, address: String}
+     * * tx: Transaction address
+     * * address: Vendor address
      */
     removeVendorByAddress(address, options) {
 
         return new Promise((resolve, reject) => {
-            this.contract.removeVendorByAddress(address, {}, (err, res) => {
+            this.contract.removeVendorByAddress(address, {}, (err, tx) => {
                 if(err) {
                     reject(err);
                 }
@@ -236,7 +245,10 @@ class RoomNightAdmin {
                             reject(err);
                         }
                         else {
-                            resolve(res[0]);
+                            resolve({
+                                tx,
+                                address: res[0]
+                            });
                         }
                     })
                 }
@@ -248,12 +260,14 @@ class RoomNightAdmin {
      * Remove vendor by vendor id
      * @param {Number} vendorId - Vendor id
      * @param {Object} options
-     * @returns {Promise} {String}
+     * @returns {Promise} {tx: String, address: String}
+     * * tx: Transaction address
+     * * address: Vendor address
      */
     removeVendorById(vendorId, options) {
 
         return new Promise((resolve, reject) => {
-            this.contract.removeVendorById(vendorId, {}, (err, res) => {
+            this.contract.removeVendorById(vendorId, {}, (err, tx) => {
                 if(err) {
                     reject(err);
                 }
@@ -265,7 +279,10 @@ class RoomNightAdmin {
                             reject(err);
                         }
                         else {
-                            resolve(res[0]);
+                            resolve({
+                                tx,
+                                address: res[0]
+                            });
                         }
                     });
                 }
@@ -278,12 +295,15 @@ class RoomNightAdmin {
      * @param {Number} vendorId - Vendor id
      * @param {Boolean} valid - Vendor is valid or not
      * @param {Object} options
-     * @returns {Promise} {vendorId: String, valid: Boolean}
+     * @returns {Promise} {tx: String, address: String, valid: Boolean}
+     * * tx: Transaction address
+     * * address: Vendor address
+     * * valid: Vendor is valid or not
      */
     makeVendorValid(vendorId, valid, options) {
 
         return new Promise((resolve, reject) => {
-            this.contract.makeVendorValid(vendorId, valid, {}, (err, res) => {
+            this.contract.makeVendorValid(vendorId, valid, {}, (err, tx) => {
                 if(err) {
                     reject(err);
                 }
@@ -296,7 +316,8 @@ class RoomNightAdmin {
                         }
                         else {
                             resolve({
-                                vendorId: res[0],
+                                tx,
+                                address: res[0],
                                 valid: res[1]
                             });
                         }
@@ -310,12 +331,14 @@ class RoomNightAdmin {
      * Add token
      * @param {String} contractAddress - Token contract address
      * @param {Object} options
-     * @returns {Promise} {String}
+     * @returns {Promise} {tx: String, address: String}
+     * * tx: Transaction address
+     * * address: Token contract address
      */
     addToken(contractAddress, options) {
 
         return new Promise((resolve, reject) => {
-            this.contract.addToken(contractAddress, {}, (err, res) => {
+            this.contract.addToken(contractAddress, {}, (err, tx) => {
                 if (err) {
                     reject(err);
                 }
@@ -327,7 +350,10 @@ class RoomNightAdmin {
                             reject(err);
                         }
                         else {
-                            resolve(res[0]);
+                            resolve({
+                                tx,
+                                address: res[0]
+                            });
                         }
                     });
                 }
@@ -340,7 +366,9 @@ class RoomNightAdmin {
      * Remove token
      * @param {Number} tokenId - Token id
      * @param {Object} options
-     * @returns {Promise} {Number}
+     * @returns {Promise} {tx: String, id: Number}
+     * * tx: Transaction address
+     * * id: Token id
      */
     removeToken(tokenId, options) {
 
@@ -357,7 +385,10 @@ class RoomNightAdmin {
                             reject(err);
                         }
                         else {
-                            resolve(res[0]);
+                            resolve({
+                                tx,
+                                id: res[0]
+                            });
                         }
                     });
                 }

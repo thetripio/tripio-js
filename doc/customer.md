@@ -18,6 +18,14 @@ RoomNightCustomer
     * [.isRefundApplied(rnid)](#RoomNightCustomer+isRefundApplied) ⇒ <code>Promise</code>
     * [.roomNight(rnid)](#RoomNightCustomer+roomNight) ⇒ <code>Promise</code>
     * [.roomNightsOfOwner(from, limit, isVendor, options)](#RoomNightCustomer+roomNightsOfOwner) ⇒ <code>Promise</code>
+    * [.safeTransferFrom(from, to, tokenId, {tx:)](#RoomNightCustomer+safeTransferFrom)
+    * [.transferFrom(from, to, tokenId, {tx:)](#RoomNightCustomer+transferFrom)
+    * [.transferFromInBatch(from, to, tokenIds, {tx:)](#RoomNightCustomer+transferFromInBatch)
+    * [.approve(approved, tokenId, {tx:)](#RoomNightCustomer+approve)
+    * [.setApprovalForAll(operator, approved, {tx:)](#RoomNightCustomer+setApprovalForAll)
+    * [.buyInBatch(vendorId, rpid, dates, token, {tx:)](#RoomNightCustomer+buyInBatch)
+    * [.applyRefund(vendorId, rnid, isRefund, {tx:)](#RoomNightCustomer+applyRefund)
+    * [.refund(rnid, {tx:)](#RoomNightCustomer+refund)
 
 <a name="RoomNightCustomer+ipfsBase58ToHex"></a>
 
@@ -166,4 +174,115 @@ Get all the room nights of the msg.sender(Customer or Vendor)
 | limit | <code>Number</code> | The limit of one page |
 | isVendor | <code>Boolean</code> | Is vendor or not |
 | options | <code>Dict</code> | {from: msg.sender} |
+
+<a name="RoomNightCustomer+safeTransferFrom"></a>
+
+### roomNightCustomer.safeTransferFrom(from, to, tokenId, {tx:)
+Transfers the ownership of an room night token from one address to another address.
+When transfer is complete, this function checks if _to is a smart contract (code size > 0). 
+If so, it calls onERC721Received on _to and throws if the return value is not bytes4(keccak256("onERC721Received(address,uint256,bytes)")).
+
+**Kind**: instance method of [<code>RoomNightCustomer</code>](#RoomNightCustomer)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| from | <code>String</code> | The current owner of the room night token |
+| to | <code>String</code> | The new owner |
+| tokenId | <code>Number</code> | The token to transfer |
+| {tx: | <code>Promise</code> | String, from: BigNumber, to: BigNumber, tokenId: BigNumber} * tx: Transaction number * from: The current owner of the room night token * to: The new owner * tokenId: The token to transfer |
+
+<a name="RoomNightCustomer+transferFrom"></a>
+
+### roomNightCustomer.transferFrom(from, to, tokenId, {tx:)
+Transfers the ownership of an room night token from one address to another address
+
+**Kind**: instance method of [<code>RoomNightCustomer</code>](#RoomNightCustomer)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| from | <code>String</code> | The current owner of the room night token |
+| to | <code>String</code> | The new owner |
+| tokenId | <code>Number</code> | The token to transfer |
+| {tx: | <code>Promise</code> | String, from: BigNumber, to: BigNumber, tokenId: BigNumber} * tx: Transaction number * from: The current owner of the room night token * to: The new owner * tokenId: The token to transfer |
+
+<a name="RoomNightCustomer+transferFromInBatch"></a>
+
+### roomNightCustomer.transferFromInBatch(from, to, tokenIds, {tx:)
+Transfers the ownership of tokens from one address to another address
+
+**Kind**: instance method of [<code>RoomNightCustomer</code>](#RoomNightCustomer)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| from | <code>String</code> | The current owner of the room night token |
+| to | <code>String</code> | The new owner |
+| tokenIds | <code>Number</code> \| <code>Array</code> | The tokens to transfer |
+| {tx: | <code>Promise</code> | String, from: BigNumber, to: BigNumber, tokenIds: Number|Array} * tx: Transaction number * from: The current owner of the room night token * to: The new owner * tokenIds: The token to transfer |
+
+<a name="RoomNightCustomer+approve"></a>
+
+### roomNightCustomer.approve(approved, tokenId, {tx:)
+Set or reaffirm the approved address for an room night token
+
+**Kind**: instance method of [<code>RoomNightCustomer</code>](#RoomNightCustomer)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| approved | <code>String</code> | The new approved token controller |
+| tokenId | <code>Number</code> | The token to approve |
+| {tx: | <code>Promise</code> | String, owner: String, approved: String, tokenId: BigNumber} * tx: Transaction number * owner: The current owner of the room night token * approved: The new approved token controller * tokenId: The token to approve |
+
+<a name="RoomNightCustomer+setApprovalForAll"></a>
+
+### roomNightCustomer.setApprovalForAll(operator, approved, {tx:)
+Enable or disable approval for a third party ("operator") to manage all of msg.sender's assets
+
+**Kind**: instance method of [<code>RoomNightCustomer</code>](#RoomNightCustomer)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| operator | <code>String</code> | The new approved token controller |
+| approved | <code>Boolean</code> | The token to approve |
+| {tx: | <code>Promise</code> | String, owner: String, operator: String, approved: Boolean} * tx: Transaction number * owner: The current owner of the room night token * operator: The new approved token controller * approved: The token to approve |
+
+<a name="RoomNightCustomer+buyInBatch"></a>
+
+### roomNightCustomer.buyInBatch(vendorId, rpid, dates, token, {tx:)
+By room nigth in batch through ETH(`token` == 0) or other digital token(`token` != 0)
+
+**Kind**: instance method of [<code>RoomNightCustomer</code>](#RoomNightCustomer)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| vendorId | <code>Number</code> | The vendor Id |
+| rpid | <code>Number</code> | The vendor's rate plan id |
+| dates | <code>Number</code> \| <code>Array</code> | The booking dates |
+| token | <code>Number</code> | The digital currency token |
+| {tx: | <code>Promise</code> | String, customer: String, vendor: String, rpid: BigNumber, dates: Number|Array, token: BigNumber} * tx: Transaction number * customer: The customer address * vendor: Then vendor address * rpid: The rateplan id * dates: The booking dates * token: The digital currency token |
+
+<a name="RoomNightCustomer+applyRefund"></a>
+
+### roomNightCustomer.applyRefund(vendorId, rnid, isRefund, {tx:)
+Apply room night refund
+
+**Kind**: instance method of [<code>RoomNightCustomer</code>](#RoomNightCustomer)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| vendorId | <code>Number</code> | The vendor Id |
+| rnid | <code>Number</code> | Room night token id |
+| isRefund | <code>Boolean</code> | if true the `rnid` can refund else not |
+| {tx: | <code>Promise</code> | String, customer: String, rnid: BigNumber, isRefund: Boolean} * tx: Transaction number * customer: The customer address * rnid: The rateplan id * isRefund: if true the `rnid` can refund else not |
+
+<a name="RoomNightCustomer+refund"></a>
+
+### roomNightCustomer.refund(rnid, {tx:)
+Refund through ETH or other digital token, give the room night ETH/TOKEN to customer and take back inventory
+
+**Kind**: instance method of [<code>RoomNightCustomer</code>](#RoomNightCustomer)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| rnid | <code>Number</code> | Room night token id |
+| {tx: | <code>Promise</code> | String, vendor: String, rnid: BigNumber} * tx: Transaction number * vendor: Then vendor address * rnid: Room night token id |
 

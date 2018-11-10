@@ -169,7 +169,7 @@ class RoomNightVendor {
      * @param {Array} prices - Prices of tokens
      * @param {Object} options
      * @returns {Promise} {tx: String, rpid: Number}
-     * * tx: Transaction Address
+     * * tx: Transaction address
      * * rpid: Rateplan Id
      */
     updatePrices(rpid, dates, inventory, tokens, prices, options) {
@@ -205,7 +205,7 @@ class RoomNightVendor {
      * @param {Number} inventory - Inventory
      * @param {Object} options
      * @returns {Promise} {tx: String, rpid: Number}
-     * * tx: Transaction Address
+     * * tx: Transaction address
      * * rpid: Rateplan Id
      */
     updateInventories(rpid, dates, inventory, options) {
@@ -242,7 +242,7 @@ class RoomNightVendor {
      * @param {Number} inventory - Inventory
      * @param {Object} options
      * @returns {Promise} {tx: String, rpid: Number}
-     * * tx: Transaction Address
+     * * tx: Transaction address
      * * rpid: Rateplan Id
      */
     updateBasePrice(rpid, tokens, prices, inventory, options) {
@@ -277,7 +277,7 @@ class RoomNightVendor {
      * @param {String} ipfs - The IPFS's address of rateplan's desc
      * @param {Object} options
      * @returns {Promise} {tx: String, vendorId: String, name: String, ipfs: String}
-     * * tx: Transaction Address
+     * * tx: Transaction address
      * * vendorId: Vendor Id
      * * name: Rateplan name
      * * ipfs: The IPFS's address of rateplan's desc
@@ -315,7 +315,7 @@ class RoomNightVendor {
      * @param {Number} rpid - Rateplan Id
      * @param {Object} options
      * @returns {Promise} {tx: String, vendorId: String, rpid: Number}
-     * * tx: Transaction Address
+     * * tx: Transaction address
      * * vendorId: Vendor Id
      * * rpid: Rateplan Id
      */
@@ -353,7 +353,7 @@ class RoomNightVendor {
      * @param {String} ipfs 
      * @param {Object} options
      * @returns {Promise} {tx: String, vendorId: String, rpid: Number, name: String, ipfs: String}
-     * * tx: Transaction Address
+     * * tx: Transaction address
      * * vendorId: Vendor Id
      * * rpid: Rateplan Id
      * * name: Rateplan name

@@ -124,7 +124,7 @@ Update prices and inventory of rateplan
 
 **Kind**: instance method of [<code>RoomNightVendor</code>](#RoomNightVendor)  
 **Returns**: <code>Promise</code> - {tx: String, rpid: Number}
-* tx: Transaction Address
+* tx: Transaction address
 * rpid: Rateplan Id  
 
 | Param | Type | Description |
@@ -143,7 +143,7 @@ Update inventories of rateplan
 
 **Kind**: instance method of [<code>RoomNightVendor</code>](#RoomNightVendor)  
 **Returns**: <code>Promise</code> - {tx: String, rpid: Number}
-* tx: Transaction Address
+* tx: Transaction address
 * rpid: Rateplan Id  
 
 | Param | Type | Description |
@@ -160,7 +160,7 @@ Update the base price of all rateplans
 
 **Kind**: instance method of [<code>RoomNightVendor</code>](#RoomNightVendor)  
 **Returns**: <code>Promise</code> - {tx: String, rpid: Number}
-* tx: Transaction Address
+* tx: Transaction address
 * rpid: Rateplan Id  
 
 | Param | Type | Description |
@@ -178,7 +178,7 @@ Create new rateplan
 
 **Kind**: instance method of [<code>RoomNightVendor</code>](#RoomNightVendor)  
 **Returns**: <code>Promise</code> - {tx: String, vendorId: String, name: String, ipfs: String}
-* tx: Transaction Address
+* tx: Transaction address
 * vendorId: Vendor Id
 * name: Rateplan name
 * ipfs: The IPFS's address of rateplan's desc  
@@ -196,7 +196,7 @@ Remove rateplan
 
 **Kind**: instance method of [<code>RoomNightVendor</code>](#RoomNightVendor)  
 **Returns**: <code>Promise</code> - {tx: String, vendorId: String, rpid: Number}
-* tx: Transaction Address
+* tx: Transaction address
 * vendorId: Vendor Id
 * rpid: Rateplan Id  
 
@@ -212,7 +212,7 @@ Modify rateplan
 
 **Kind**: instance method of [<code>RoomNightVendor</code>](#RoomNightVendor)  
 **Returns**: <code>Promise</code> - {tx: String, vendorId: String, rpid: Number, name: String, ipfs: String}
-* tx: Transaction Address
+* tx: Transaction address
 * vendorId: Vendor Id
 * rpid: Rateplan Id
 * name: Rateplan name

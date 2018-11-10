@@ -51,7 +51,7 @@ class Tripio {
             }
         };
 
-        return map[code] || map.main;
+        return map[env] || map.main;
     }
     
 }

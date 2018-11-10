@@ -17,35 +17,42 @@ class RoomNightVendor {
      * @param {Number} rpid.
      * @return {Promise}
      */
-    inventoriesOfDate(vendorId, rpid, dates) {
+    inventoriesOfDate(vendorId, rpid, dates, options) {
         return new Promise((resolve, reject) => {
-            this.contract.inventoriesOfDate(vendorId, rpid, dates, (err, res) => {
+            this.contract.inventoriesOfDate(vendorId, rpid, dates, {}, (err, res) => {
                 if (err) {
                     reject(err);
                 }
                 else if (res) {
-                    resolve(res[1]);
+                    resolve(res[0]);
                 }
             });
         });
     }
 
-    pricesOfDate(vendorId, rpid, dates, token) {
+    /**
+     * 
+     * @param {*} vendorId 
+     * @param {*} rpid 
+     * @param {*} dates 
+     * @param {*} token 
+     */
+    pricesOfDate(vendorId, rpid, dates, token, options) {
         return new Promise((resolve, reject) => {
-            this.contract.pricesOfDate(vendorId, rpid, dates, token, (err, res) => {
+            this.contract.pricesOfDate(vendorId, rpid, dates, token, {}, (err, res) => {
                 if (err) {
                     reject(err);
                 }
                 else if (res) {
-                    resolve(res[1]);
+                    resolve(res[0]);
                 }
             });
         });
     }
 
-    priceOfDate(vendorId, rpid, date, token) {
+    priceOfDate(vendorId, rpid, date, token, options) {
         return new Promise((resolve, reject) => {
-            this.contract.priceOfDate(vendorId, rpid, date, token, (err, res) => {
+            this.contract.priceOfDate(vendorId, rpid, date, token, {}, (err, res) => {
                 if (err) {
                     reject(err);
                 }
@@ -59,9 +66,9 @@ class RoomNightVendor {
         });
     }
 
-    ratePlansOfVendor(vendorId, offset, limit) {
+    ratePlansOfVendor(vendorId, offset, limit, options) {
         return new Promise((resolve, reject) => {
-            this.contract.ratePlansOfVendor(vendorId, offset, limit, (err, res) => {
+            this.contract.ratePlansOfVendor(vendorId, offset, limit, {}, (err, res) => {
                 if (err) {
                     reject(err);
                 }
@@ -75,9 +82,9 @@ class RoomNightVendor {
         });
     }
 
-    ratePlanOfVendor(vendorId, rpid) {
+    ratePlanOfVendor(vendorId, rpid, options) {
         return new Promise((resolve, reject) => {
-            this.contract.ratePlanOfVendor(vendorId, rpid, (err, res) => {
+            this.contract.ratePlanOfVendor(vendorId, rpid, {}, (err, res) => {
                 if (err) {
                     reject(err);
                 }
@@ -92,9 +99,9 @@ class RoomNightVendor {
         });
     }
 
-    pricesAndInventoriesOfDate(vendorId, rpid, dates, token) {
+    pricesAndInventoriesOfDate(vendorId, rpid, dates, token, options) {
         return new Promise((resolve, reject) => {
-            this.contract.pricesAndInventoriesOfDate(vendorId, rpid, dates, token, (err, res) => {
+            this.contract.pricesAndInventoriesOfDate(vendorId, rpid, dates, token, {}, (err, res) => {
                 if (err) {
                     reject(err);
                 }

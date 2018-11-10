@@ -17,10 +17,10 @@ class RoomNightAdmin {
      * @param {Number} limit
      * @return {Promise}
      */
-    getVendorIds(offset, limit) {
+    getVendorIds(offset, limit, options) {
 
         return new Promise((resolve, reject) => {
-            this.contract.getVendorIds(offset, limit, (err, res) => {
+            this.contract.getVendorIds(offset, limit, {}, (err, res) => {
                 if(err) {
                     reject(err);
                 }
@@ -39,10 +39,10 @@ class RoomNightAdmin {
      * @param {Number} vendorId
      * @return {Promise}
      */
-    getVendor(vendorId) {
+    getVendor(vendorId, options) {
         
         return new Promise((resolve, reject) => {
-            this.contract.getVendor(vendorId, (err, res) => {
+            this.contract.getVendor(vendorId, {}, (err, res) => {
                 if (err) {
                     reject(err);
                 }
@@ -64,10 +64,10 @@ class RoomNightAdmin {
      * @param {String} address
      * @return {Promise}
      */
-    getVendorByAddress(address) {
+    getVendorByAddress(address, options) {
 
         return new Promise((resolve, reject) => {
-            this.contract.getVendorByAddress(address, (err, res) => {
+            this.contract.getVendorByAddress(address, {}, (err, res) => {
                 if (err) {
                     reject(err);
                 }
@@ -89,10 +89,10 @@ class RoomNightAdmin {
      * @param {Number} limit
      * @return {Promise}
      */
-    supportedTokens(offset, limit) {
+    supportedTokens(offset, limit, options) {
 
         return new Promise((resolve, reject) => {
-            this.contract.supportedTokens(offset, limit, (err, res) => {
+            this.contract.supportedTokens(offset, limit, {}, (err, res) => {
                 if (err) {
                     reject(err);
                 }
@@ -111,10 +111,10 @@ class RoomNightAdmin {
      * @param {Number} tokenId
      * @return {Promise}
      */
-    getToken(tokenId) {
+    getToken(tokenId, options) {
 
         return new Promise((resolve, reject) => {
-            this.contract.getToken(tokenId, (err, res) => {
+            this.contract.getToken(tokenId, {}, (err, res) => {
                 if (err) {
                     reject(err);
                 }
@@ -127,6 +127,49 @@ class RoomNightAdmin {
                     });
                 }
             });
+        });
+    }
+
+    updateBaseTokenURI(uri, options) {
+        return new Promise((resolve, reject) => {
+            this.contract.updateBaseTokenURI(uri, {}, (err, res) => {
+                if(err) {
+                    reject(err);
+                }
+                else {
+                    this.contract.TokenBaseURIChanged((err, res) => {
+                        if(err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve(res[0]);
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    addVendor(vendor, name, options) {
+        return new Promise((resolve, reject) => {
+            this.contract.addVendor(vendor, name, {}, (err, res) => {
+                if(err) {
+                    reject(err);
+                }
+                else {
+                    this.contract.VendorAdded((err, res) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve({
+                                vendor: res[0],
+                                name: res[1]
+                            });
+                        }
+                    });
+                }
+            })
         });
     }
 }

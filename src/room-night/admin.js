@@ -12,10 +12,13 @@ class RoomNightAdmin {
     }
 
     /**
-     * getVendorIds
-     * @param {Number} offset
-     * @param {Number} limit
-     * @return {Promise}
+     * Get Vendor ids by page
+     * @param {Number} offset The begin id, if id = 0 search from the begin
+     * @param {Number} limit The limit of one page
+     * @param {Object} options
+     * @returns {Promise} {vendorIds: Number, nextVendorId: Number }
+     * * vendorIds: Vendor ids, 
+     * * nextVendorId: The next id of vendor, if id = 0 the next vendor is null
      */
     getVendorIds(offset, limit, options) {
 
@@ -35,9 +38,14 @@ class RoomNightAdmin {
     }
 
     /**
-     * getVendor
-     * @param {Number} vendorId
-     * @return {Promise}
+     * Get the vendor info by id
+     * @param {Number} vendorId Vendor id
+     * @param {Object} options
+     * @returns {Promise} {name: String, address: String, createTime: Number, isValid: Boolean}
+     * * name: Vendor name
+     * * address: Vendor address
+     * * createTime: Create time: UTC timestamp(s)
+     * * isValid: Vendor is valid or not
      */
     getVendor(vendorId, options) {
         
@@ -60,9 +68,14 @@ class RoomNightAdmin {
     }
 
     /**
-     * getVendorByAddress
-     * @param {String} address
-     * @return {Promise}
+     * Get vendor info by vendor address
+     * @param {String} address Vendor address
+     * @param {Object} options
+     * @returns {Promise} {name: String, address: String, createTime: Number, isValid: Boolean}
+     * * name: Vendor name
+     * * address: Vendor address
+     * * createTime: Create time: UTC timestamp(s)
+     * * isValid: Vendor is valid or not
      */
     getVendorByAddress(address, options) {
 
@@ -84,10 +97,13 @@ class RoomNightAdmin {
     }
 
     /**
-     * supportedTokens
-     * @param {Number} offset 
-     * @param {Number} limit
-     * @return {Promise}
+     * Get all supported tokens ids
+     * @param {Number} offset The begin id, if id = 0 search from the begin
+     * @param {Number} limit The limit of one page
+     * @param {Object} options
+     * @returns {Promise} {tokenIds: Number, nextVendorId: Number}
+     * * tokenIds: Token ids
+     * * nextVendorId: The next id of vendor, if id = 0 the next vendor is null
      */
     supportedTokens(offset, limit, options) {
 
@@ -107,9 +123,14 @@ class RoomNightAdmin {
     }
 
     /**
-     * getToken
-     * @param {Number} tokenId
-     * @return {Promise}
+     * Get token information by token id
+     * @param {Number} tokenId Token id
+     * @param {Object} options
+     * @returns {Promise} {symbole: String, name: String, decimal: Number, address: String}
+     * * symbole: Token symbole
+     * * name: Token name
+     * * decimal: Token decimal
+     * * address: Token address
      */
     getToken(tokenId, options) {
 
@@ -130,7 +151,14 @@ class RoomNightAdmin {
         });
     }
 
+    /**
+     * Update the base URI of token
+     * @param {String} uri 
+     * @param {Object} options
+     * @returns {Promise} {String}
+     */
     updateBaseTokenURI(uri, options) {
+
         return new Promise((resolve, reject) => {
             this.contract.updateBaseTokenURI(uri, {}, (err, res) => {
                 if(err) {
@@ -150,9 +178,19 @@ class RoomNightAdmin {
         });
     }
 
-    addVendor(vendor, name, options) {
+    /**
+     * Add vendor
+     * @param {String} address Vendor address
+     * @param {String} name Vendor name
+     * @param {Object} options 
+     * @returns {Promise} {vendor: String, name: String}
+     * * vendor: Vendor index
+     * * name: Vendor name
+     */
+    addVendor(address, name, options) {
+
         return new Promise((resolve, reject) => {
-            this.contract.addVendor(vendor, name, {}, (err, res) => {
+            this.contract.addVendor(address, name, {}, (err, res) => {
                 if(err) {
                     reject(err);
                 }
@@ -170,6 +208,148 @@ class RoomNightAdmin {
                     });
                 }
             })
+        });
+    }
+
+    /**
+     * Remove vendor by vendor address
+     * @param {String} address Vendor address
+     * @param {Object} options
+     * @returns {Promise} {String}
+     */
+    removeVendorByAddress(address, options) {
+
+        return new Promise((resolve, reject) => {
+            this.contract.removeVendorByAddress(address, {}, (err, res) => {
+                if(err) {
+                    reject(err);
+                }
+                else {
+                    this.contract.VendorRemoved((err, res) => {
+                        if(err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve(res[0]);
+                        }
+                    })
+                }
+            });
+        });
+    }
+
+    /**
+     * Remove vendor by vendor id
+     * @param {Number} vendorId Vendor id
+     * @param {Object} options
+     * @returns {Promise} {String}
+     */
+    removeVendorById(vendorId, options) {
+
+        return new Promise((resolve, reject) => {
+            this.contract.removeVendorById(vendorId, {}, (err, res) => {
+                if(err) {
+                    reject(err);
+                }
+                else {
+                    this.contract.VendorRemoved((err, res) => {
+                        if(err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve(res[0]);
+                        }
+                    });
+                }
+            });
+        });
+    }
+
+    /**
+     * Make vendor valid or invalid
+     * @param {Number} vendorId Vendor id
+     * @param {Boolean} valid Vendor is valid or not
+     * @param {Object} options
+     * @returns {Promise} {vendorId: String, valid: Boolean}
+     */
+    makeVendorValid(vendorId, valid, options) {
+
+        return new Promise((resolve, reject) => {
+            this.contract.makeVendorValid(vendorId, valid, {}, (err, res) => {
+                if(err) {
+                    reject(err);
+                }
+                else {
+                    this.contract.VendorValid((err, res) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve({
+                                vendorId: res[0],
+                                valid: res[1]
+                            });
+                        }
+
+                    });
+                }
+            });
+        });
+    }
+
+    /**
+     * Add token
+     * @param {String} contractAddress Token contract address
+     * @param {Object} options
+     * @returns {Promise} {String}
+     */
+    addToken(contractAddress, options) {
+
+        return new Promise((resolve, reject) => {
+            this.contract.addToken(contractAddress, {}, (err, res) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    this.contract.TokenAdded((err, res) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve(res[0]);
+                        }
+
+                    });
+                }
+
+            });
+        });
+    }
+
+    /**
+     * Remove token
+     * @param {Number} tokenId 	Token id
+     * @param {Object} options
+     * @returns {Promise} {Number}
+     */
+    removeToken(tokenId, options) {
+
+        return new Promise((resolve, reject) => {
+            this.contract.removeToken(tokenId, {}, (err, res) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    this.contract.TokenRemoved((err, res) => {
+                        if (err) {
+                            reject(err);
+                        }
+                        else {
+                            resolve(res[0]);
+                        }
+                    });
+                }
+            });
         });
     }
 }

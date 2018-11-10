@@ -110,10 +110,10 @@ Update the base URI of token
 **Kind**: instance method of [<code>RoomNightAdmin</code>](#RoomNightAdmin)  
 **Returns**: <code>Promise</code> - {String}  
 
-| Param | Type |
-| --- | --- |
-| uri | <code>String</code> | 
-| options | <code>Object</code> | 
+| Param | Type | Description |
+| --- | --- | --- |
+| uri | <code>String</code> | The base URI of token |
+| options | <code>Object</code> |  |
 
 <a name="RoomNightAdmin+addVendor"></a>
 

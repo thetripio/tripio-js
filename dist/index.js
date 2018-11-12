@@ -1,5 +1,8 @@
-var Tripio = (function () {
-    'use strict';
+(function (global, factory) {
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+    typeof define === 'function' && define.amd ? define(factory) :
+    (global.Tripio = factory());
+}(this, (function () { 'use strict';
 
     /*
         This file is part of web3.js.
@@ -21004,4 +21007,4 @@ var Tripio = (function () {
 
     return Tripio;
 
-}());
+})));

@@ -12,9 +12,7 @@ export default {
             main: true,
             preferBuiltins: false
         }),
-        commonjs({
-            //include: 'node_modules/**'
-        }),
+        commonjs(),
         json(),
         babel({
             exclude: 'node_modules/**'
@@ -23,6 +21,6 @@ export default {
     output: {
         file: 'dist/index.js',
         name: 'Tripio',
-        format: 'iife' //cjs | umd
+        format: 'umd' //cjs | umd
     }
 };

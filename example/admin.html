@@ -19,21 +19,25 @@
             </p>
             <i-form 
                 label-position="right" 
-                :label-width="60">
+                :label-width="70"
+                :model="dataCreateRatePlan"
+                ref="formCreateRatePlan">
                 <form-item 
                     label="name" 
-                    prop="name">
-                    <i-input></i-input>
+                    prop="name"
+                    :rules="{required: true, message: 'Please enter name', trigger: 'blur'}">
+                    <i-input v-model="dataCreateRatePlan.name"></i-input>
                 </form-item>
                 <form-item 
                     label="ipfs" 
-                    prop="ipfs">
-                    <i-input></i-input>
+                    prop="ipfs"
+                    :rules="{required: true, message: 'Please enter ipfs', trigger: 'blur'}">
+                    <i-input v-model="dataCreateRatePlan.ipfs"></i-input>
                 </form-item>
                 <form-item>
                     <i-button 
                         type="primary" 
-                        @click="createRatePlan">Submit</i-button>
+                        @click="createRatePlan()">Submit</i-button>
                 </form-item>
             </i-form>
         </Card>
@@ -44,9 +48,14 @@
             data: {
                 message: 'Hello Vue!',
                 tripio: null,
-                account: ''
+                account: '',
+                dataCreateRatePlan: {
+                    name: 'test',
+                    ipfs: 'Qmaj8UWNjTzBMBHkkaqSiyax2nFgiwYP2ewxnhGBucn6S8'
+                }
             },
             mounted: function() {
+
                 this.tripio = new Tripio(web3, {
                     env: 'ropsten'
                 });
@@ -59,9 +68,15 @@
             },
             methods: {
                 createRatePlan: function() {
-                    var vendor = this.tripio.roomNightVendor.createRatePlan('test', 'Qmaj8UWNjTzBMBHkkaqSiyax2nFgiwYP2ewxnhGBucn6S8', {
-                        from: this.account
+                    console.log(this.dataCreateRatePlan.name);
+                    this.$refs.formCreateRatePlan.validate((valid) => {
+                        if(valid) {
+                            var vendor = this.tripio.roomNightVendor.createRatePlan(this.dataCreateRatePlan.name, this.dataCreateRatePlan.ipfs, {
+                                from: this.account
+                            });
+                        }
                     });
+                    
                 }
             }
         })

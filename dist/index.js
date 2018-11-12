@@ -20992,8 +20992,6 @@
                 this.web3 = new web3$1(new web3$1.providers.HttpProvider(env.host));
             }
 
-            console.log(this.web3.currentProvider.isMetaMask);
-
             this.roomNightVendor = new RoomNightVendor(this.web3, env.contract.rnVendor);
             this.roomNightAdmin = new RoomNightAdmin(this.web3, env.contract.rnAdmin);
             this.roomNightCustomer = new RoomNightCustomer(this.web3, env.contract.rnCustomer);

@@ -1,4 +1,7 @@
 import ABI from '../abis/roomnight-customer';
+import VABI from '../abis/roomnight-vendor';
+import TABI from '../abis/roomnight-token';
+import AABI from '../abis/roomnight-admin';
 import bs58 from 'bs58';
 
 /**
@@ -6,10 +9,12 @@ import bs58 from 'bs58';
  * @class
  */
 class RoomNightCustomer {
-    constructor(web3, contractAddress, options) {
+    constructor(web3, contractAddress, vendorAddress, adminAddress, options) {
         this.web3 = web3;
-        
+        this.contractAddress = contractAddress;
         this.contract = this.web3.eth.contract(ABI).at(contractAddress);
+        this.vendorContract = this.web3.eth.contract(VABI).at(vendorAddress);
+        this.adminContract =  this.web3.eth.contract(AABI).at(adminAddress);
     }
 
     /**
@@ -41,6 +46,20 @@ class RoomNightCustomer {
         return bs58.encode(ipfsBuffer);
     }
 
+    /**
+     * 
+     * @param {token} token 
+     */
+    getTokenContractInstance(token) {
+        this.adminContract.getToken(token, (err, res) => {
+            if(err) {
+                reject(err);
+            }else {
+                let tokenContract = this.web3.eth.contract(TABI).at(res[3]);
+                resolve(tokenContract);
+            }
+        });
+    }
     
     /**
      * The name of current room night token
@@ -434,6 +453,7 @@ class RoomNightCustomer {
      * @param {Number} rpid The vendor's rate plan id
      * @param {Number|Array} dates The booking dates
      * @param {Number} token The digital currency token
+     * @param {Dict} options {from: msg.sender}
      * @param {Promise} {tx: String, customer: String, vendor: String, rpid: BigNumber, dates: Number|Array, token: BigNumber}
      * * tx: Transaction number
      * * customer: The customer address
@@ -442,30 +462,72 @@ class RoomNightCustomer {
      * * dates: The booking dates
      * * token: The digital currency token
      */
-    buyInBatch(vendorId, rpid, dates, token) {
+    buyInBatch(vendorId, rpid, dates, token, options) {
+        let _buy = function(value) {
+            return new Promise((resolve, reject) => {
+                this.contract.buyInBatch(vendorId, rpid, dates, token, {from: options.from, value: value}, (err, tx) => {
+                    if(err) {
+                        reject(err);
+                    }
+                    else {
+                        let event = this.contract.BuyInBatch((err, res) => {
+                            event.stopWatching();
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve({
+                                    tx: tx,
+                                    customer: res[0],
+                                    vendor: res[1],
+                                    rpid: res[2],
+                                    dates: dates,
+                                    token: res[4]
+                                });   
+                            }
+                        });
+                    }
+                });
+            });
+        };
+        
         return new Promise((resolve, reject) => {
-            this.contract.buyInBatch(vendorId, rpid, dates, token, (err, tx) => {
+            this.vendorContract.pricesOfDate(vendorId, rpid, dates, token,(err, prices) => {
                 if(err) {
                     reject(err);
-                }
-                else {
-                    let event = this.contract.BuyInBatch((err, res) => {
-                        event.stopWatching();
-                        if (err) {
-                            reject(err);
-                        } else {
-                            resolve({
-                                tx: tx,
-                                customer: res[0],
-                                vendor: res[1],
-                                rpid: res[2],
-                                dates: dates,
-                                token: res[4]
-                            });   
-                        }
+                }else {
+                    var total = prices.reduce((left, right) => {
+                        return left.plus(right);
                     });
+                    resolve(total);
                 }
             });
+        }).then((total) => {
+            if(token == 0) {
+                // ETH Pay
+                let value = total.toString();
+                return _buy(value);
+            }else {
+                return this.getTokenContractInstance(token).then((contractInstance) => {
+                    return Promise((resolve, reject) => {
+                        contractInstance.approve(this.contractAddress, total, {from: options.from}, (err, res) => {
+                            if(err) {
+                                reject(err);     
+                            }else {
+                                let event = contractInstance.Approval((err, res) => {
+                                    event.stopWatching();
+                                    if(err) {
+                                        reject(err);
+                                    }else {
+                                        resolve(res);
+                                    }
+                                });
+                            }
+                        });
+                    });
+                }).then((res) => {
+                    return _buy(0);
+                });
+            }
         });
     }
 
@@ -508,32 +570,65 @@ class RoomNightCustomer {
     /**
      * Refund through ETH or other digital token, give the room night ETH/TOKEN to customer and take back inventory
      * @param {Number} rnid Room night token id
+     * @param {Dict} options {from: msg.sender}
      * @param {Promise} {tx: String, vendor: String, rnid: BigNumber}
      * * tx: Transaction number
      * * vendor: Then vendor address
      * * rnid: Room night token id
      */
-    refund(rnid) {
-        return new Promise((resolve, reject) => {
-            this.contract.refund(rnid, (err, tx) => {
-                if(err) {
-                    reject(err);
-                }
-                else {
-                    let event = this.contract.Refund((err, res) => {
-                        event.stopWatching();
-                        if (err) {
-                            reject(err);
-                        } else {
-                            resolve({
-                                tx: tx,
-                                vendor: res[0],
-                                rnid: res[1]
-                            });   
-                        }
-                    });
-                }
+    refund(rnid, options) {
+        let _refund = function(rnid, value) {
+            return new Promise((resolve, reject) => {
+                this.contract.refund(rnid, {from: options.from, value: value}, (err, tx) => {
+                    if(err) {
+                        reject(err);
+                    }
+                    else {
+                        let event = this.contract.Refund((err, res) => {
+                            event.stopWatching();
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve({
+                                    tx: tx,
+                                    vendor: res[0],
+                                    rnid: res[1]
+                                });   
+                            }
+                        });
+                    }
+                });
             });
+        }
+        return this.roomNight(rnid).then((res) => {
+            let tokenId = res.tokenId;
+            let price = res.price;
+            if (tokenId == 0) {
+                // ETH 
+                return _refund(rnid, price);
+            }else {
+                // ERC2.0
+                return this.getTokenContractInstance(token).then((contractInstance) => {
+                    return Promise((resolve, reject) => {
+                        contractInstance.approve(this.contractAddress, price, {from: options.from}, (err, res) => {
+                            if(err) {
+                                reject(err);     
+                            }else {
+                                let event = contractInstance.Approval((err, res) => {
+                                    event.stopWatching();
+                                    if(err) {
+                                        reject(err);
+                                    }else {
+                                        resolve(res);
+                                    }
+                                });
+                            }
+                        });
+                    });
+                }).then((res) => {
+                    return _refund(rnid, 0);
+                });
+            }
         });
     }
 }

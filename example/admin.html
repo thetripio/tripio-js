@@ -4,14 +4,39 @@
 <head>
     <title>RoomNightVendor</title>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="lib/iview.css">
+    <link rel="stylesheet" href="style/main.css">
     <script src='../dist/index.js'></script>
     <script src='lib/vue.min.js'></script>
+    <script src='lib/iview.min.js'></script>
 </head>
 
 <body>
     <div id="app">
-        <h1>RoomNightVendor</h1>
-        <button @click="createRatePlan()">createRatePlan</button>
+        <Card>
+            <p slot="title">
+                RoomNightVendor.createRatePlan
+            </p>
+            <i-form 
+                label-position="right" 
+                :label-width="60">
+                <form-item 
+                    label="name" 
+                    prop="name">
+                    <i-input></i-input>
+                </form-item>
+                <form-item 
+                    label="ipfs" 
+                    prop="ipfs">
+                    <i-input></i-input>
+                </form-item>
+                <form-item>
+                    <i-button 
+                        type="primary" 
+                        @click="createRatePlan">Submit</i-button>
+                </form-item>
+            </i-form>
+        </Card>
     </div>
     <script type="text/JavaScript">
         var app = new Vue({

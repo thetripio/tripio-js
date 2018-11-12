@@ -9,7 +9,7 @@ describe('create RoomNightAdmin', () => {
     test('RoomNightAdmin getVendorIds', async () => {
 
         let vendors = await roomNightAdmin.getVendorIds(0, 100);
-        expect(vendors.length).toBeGreaterThan(0);
+        expect(vendors.vendorIds.length).toBeGreaterThan(0);
     }, 30000);
 
     test('RoomNightAdmin getVendor', async () => {
@@ -27,7 +27,7 @@ describe('create RoomNightAdmin', () => {
     test('RoomNightAdmin supportedTokens', async () => {
 
         let tokens = await roomNightAdmin.supportedTokens(0, 10);
-        expect(tokens.length).toBeGreaterThan(0);
+        expect(tokens.tokenIds.length).toBeGreaterThan(0);
     }, 30000);
 
     test('RoomNightAdmin getToken', async () => {

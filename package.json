@@ -24,8 +24,9 @@
     "main": "dist/index.js",
     "dependencies": {
         "await-to-js": "^2.0.1",
-        "web3": "0.19.1",
-        "bs58": "^4.0.1"
+        "bs58": "^4.0.1",
+        "buffer": "^5.2.1",
+        "web3": "0.19.1"
     },
     "scripts": {
         "test": "BABEL_ENV=test jest",
@@ -43,6 +44,9 @@
         "jest": "^23.6.0",
         "jsdoc-to-markdown": "^4.0.1",
         "rollup": "^0.67.0",
-        "rollup-plugin-babel": "3.0.7"
+        "rollup-plugin-babel": "3.0.7",
+        "rollup-plugin-commonjs": "^9.2.0",
+        "rollup-plugin-json": "^3.1.0",
+        "rollup-plugin-node-resolve": "^3.4.0"
     }
 }

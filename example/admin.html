@@ -5,7 +5,12 @@
     <meta charset="utf-8">
     <script src='../dist/index.js'></script>
     <script type="text/JavaScript">
-        
+        var tripio = new Tripio(web3, {
+            env: 'ropsten'
+        });
+        var vendor = tripio.roomNightVendor.createRatePlan('test', 'Qmaj8UWNjTzBMBHkkaqSiyax2nFgiwYP2ewxnhGBucn6S8', {
+            from: '0xb02D5Da39628918DAA9545388f1aBb60be368e0A'
+        })
     </script>
 </head>
 

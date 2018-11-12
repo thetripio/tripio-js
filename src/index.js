@@ -17,18 +17,18 @@ class Tripio {
 
         let env = this.initEnv(options ? options.env : 'main');
 
-        let _web3 = new Web3(new Web3.providers.HttpProvider(env.host));
+        //let _web3 = new Web3(new Web3.providers.HttpProvider(env.host));
         // this.web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/9WfBzi6QFGrAWBYZKq57'));
-        // if (typeof window.web3 !== 'undefined') {
-        //     this.web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/9WfBzi6QFGrAWBYZKq57'));
-        // }
-        // else {
-        //     this.web3 = window.web3;
-        // }
+        if (web3) {
+            this.web3 = web3;
+        }
+        else {
+            this.web3 = new Web3(new Web3.providers.HttpProvider(env.host));
+        }
 
-        this.roomNightVendor = new RoomNightVendor(_web3, env.contract.rnVendor);
-        this.roomNightAdmin = new RoomNightAdmin(_web3, env.contract.rnAdmin);
-        this.roomNightCustomer = new RoomNightCustomer(_web3, env.contract.rnCustomer);
+        this.roomNightVendor = new RoomNightVendor(this.web3, env.contract.rnVendor);
+        this.roomNightAdmin = new RoomNightAdmin(this.web3, env.contract.rnAdmin);
+        this.roomNightCustomer = new RoomNightCustomer(this.web3, env.contract.rnCustomer);
     }
 
     initEnv(env) {
@@ -44,9 +44,9 @@ class Tripio {
             ropsten: {
                 host: 'https://ropsten.infura.io/9WfBzi6QFGrAWBYZKq57',
                 contract: {
-                    rnAdmin: '0x1E212155EF1197cC42B8A8D5dDffF6Dc4C584CE7',
-                    rnVendor: '0x6A9C0fDAa9361b44eeE09ad0d0304ec941173361',
-                    rnCustomer: '0xcBf788b40d94CBa28052e870298334dCA837143a'
+                    rnAdmin: '0x0D53Ca8D45072c29fA45A3854685ff80ce95E8b2',
+                    rnVendor: '0x8ce76Ec4F7D39B274a87123730870309B6F708e5',
+                    rnCustomer: '0x8A1f185EFC5c2a9a5F7A92894d74f4F6e17d42F1'
                 }
             }
         };

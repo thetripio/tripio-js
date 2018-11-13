@@ -18376,7 +18376,7 @@
     // Distributed under the MIT software license, see the accompanying
     // file LICENSE or http://www.opensource.org/licenses/mit-license.php.
 
-    const Buffer$1 = safeBuffer.Buffer;
+    const Buffer = safeBuffer.Buffer;
 
     var baseX = function base (ALPHABET) {
       if (ALPHABET.length >= 255) throw new TypeError('Alphabet too long')
@@ -18398,7 +18398,7 @@
       const iFACTOR = Math.log(256) / Math.log(BASE); // log(256) / log(BASE), rounded up
 
       function encode (source) {
-        if (!Buffer$1.isBuffer(source)) throw new TypeError('Expected Buffer')
+        if (!Buffer.isBuffer(source)) throw new TypeError('Expected Buffer')
         if (source.length === 0) return ''
 
         // Skip & count leading zeroes.
@@ -18448,7 +18448,7 @@
 
       function decodeUnsafe (source) {
         if (typeof source !== 'string') throw new TypeError('Expected String')
-        if (source.length === 0) return Buffer$1.alloc(0)
+        if (source.length === 0) return Buffer.alloc(0)
 
         let psz = 0;
 
@@ -18496,7 +18496,7 @@
           it++;
         }
 
-        const vch = Buffer$1.allocUnsafe(zeroes + (size - it));
+        const vch = Buffer.allocUnsafe(zeroes + (size - it));
         vch.fill(0x00, 0, zeroes);
 
         let j = zeroes;
@@ -20727,7 +20727,7 @@
                 if (ipfs.length != 64) {
                     return null;
                 }
-                var ipfsBuffer = Buffer.from('1220' + ipfs, 'hex');
+                var ipfsBuffer = buffer_1.from('1220' + ipfs, 'hex');
                 return bs58.encode(ipfsBuffer);
             }
 

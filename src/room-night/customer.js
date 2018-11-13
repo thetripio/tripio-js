@@ -3,6 +3,7 @@ import VABI from '../abis/roomnight-vendor';
 import TABI from '../abis/roomnight-token';
 import AABI from '../abis/roomnight-admin';
 import bs58 from 'bs58';
+import { Buffer } from 'buffer';
 
 /**
  * RoomNightCustomer

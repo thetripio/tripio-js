@@ -1,5 +1,5 @@
 import ABI from '../abis/roomnight-vendor';
-import Utils from '../utils';
+import Utils from '../utils/index';
 
 /** 
  * RoomNightVendor

@@ -6,8 +6,7 @@ RoomNightVendor
 **Kind**: global class  
 
 * [RoomNightVendor](#RoomNightVendor)
-    * [.ipfsBase58ToHex(ipfs)](#RoomNightVendor+ipfsBase58ToHex) ⇒ <code>String</code>
-    * [.inventoriesOfDate(vendorId, rpid, options)](#RoomNightVendor+inventoriesOfDate) ⇒ <code>Promise</code>
+    * [.inventoriesOfDate(vendorId, rpid, dates, options)](#RoomNightVendor+inventoriesOfDate) ⇒ <code>Promise</code>
     * [.pricesOfDate(vendorId, rpid, dates, token, options)](#RoomNightVendor+pricesOfDate) ⇒ <code>Promise</code>
     * [.priceOfDate(vendorId, rpid, date, token, options)](#RoomNightVendor+priceOfDate) ⇒ <code>Promise</code>
     * [.ratePlansOfVendor(vendorId, offset, limit, options)](#RoomNightVendor+ratePlansOfVendor) ⇒ <code>Promise</code>
@@ -20,21 +19,9 @@ RoomNightVendor
     * [.removeRatePlan(rpid, options)](#RoomNightVendor+removeRatePlan) ⇒ <code>Promise</code>
     * [.modifyRatePlan(rpid, name, ipfs, options)](#RoomNightVendor+modifyRatePlan) ⇒ <code>Promise</code>
 
-<a name="RoomNightVendor+ipfsBase58ToHex"></a>
-
-### roomNightVendor.ipfsBase58ToHex(ipfs) ⇒ <code>String</code>
-Convert IPFS address from base58 to hex format(begin with 0x)
-
-**Kind**: instance method of [<code>RoomNightVendor</code>](#RoomNightVendor)  
-**Returns**: <code>String</code> - IPFS with hex format(begin with 0x)  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| ipfs | <code>String</code> | IPFS address with base58 encoded |
-
 <a name="RoomNightVendor+inventoriesOfDate"></a>
 
-### roomNightVendor.inventoriesOfDate(vendorId, rpid, options) ⇒ <code>Promise</code>
+### roomNightVendor.inventoriesOfDate(vendorId, rpid, dates, options) ⇒ <code>Promise</code>
 Get inventories of dates
 
 **Kind**: instance method of [<code>RoomNightVendor</code>](#RoomNightVendor)  
@@ -43,6 +30,7 @@ Get inventories of dates
 | --- | --- | --- |
 | vendorId | <code>Number</code> | Vendor id |
 | rpid | <code>Number</code> | Rateplan id |
+| dates | <code>Number</code> | Dates E.g: [20180610,20180611] |
 | options | <code>Object</code> |  |
 
 <a name="RoomNightVendor+pricesOfDate"></a>

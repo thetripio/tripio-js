@@ -8,7 +8,7 @@ RoomNightCustomer
 * [RoomNightCustomer](#RoomNightCustomer)
     * [.ipfsBase58ToHex(ipfs)](#RoomNightCustomer+ipfsBase58ToHex) ⇒ <code>String</code>
     * [.ipfsHexToBase58(ipfs)](#RoomNightCustomer+ipfsHexToBase58) ⇒ <code>String</code>
-    * [.getTokenContractInstance(token)](#RoomNightCustomer+getTokenContractInstance)
+    * [._getTokenContractInstance(token)](#RoomNightCustomer+_getTokenContractInstance) ⇒ <code>Promise</code>
     * [.name()](#RoomNightCustomer+name) ⇒ <code>Promise</code>
     * [.symbol()](#RoomNightCustomer+symbol) ⇒ <code>Promise</code>
     * [.tokenURI(tokenId)](#RoomNightCustomer+tokenURI) ⇒ <code>Promise</code>
@@ -19,13 +19,13 @@ RoomNightCustomer
     * [.isRefundApplied(rnid)](#RoomNightCustomer+isRefundApplied) ⇒ <code>Promise</code>
     * [.roomNight(rnid)](#RoomNightCustomer+roomNight) ⇒ <code>Promise</code>
     * [.roomNightsOfOwner(from, limit, isVendor, options)](#RoomNightCustomer+roomNightsOfOwner) ⇒ <code>Promise</code>
-    * [.safeTransferFrom(from, to, tokenId, {tx:)](#RoomNightCustomer+safeTransferFrom)
+    * [.safeTransferFrom(from, to, tokenId, data, {tx:)](#RoomNightCustomer+safeTransferFrom)
     * [.transferFrom(from, to, tokenId, {tx:)](#RoomNightCustomer+transferFrom)
     * [.transferFromInBatch(from, to, tokenIds, {tx:)](#RoomNightCustomer+transferFromInBatch)
     * [.approve(approved, tokenId, {tx:)](#RoomNightCustomer+approve)
     * [.setApprovalForAll(operator, approved, {tx:)](#RoomNightCustomer+setApprovalForAll)
     * [.buyInBatch(vendorId, rpid, dates, token, options, {tx:)](#RoomNightCustomer+buyInBatch)
-    * [.applyRefund(vendorId, rnid, isRefund, {tx:)](#RoomNightCustomer+applyRefund)
+    * [.applyRefund(rnid, isRefund, options, {tx:)](#RoomNightCustomer+applyRefund)
     * [.refund(rnid, options, {tx:)](#RoomNightCustomer+refund)
 
 <a name="RoomNightCustomer+ipfsBase58ToHex"></a>
@@ -52,10 +52,11 @@ Conver IPFS address from hex format to base58 format
 | --- | --- | --- |
 | ipfs | <code>String</code> | IPFS address with hex format |
 
-<a name="RoomNightCustomer+getTokenContractInstance"></a>
+<a name="RoomNightCustomer+_getTokenContractInstance"></a>
 
-### roomNightCustomer.getTokenContractInstance(token)
+### roomNightCustomer.\_getTokenContractInstance(token) ⇒ <code>Promise</code>
 **Kind**: instance method of [<code>RoomNightCustomer</code>](#RoomNightCustomer)  
+**Returns**: <code>Promise</code> - {Contract instance}  
 
 | Param | Type |
 | --- | --- |
@@ -187,7 +188,7 @@ Get all the room nights of the msg.sender(Customer or Vendor)
 
 <a name="RoomNightCustomer+safeTransferFrom"></a>
 
-### roomNightCustomer.safeTransferFrom(from, to, tokenId, {tx:)
+### roomNightCustomer.safeTransferFrom(from, to, tokenId, data, {tx:)
 Transfers the ownership of an room night token from one address to another address.
 When transfer is complete, this function checks if _to is a smart contract (code size > 0). 
 If so, it calls onERC721Received on _to and throws if the return value is not bytes4(keccak256("onERC721Received(address,uint256,bytes)")).
@@ -199,6 +200,7 @@ If so, it calls onERC721Received on _to and throws if the return value is not by
 | from | <code>String</code> | The current owner of the room night token |
 | to | <code>String</code> | The new owner |
 | tokenId | <code>Number</code> | The token to transfer |
+| data | <code>String</code> | Additional data with no specified format, sent in call to `to` |
 | {tx: | <code>Promise</code> | String, from: BigNumber, to: BigNumber, tokenId: BigNumber} * tx: Transaction number * from: The current owner of the room night token * to: The new owner * tokenId: The token to transfer |
 
 <a name="RoomNightCustomer+transferFrom"></a>
@@ -273,16 +275,16 @@ By room nigth in batch through ETH(`token` == 0) or other digital token(`token` 
 
 <a name="RoomNightCustomer+applyRefund"></a>
 
-### roomNightCustomer.applyRefund(vendorId, rnid, isRefund, {tx:)
+### roomNightCustomer.applyRefund(rnid, isRefund, options, {tx:)
 Apply room night refund
 
 **Kind**: instance method of [<code>RoomNightCustomer</code>](#RoomNightCustomer)  
 
 | Param | Type | Description |
 | --- | --- | --- |
-| vendorId | <code>Number</code> | The vendor Id |
 | rnid | <code>Number</code> | Room night token id |
 | isRefund | <code>Boolean</code> | if true the `rnid` can refund else not |
+| options | <code>Dict</code> | {from: msg.sender} |
 | {tx: | <code>Promise</code> | String, customer: String, rnid: BigNumber, isRefund: Boolean} * tx: Transaction number * customer: The customer address * rnid: The rateplan id * isRefund: if true the `rnid` can refund else not |
 
 <a name="RoomNightCustomer+refund"></a>

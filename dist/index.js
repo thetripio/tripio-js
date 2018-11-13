@@ -4,6 +4,7 @@ function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'defau
 
 var Web3 = _interopDefault(require('web3'));
 var bs58 = _interopDefault(require('bs58'));
+var buffer = require('buffer');
 
 var VABI = [{
     "constant": false,
@@ -2618,27 +2619,30 @@ var RoomNightCustomer = function () {
             if (ipfs.length != 64) {
                 return null;
             }
-            var ipfsBuffer = Buffer.from('1220' + ipfs, 'hex');
+            var ipfsBuffer = buffer.Buffer.from('1220' + ipfs, 'hex');
             return bs58.encode(ipfsBuffer);
         }
 
         /**
          * 
          * @param {token} token 
+         * @returns {Promise} {Contract instance}
          */
 
     }, {
-        key: 'getTokenContractInstance',
-        value: function getTokenContractInstance(token) {
+        key: '_getTokenContractInstance',
+        value: function _getTokenContractInstance(token) {
             var _this = this;
 
-            this.adminContract.getToken(token, function (err, res) {
-                if (err) {
-                    reject(err);
-                } else {
-                    var tokenContract = _this.web3.eth.contract(TABI).at(res[3]);
-                    resolve(tokenContract);
-                }
+            return new Promise(function (resolve, reject) {
+                _this.adminContract.getToken(token, function (err, res) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        var tokenContract = _this.web3.eth.contract(TABI).at(res[3]);
+                        resolve(tokenContract);
+                    }
+                });
             });
         }
 
@@ -3153,8 +3157,8 @@ var RoomNightCustomer = function () {
                     // ETH Pay
                     return _buy(total);
                 } else {
-                    return _this17.getTokenContractInstance(token).then(function (contractInstance) {
-                        return Promise(function (resolve, reject) {
+                    return _this17._getTokenContractInstance(token).then(function (contractInstance) {
+                        return new Promise(function (resolve, reject) {
                             contractInstance.approve(_this17.contractAddress, total, { from: options.from }, function (err, res) {
                                 if (err) {
                                     reject(err);
@@ -3179,7 +3183,6 @@ var RoomNightCustomer = function () {
 
         /**
          * Apply room night refund
-         * @param {Number} vendorId The vendor Id
          * @param {Number} rnid Room night token id
          * @param {Boolean} isRefund if true the `rnid` can refund else not
          * @param {Dict} options {from: msg.sender}
@@ -3192,11 +3195,11 @@ var RoomNightCustomer = function () {
 
     }, {
         key: 'applyRefund',
-        value: function applyRefund(vendorId, rnid, isRefund, options) {
+        value: function applyRefund(rnid, isRefund, options) {
             var _this18 = this;
 
             return new Promise(function (resolve, reject) {
-                _this18.contract.applyRefund(vendorId, rnid, isRefund, {
+                _this18.contract.applyRefund(rnid, isRefund, {
                     from: options.from
                 }, function (err, tx) {
                     if (err) {
@@ -3266,8 +3269,8 @@ var RoomNightCustomer = function () {
                     return _refund(rnid, price);
                 } else {
                     // ERC2.0
-                    return _this19.getTokenContractInstance(token).then(function (contractInstance) {
-                        return Promise(function (resolve, reject) {
+                    return _this19._getTokenContractInstance(token).then(function (contractInstance) {
+                        return new Promise(function (resolve, reject) {
                             contractInstance.approve(_this19.contractAddress, price, { from: options.from }, function (err, res) {
                                 if (err) {
                                     reject(err);

@@ -8,6 +8,7 @@ RoomNightCustomer
 * [RoomNightCustomer](#RoomNightCustomer)
     * [.ipfsBase58ToHex(ipfs)](#RoomNightCustomer+ipfsBase58ToHex) ⇒ <code>String</code>
     * [.ipfsHexToBase58(ipfs)](#RoomNightCustomer+ipfsHexToBase58) ⇒ <code>String</code>
+    * [.getTokenContractInstance(token)](#RoomNightCustomer+getTokenContractInstance)
     * [.name()](#RoomNightCustomer+name) ⇒ <code>Promise</code>
     * [.symbol()](#RoomNightCustomer+symbol) ⇒ <code>Promise</code>
     * [.tokenURI(tokenId)](#RoomNightCustomer+tokenURI) ⇒ <code>Promise</code>
@@ -23,9 +24,9 @@ RoomNightCustomer
     * [.transferFromInBatch(from, to, tokenIds, {tx:)](#RoomNightCustomer+transferFromInBatch)
     * [.approve(approved, tokenId, {tx:)](#RoomNightCustomer+approve)
     * [.setApprovalForAll(operator, approved, {tx:)](#RoomNightCustomer+setApprovalForAll)
-    * [.buyInBatch(vendorId, rpid, dates, token, {tx:)](#RoomNightCustomer+buyInBatch)
+    * [.buyInBatch(vendorId, rpid, dates, token, options, {tx:)](#RoomNightCustomer+buyInBatch)
     * [.applyRefund(vendorId, rnid, isRefund, {tx:)](#RoomNightCustomer+applyRefund)
-    * [.refund(rnid, {tx:)](#RoomNightCustomer+refund)
+    * [.refund(rnid, options, {tx:)](#RoomNightCustomer+refund)
 
 <a name="RoomNightCustomer+ipfsBase58ToHex"></a>
 
@@ -50,6 +51,15 @@ Conver IPFS address from hex format to base58 format
 | Param | Type | Description |
 | --- | --- | --- |
 | ipfs | <code>String</code> | IPFS address with hex format |
+
+<a name="RoomNightCustomer+getTokenContractInstance"></a>
+
+### roomNightCustomer.getTokenContractInstance(token)
+**Kind**: instance method of [<code>RoomNightCustomer</code>](#RoomNightCustomer)  
+
+| Param | Type |
+| --- | --- |
+| token | <code>token</code> | 
 
 <a name="RoomNightCustomer+name"></a>
 
@@ -247,7 +257,7 @@ Enable or disable approval for a third party ("operator") to manage all of msg.s
 
 <a name="RoomNightCustomer+buyInBatch"></a>
 
-### roomNightCustomer.buyInBatch(vendorId, rpid, dates, token, {tx:)
+### roomNightCustomer.buyInBatch(vendorId, rpid, dates, token, options, {tx:)
 By room nigth in batch through ETH(`token` == 0) or other digital token(`token` != 0)
 
 **Kind**: instance method of [<code>RoomNightCustomer</code>](#RoomNightCustomer)  
@@ -258,6 +268,7 @@ By room nigth in batch through ETH(`token` == 0) or other digital token(`token` 
 | rpid | <code>Number</code> | The vendor's rate plan id |
 | dates | <code>Number</code> \| <code>Array</code> | The booking dates |
 | token | <code>Number</code> | The digital currency token |
+| options | <code>Dict</code> | {from: msg.sender} |
 | {tx: | <code>Promise</code> | String, customer: String, vendor: String, rpid: BigNumber, dates: Number|Array, token: BigNumber} * tx: Transaction number * customer: The customer address * vendor: Then vendor address * rpid: The rateplan id * dates: The booking dates * token: The digital currency token |
 
 <a name="RoomNightCustomer+applyRefund"></a>
@@ -276,7 +287,7 @@ Apply room night refund
 
 <a name="RoomNightCustomer+refund"></a>
 
-### roomNightCustomer.refund(rnid, {tx:)
+### roomNightCustomer.refund(rnid, options, {tx:)
 Refund through ETH or other digital token, give the room night ETH/TOKEN to customer and take back inventory
 
 **Kind**: instance method of [<code>RoomNightCustomer</code>](#RoomNightCustomer)  
@@ -284,5 +295,6 @@ Refund through ETH or other digital token, give the room night ETH/TOKEN to cust
 | Param | Type | Description |
 | --- | --- | --- |
 | rnid | <code>Number</code> | Room night token id |
+| options | <code>Dict</code> | {from: msg.sender} |
 | {tx: | <code>Promise</code> | String, vendor: String, rnid: BigNumber} * tx: Transaction number * vendor: Then vendor address * rnid: Room night token id |
 

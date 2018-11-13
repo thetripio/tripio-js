@@ -1,5 +1,5 @@
 import ABI from '../abis/roomnight-vendor';
-import bs58 from 'bs58';
+import Utils from '../utils';
 
 /** 
  * RoomNightVendor
@@ -10,21 +10,6 @@ class RoomNightVendor {
         this.web3 = web3;
 
         this.contract = this.web3.eth.contract(ABI).at(contractAddress);
-    }
-
-    /**
-     * Convert IPFS address from base58 to hex format(begin with 0x)
-     * @param {String} ipfs IPFS address with base58 encoded
-     * @returns {String} IPFS with hex format(begin with 0x)
-     */
-    ipfsBase58ToHex(ipfs) {
-        let ipfsBuffer = bs58.decode(ipfs)
-        var ipfsHexString = ipfsBuffer.toString('hex');
-        if (ipfsHexString.length != 68) {
-            return null;
-        }
-        ipfsHexString = '0x' + ipfsHexString.slice(4);
-        return ipfsHexString
     }
 
     /**
@@ -191,7 +176,9 @@ class RoomNightVendor {
     updatePrices(rpid, dates, inventory, tokens, prices, options) {
 
         return new Promise((resolve, reject) => {
-            this.contract.updatePrices(rpid, dates, inventory, tokens, prices, {}, (err, tx) => {
+            this.contract.updatePrices(rpid, dates, inventory, tokens, prices, {
+                from: options.from
+            }, (err, tx) => {
                 if (err) {
                     reject(err);
                 }
@@ -299,7 +286,7 @@ class RoomNightVendor {
      * * ipfs: The IPFS's address of rateplan's desc
      */
     createRatePlan(name, ipfs, options) {
-        var ipfsHexString = this.ipfsBase58ToHex(ipfs);
+        var ipfsHexString = Utils.ipfsBase58ToHex(ipfs);
 
         return new Promise((resolve, reject) => {
             this.contract.createRatePlan(name, ipfsHexString, {
@@ -341,7 +328,9 @@ class RoomNightVendor {
     removeRatePlan(rpid, options) {
 
         return new Promise((resolve, reject) => {
-            this.contract.removeRatePlan(rpid, {}, (err, tx) => {
+            this.contract.removeRatePlan(rpid, {
+                from: options.from
+            }, (err, tx) => {
                 if (err) {
                     reject(err);
                 }
@@ -379,9 +368,12 @@ class RoomNightVendor {
      * * ipfs: The IPFS's address of rateplan's desc
      */
     modifyRatePlan(rpid, name, ipfs, options) {
+        var ipfsHexString = Utils.ipfsBase58ToHex(ipfs);
 
         return new Promise((resolve, reject) => {
-            this.contract.modifyRatePlan(rpid, name, ipfs, {}, (err, tx) => {
+            this.contract.modifyRatePlan(rpid, name, ipfsHexString, {
+                from: options.from
+            }, (err, tx) => {
                 if (err) {
                     reject(err);
                 }

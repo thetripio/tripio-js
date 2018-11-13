@@ -15872,7 +15872,7 @@
 
     var web3$1 = web3;
 
-    var ABI = [{
+    var VABI = [{
         "constant": false,
         "inputs": [{
             "name": "_name",
@@ -18525,6 +18525,23 @@
 
     var bs58 = baseX(ALPHABET);
 
+    var Utils = {
+        /**
+         * Convert IPFS address from base58 to hex format(begin with 0x)
+         * @param {String} ipfs IPFS address with base58 encoded
+         * @returns {String} IPFS with hex format(begin with 0x)
+         */
+        ipfsBase58ToHex: function ipfsBase58ToHex(ipfs) {
+            var ipfsBuffer = bs58.decode(ipfs);
+            var ipfsHexString = ipfsBuffer.toString('hex');
+            if (ipfsHexString.length != 68) {
+                return null;
+            }
+            ipfsHexString = '0x' + ipfsHexString.slice(4);
+            return ipfsHexString;
+        }
+    };
+
     var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
     function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -18540,37 +18557,19 @@
 
             this.web3 = web3;
 
-            this.contract = this.web3.eth.contract(ABI).at(contractAddress);
+            this.contract = this.web3.eth.contract(VABI).at(contractAddress);
         }
 
         /**
-         * Convert IPFS address from base58 to hex format(begin with 0x)
-         * @param {String} ipfs IPFS address with base58 encoded
-         * @returns {String} IPFS with hex format(begin with 0x)
+         * Get inventories of dates
+         * @param {Number} vendorId - Vendor id
+         * @param {Number} rpid - Rateplan id
+         * @param {Object} options
+         * @returns {Promise}
          */
 
 
         _createClass(RoomNightVendor, [{
-            key: 'ipfsBase58ToHex',
-            value: function ipfsBase58ToHex(ipfs) {
-                var ipfsBuffer = bs58.decode(ipfs);
-                var ipfsHexString = ipfsBuffer.toString('hex');
-                if (ipfsHexString.length != 68) {
-                    return null;
-                }
-                ipfsHexString = '0x' + ipfsHexString.slice(4);
-                return ipfsHexString;
-            }
-
-            /**
-             * Get inventories of dates
-             * @param {Number} vendorId - Vendor id
-             * @param {Number} rpid - Rateplan id
-             * @param {Object} options
-             * @returns {Promise}
-             */
-
-        }, {
             key: 'inventoriesOfDate',
             value: function inventoriesOfDate(vendorId, rpid, dates, options) {
                 var _this = this;
@@ -18754,7 +18753,9 @@
                 var _this7 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this7.contract.updatePrices(rpid, dates, inventory, tokens, prices, {}, function (err, tx) {
+                    _this7.contract.updatePrices(rpid, dates, inventory, tokens, prices, {
+                        from: options.from
+                    }, function (err, tx) {
                         if (err) {
                             reject(err);
                         } else {
@@ -18869,7 +18870,7 @@
             value: function createRatePlan(name, ipfs, options) {
                 var _this10 = this;
 
-                var ipfsHexString = this.ipfsBase58ToHex(ipfs);
+                var ipfsHexString = Utils.ipfsBase58ToHex(ipfs);
 
                 return new Promise(function (resolve, reject) {
                     _this10.contract.createRatePlan(name, ipfsHexString, {
@@ -18913,7 +18914,9 @@
                 var _this11 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this11.contract.removeRatePlan(rpid, {}, function (err, tx) {
+                    _this11.contract.removeRatePlan(rpid, {
+                        from: options.from
+                    }, function (err, tx) {
                         if (err) {
                             reject(err);
                         } else {
@@ -18954,8 +18957,12 @@
             value: function modifyRatePlan(rpid, name, ipfs, options) {
                 var _this12 = this;
 
+                var ipfsHexString = Utils.ipfsBase58ToHex(ipfs);
+
                 return new Promise(function (resolve, reject) {
-                    _this12.contract.modifyRatePlan(rpid, name, ipfs, {}, function (err, tx) {
+                    _this12.contract.modifyRatePlan(rpid, name, ipfsHexString, {
+                        from: options.from
+                    }, function (err, tx) {
                         if (err) {
                             reject(err);
                         } else {
@@ -18983,7 +18990,7 @@
         return RoomNightVendor;
     }();
 
-    var ABI$1 = [{
+    var AABI = [{
         "anonymous": false,
         "inputs": [{
             "indexed": true,
@@ -19372,7 +19379,7 @@
 
             this.web3 = web3;
 
-            this.contract = this.web3.eth.contract(ABI$1).at(contractAddress);
+            this.contract = this.web3.eth.contract(AABI).at(contractAddress);
         }
 
         /**
@@ -19792,7 +19799,7 @@
         return RoomNightAdmin;
     }();
 
-    var ABI$2 = [{
+    var ABI = [{
       "anonymous": false,
       "inputs": [{
         "indexed": true,
@@ -20338,6 +20345,317 @@
       "type": "function"
     }];
 
+    var TABI = [{
+    	"constant": true,
+    	"inputs": [],
+    	"name": "name",
+    	"outputs": [{
+    		"name": "",
+    		"type": "string"
+    	}],
+    	"payable": false,
+    	"stateMutability": "view",
+    	"type": "function"
+    }, {
+    	"constant": false,
+    	"inputs": [{
+    		"name": "_spender",
+    		"type": "address"
+    	}, {
+    		"name": "_value",
+    		"type": "uint256"
+    	}],
+    	"name": "approve",
+    	"outputs": [{
+    		"name": "",
+    		"type": "bool"
+    	}],
+    	"payable": false,
+    	"stateMutability": "nonpayable",
+    	"type": "function"
+    }, {
+    	"constant": true,
+    	"inputs": [],
+    	"name": "totalSupply",
+    	"outputs": [{
+    		"name": "",
+    		"type": "uint256"
+    	}],
+    	"payable": false,
+    	"stateMutability": "view",
+    	"type": "function"
+    }, {
+    	"constant": false,
+    	"inputs": [{
+    		"name": "_from",
+    		"type": "address"
+    	}, {
+    		"name": "_to",
+    		"type": "address"
+    	}, {
+    		"name": "_value",
+    		"type": "uint256"
+    	}],
+    	"name": "transferFrom",
+    	"outputs": [{
+    		"name": "",
+    		"type": "bool"
+    	}],
+    	"payable": false,
+    	"stateMutability": "nonpayable",
+    	"type": "function"
+    }, {
+    	"constant": true,
+    	"inputs": [],
+    	"name": "INITIAL_SUPPLY",
+    	"outputs": [{
+    		"name": "",
+    		"type": "uint256"
+    	}],
+    	"payable": false,
+    	"stateMutability": "view",
+    	"type": "function"
+    }, {
+    	"constant": true,
+    	"inputs": [],
+    	"name": "decimals",
+    	"outputs": [{
+    		"name": "",
+    		"type": "uint8"
+    	}],
+    	"payable": false,
+    	"stateMutability": "view",
+    	"type": "function"
+    }, {
+    	"constant": false,
+    	"inputs": [{
+    		"name": "_value",
+    		"type": "uint256"
+    	}],
+    	"name": "burn",
+    	"outputs": [],
+    	"payable": false,
+    	"stateMutability": "nonpayable",
+    	"type": "function"
+    }, {
+    	"constant": false,
+    	"inputs": [{
+    		"name": "_spender",
+    		"type": "address"
+    	}, {
+    		"name": "_subtractedValue",
+    		"type": "uint256"
+    	}],
+    	"name": "decreaseApproval",
+    	"outputs": [{
+    		"name": "success",
+    		"type": "bool"
+    	}],
+    	"payable": false,
+    	"stateMutability": "nonpayable",
+    	"type": "function"
+    }, {
+    	"constant": true,
+    	"inputs": [{
+    		"name": "_owner",
+    		"type": "address"
+    	}],
+    	"name": "balanceOf",
+    	"outputs": [{
+    		"name": "balance",
+    		"type": "uint256"
+    	}],
+    	"payable": false,
+    	"stateMutability": "view",
+    	"type": "function"
+    }, {
+    	"constant": true,
+    	"inputs": [],
+    	"name": "owner",
+    	"outputs": [{
+    		"name": "",
+    		"type": "address"
+    	}],
+    	"payable": false,
+    	"stateMutability": "view",
+    	"type": "function"
+    }, {
+    	"constant": true,
+    	"inputs": [],
+    	"name": "transferable",
+    	"outputs": [{
+    		"name": "",
+    		"type": "bool"
+    	}],
+    	"payable": false,
+    	"stateMutability": "view",
+    	"type": "function"
+    }, {
+    	"constant": true,
+    	"inputs": [],
+    	"name": "symbol",
+    	"outputs": [{
+    		"name": "",
+    		"type": "string"
+    	}],
+    	"payable": false,
+    	"stateMutability": "view",
+    	"type": "function"
+    }, {
+    	"constant": false,
+    	"inputs": [{
+    		"name": "_to",
+    		"type": "address"
+    	}, {
+    		"name": "_value",
+    		"type": "uint256"
+    	}],
+    	"name": "transfer",
+    	"outputs": [{
+    		"name": "",
+    		"type": "bool"
+    	}],
+    	"payable": false,
+    	"stateMutability": "nonpayable",
+    	"type": "function"
+    }, {
+    	"constant": false,
+    	"inputs": [],
+    	"name": "disableTransfer",
+    	"outputs": [],
+    	"payable": false,
+    	"stateMutability": "nonpayable",
+    	"type": "function"
+    }, {
+    	"constant": false,
+    	"inputs": [{
+    		"name": "_spender",
+    		"type": "address"
+    	}, {
+    		"name": "_addedValue",
+    		"type": "uint256"
+    	}],
+    	"name": "increaseApproval",
+    	"outputs": [{
+    		"name": "success",
+    		"type": "bool"
+    	}],
+    	"payable": false,
+    	"stateMutability": "nonpayable",
+    	"type": "function"
+    }, {
+    	"constant": true,
+    	"inputs": [{
+    		"name": "_owner",
+    		"type": "address"
+    	}, {
+    		"name": "_spender",
+    		"type": "address"
+    	}],
+    	"name": "allowance",
+    	"outputs": [{
+    		"name": "",
+    		"type": "uint256"
+    	}],
+    	"payable": false,
+    	"stateMutability": "view",
+    	"type": "function"
+    }, {
+    	"constant": false,
+    	"inputs": [],
+    	"name": "enableTransfer",
+    	"outputs": [],
+    	"payable": false,
+    	"stateMutability": "nonpayable",
+    	"type": "function"
+    }, {
+    	"constant": false,
+    	"inputs": [{
+    		"name": "newOwner",
+    		"type": "address"
+    	}],
+    	"name": "transferOwnership",
+    	"outputs": [],
+    	"payable": false,
+    	"stateMutability": "nonpayable",
+    	"type": "function"
+    }, {
+    	"inputs": [],
+    	"payable": false,
+    	"stateMutability": "nonpayable",
+    	"type": "constructor"
+    }, {
+    	"anonymous": false,
+    	"inputs": [{
+    		"indexed": true,
+    		"name": "burner",
+    		"type": "address"
+    	}, {
+    		"indexed": false,
+    		"name": "value",
+    		"type": "uint256"
+    	}],
+    	"name": "Burn",
+    	"type": "event"
+    }, {
+    	"anonymous": false,
+    	"inputs": [],
+    	"name": "EnableTransfer",
+    	"type": "event"
+    }, {
+    	"anonymous": false,
+    	"inputs": [],
+    	"name": "DisableTransfer",
+    	"type": "event"
+    }, {
+    	"anonymous": false,
+    	"inputs": [{
+    		"indexed": true,
+    		"name": "owner",
+    		"type": "address"
+    	}, {
+    		"indexed": true,
+    		"name": "spender",
+    		"type": "address"
+    	}, {
+    		"indexed": false,
+    		"name": "value",
+    		"type": "uint256"
+    	}],
+    	"name": "Approval",
+    	"type": "event"
+    }, {
+    	"anonymous": false,
+    	"inputs": [{
+    		"indexed": true,
+    		"name": "from",
+    		"type": "address"
+    	}, {
+    		"indexed": true,
+    		"name": "to",
+    		"type": "address"
+    	}, {
+    		"indexed": false,
+    		"name": "value",
+    		"type": "uint256"
+    	}],
+    	"name": "Transfer",
+    	"type": "event"
+    }, {
+    	"anonymous": false,
+    	"inputs": [{
+    		"indexed": true,
+    		"name": "previousOwner",
+    		"type": "address"
+    	}, {
+    		"indexed": true,
+    		"name": "newOwner",
+    		"type": "address"
+    	}],
+    	"name": "OwnershipTransferred",
+    	"type": "event"
+    }];
+
     var _createClass$2 = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
     function _classCallCheck$2(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -20348,12 +20666,14 @@
      */
 
     var RoomNightCustomer = function () {
-        function RoomNightCustomer(web3, contractAddress, options) {
+        function RoomNightCustomer(web3, contractAddress, vendorAddress, adminAddress, options) {
             _classCallCheck$2(this, RoomNightCustomer);
 
             this.web3 = web3;
-
-            this.contract = this.web3.eth.contract(ABI$2).at(contractAddress);
+            this.contractAddress = contractAddress;
+            this.contract = this.web3.eth.contract(ABI).at(contractAddress);
+            this.vendorContract = this.web3.eth.contract(VABI).at(vendorAddress);
+            this.adminContract = this.web3.eth.contract(AABI).at(adminAddress);
         }
 
         /**
@@ -20393,6 +20713,26 @@
             }
 
             /**
+             * 
+             * @param {token} token 
+             */
+
+        }, {
+            key: 'getTokenContractInstance',
+            value: function getTokenContractInstance(token) {
+                var _this = this;
+
+                this.adminContract.getToken(token, function (err, res) {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        var tokenContract = _this.web3.eth.contract(TABI).at(res[3]);
+                        resolve(tokenContract);
+                    }
+                });
+            }
+
+            /**
              * The name of current room night token
              * @returns {Promise} {String} The name of current room night token 
              */
@@ -20400,10 +20740,10 @@
         }, {
             key: 'name',
             value: function name() {
-                var _this = this;
+                var _this2 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this.contract.name(function (err, res) {
+                    _this2.contract.name(function (err, res) {
                         if (err) {
                             reject(err);
                         } else {
@@ -20421,10 +20761,10 @@
         }, {
             key: 'symbol',
             value: function symbol() {
-                var _this2 = this;
+                var _this3 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this2.contract.symbol(function (err, res) {
+                    _this3.contract.symbol(function (err, res) {
                         if (err) {
                             reject(err);
                         } else {
@@ -20443,10 +20783,10 @@
         }, {
             key: 'tokenURI',
             value: function tokenURI(tokenId) {
-                var _this3 = this;
+                var _this4 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this3.contract.tokenURI(tokenId, function (err, res) {
+                    _this4.contract.tokenURI(tokenId, function (err, res) {
                         if (err) {
                             reject(err);
                         } else {
@@ -20465,10 +20805,10 @@
         }, {
             key: 'balanceOf',
             value: function balanceOf(owner) {
-                var _this4 = this;
+                var _this5 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this4.contract.balanceOf(owner, function (err, res) {
+                    _this5.contract.balanceOf(owner, function (err, res) {
                         if (err) {
                             reject(err);
                         } else {
@@ -20487,10 +20827,10 @@
         }, {
             key: 'ownerOf',
             value: function ownerOf(tokenId) {
-                var _this5 = this;
+                var _this6 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this5.contract.ownerOf(tokenId, function (err, res) {
+                    _this6.contract.ownerOf(tokenId, function (err, res) {
                         if (err) {
                             reject(err);
                         } else {
@@ -20509,10 +20849,10 @@
         }, {
             key: 'getApproved',
             value: function getApproved(tokenId) {
-                var _this6 = this;
+                var _this7 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this6.contract.getApproved(tokenId, function (err, res) {
+                    _this7.contract.getApproved(tokenId, function (err, res) {
                         if (err) {
                             reject(err);
                         } else {
@@ -20532,10 +20872,10 @@
         }, {
             key: 'isApprovedForAll',
             value: function isApprovedForAll(owner, operator) {
-                var _this7 = this;
+                var _this8 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this7.contract.isApprovedForAll(owner, operator, function (err, res) {
+                    _this8.contract.isApprovedForAll(owner, operator, function (err, res) {
                         if (err) {
                             reject(err);
                         } else {
@@ -20554,10 +20894,10 @@
         }, {
             key: 'isRefundApplied',
             value: function isRefundApplied(rnid) {
-                var _this8 = this;
+                var _this9 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this8.contract.isRefundApplied(rnid, function (err, res) {
+                    _this9.contract.isRefundApplied(rnid, function (err, res) {
                         if (err) {
                             reject(err);
                         } else {
@@ -20584,10 +20924,10 @@
         }, {
             key: 'roomNight',
             value: function roomNight(rnid) {
-                var _this9 = this;
+                var _this10 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this9.contract.roomNight(rnid, function (err, res) {
+                    _this10.contract.roomNight(rnid, function (err, res) {
                         if (err) {
                             reject(err);
                         } else {
@@ -20598,7 +20938,7 @@
                                 price: res[3],
                                 timestamp: res[4],
                                 date: res[5],
-                                ipfs: _this9.ipfsHexToBase58(res[6]),
+                                ipfs: _this10.ipfsHexToBase58(res[6]),
                                 rateplanName: res[7]
                             });
                         }
@@ -20620,10 +20960,10 @@
         }, {
             key: 'roomNightsOfOwner',
             value: function roomNightsOfOwner(from, limit, isVendor, options) {
-                var _this10 = this;
+                var _this11 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this10.contract.roomNightsOfOwner(from, limit, isVendor, {
+                    _this11.contract.roomNightsOfOwner(from, limit, isVendor, {
                         from: options.from
                     }, function (err, res) {
                         if (err) {
@@ -20655,14 +20995,14 @@
         }, {
             key: 'safeTransferFrom',
             value: function safeTransferFrom(from, to, tokenId) {
-                var _this11 = this;
+                var _this12 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this11.contract.safeTransferFrom(from, to, tokenId, function (err, tx) {
+                    _this12.contract.safeTransferFrom(from, to, tokenId, function (err, tx) {
                         if (err) {
                             reject(err);
                         } else {
-                            var event = _this11.contract.Transfer(function (err, res) {
+                            var event = _this12.contract.Transfer(function (err, res) {
                                 event.stopWatching();
                                 if (err) {
                                     reject(err);
@@ -20695,14 +21035,14 @@
         }, {
             key: 'transferFrom',
             value: function transferFrom(from, to, tokenId) {
-                var _this12 = this;
+                var _this13 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this12.contract.transferFrom(from, to, tokenId, function (err, tx) {
+                    _this13.contract.transferFrom(from, to, tokenId, function (err, tx) {
                         if (err) {
                             reject(err);
                         } else {
-                            var event = _this12.contract.Transfer(function (err, res) {
+                            var event = _this13.contract.Transfer(function (err, res) {
                                 event.stopWatching();
                                 if (err) {
                                     reject(err);
@@ -20735,14 +21075,14 @@
         }, {
             key: 'transferFromInBatch',
             value: function transferFromInBatch(from, to, tokenIds) {
-                var _this13 = this;
+                var _this14 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this13.contract.transferFromInBatch(from, to, tokenIds, function (err, tx) {
+                    _this14.contract.transferFromInBatch(from, to, tokenIds, function (err, tx) {
                         if (err) {
                             reject(err);
                         } else {
-                            var event = _this13.contract.Transfer(function (err, res) {
+                            var event = _this14.contract.Transfer(function (err, res) {
                                 event.stopWatching();
                                 if (err) {
                                     reject(err);
@@ -20774,14 +21114,14 @@
         }, {
             key: 'approve',
             value: function approve(approved, tokenId) {
-                var _this14 = this;
+                var _this15 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this14.contract.approve(approved, tokenId, function (err, tx) {
+                    _this15.contract.approve(approved, tokenId, function (err, tx) {
                         if (err) {
                             reject(err);
                         } else {
-                            var event = _this14.contract.Approval(function (err, res) {
+                            var event = _this15.contract.Approval(function (err, res) {
                                 event.stopWatching();
                                 if (err) {
                                     reject(err);
@@ -20813,14 +21153,14 @@
         }, {
             key: 'setApprovalForAll',
             value: function setApprovalForAll(operator, approved) {
-                var _this15 = this;
+                var _this16 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this15.contract.setApprovalForAll(operator, approved, function (err, tx) {
+                    _this16.contract.setApprovalForAll(operator, approved, function (err, tx) {
                         if (err) {
                             reject(err);
                         } else {
-                            var event = _this15.contract.ApprovalForAll(function (err, res) {
+                            var event = _this16.contract.ApprovalForAll(function (err, res) {
                                 event.stopWatching();
                                 if (err) {
                                     reject(err);
@@ -20844,6 +21184,7 @@
              * @param {Number} rpid The vendor's rate plan id
              * @param {Number|Array} dates The booking dates
              * @param {Number} token The digital currency token
+             * @param {Dict} options {from: msg.sender}
              * @param {Promise} {tx: String, customer: String, vendor: String, rpid: BigNumber, dates: Number|Array, token: BigNumber}
              * * tx: Transaction number
              * * customer: The customer address
@@ -20855,31 +21196,75 @@
 
         }, {
             key: 'buyInBatch',
-            value: function buyInBatch(vendorId, rpid, dates, token) {
-                var _this16 = this;
+            value: function buyInBatch(vendorId, rpid, dates, token, options) {
+                var _this18 = this;
+
+                var _buy = function _buy(value) {
+                    var _this17 = this;
+
+                    return new Promise(function (resolve, reject) {
+                        _this17.contract.buyInBatch(vendorId, rpid, dates, token, { from: options.from, value: value }, function (err, tx) {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                var event = _this17.contract.BuyInBatch(function (err, res) {
+                                    event.stopWatching();
+                                    if (err) {
+                                        reject(err);
+                                    } else {
+                                        resolve({
+                                            tx: tx,
+                                            customer: res[0],
+                                            vendor: res[1],
+                                            rpid: res[2],
+                                            dates: dates,
+                                            token: res[4]
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    });
+                };
 
                 return new Promise(function (resolve, reject) {
-                    _this16.contract.buyInBatch(vendorId, rpid, dates, token, function (err, tx) {
+                    _this18.vendorContract.pricesOfDate(vendorId, rpid, dates, token, function (err, prices) {
                         if (err) {
                             reject(err);
                         } else {
-                            var event = _this16.contract.BuyInBatch(function (err, res) {
-                                event.stopWatching();
-                                if (err) {
-                                    reject(err);
-                                } else {
-                                    resolve({
-                                        tx: tx,
-                                        customer: res[0],
-                                        vendor: res[1],
-                                        rpid: res[2],
-                                        dates: dates,
-                                        token: res[4]
-                                    });
-                                }
+                            var total = prices.reduce(function (left, right) {
+                                return left.plus(right);
                             });
+                            resolve(total);
                         }
                     });
+                }).then(function (total) {
+                    if (token == 0) {
+                        // ETH Pay
+                        var value = total.toString();
+                        return _buy(value);
+                    } else {
+                        return _this18.getTokenContractInstance(token).then(function (contractInstance) {
+                            return Promise(function (resolve, reject) {
+                                contractInstance.approve(_this18.contractAddress, total, { from: options.from }, function (err, res) {
+                                    if (err) {
+                                        reject(err);
+                                    } else {
+                                        var event = contractInstance.Approval(function (err, res) {
+                                            event.stopWatching();
+                                            if (err) {
+                                                reject(err);
+                                            } else {
+                                                resolve(res);
+                                            }
+                                        });
+                                    }
+                                });
+                            });
+                        }).then(function (res) {
+                            return _buy(0);
+                        });
+                    }
                 });
             }
 
@@ -20898,14 +21283,14 @@
         }, {
             key: 'applyRefund',
             value: function applyRefund(vendorId, rnid, isRefund) {
-                var _this17 = this;
+                var _this19 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this17.contract.applyRefund(vendorId, rnid, isRefund, function (err, tx) {
+                    _this19.contract.applyRefund(vendorId, rnid, isRefund, function (err, tx) {
                         if (err) {
                             reject(err);
                         } else {
-                            var event = _this17.contract.ApplyRefund(function (err, res) {
+                            var event = _this19.contract.ApplyRefund(function (err, res) {
                                 event.stopWatching();
                                 if (err) {
                                     reject(err);
@@ -20926,6 +21311,7 @@
             /**
              * Refund through ETH or other digital token, give the room night ETH/TOKEN to customer and take back inventory
              * @param {Number} rnid Room night token id
+             * @param {Dict} options {from: msg.sender}
              * @param {Promise} {tx: String, vendor: String, rnid: BigNumber}
              * * tx: Transaction number
              * * vendor: Then vendor address
@@ -20934,28 +21320,62 @@
 
         }, {
             key: 'refund',
-            value: function refund(rnid) {
-                var _this18 = this;
+            value: function refund(rnid, options) {
+                var _this21 = this;
 
-                return new Promise(function (resolve, reject) {
-                    _this18.contract.refund(rnid, function (err, tx) {
-                        if (err) {
-                            reject(err);
-                        } else {
-                            var event = _this18.contract.Refund(function (err, res) {
-                                event.stopWatching();
-                                if (err) {
-                                    reject(err);
-                                } else {
-                                    resolve({
-                                        tx: tx,
-                                        vendor: res[0],
-                                        rnid: res[1]
-                                    });
-                                }
-                            });
-                        }
+                var _refund = function _refund(rnid, value) {
+                    var _this20 = this;
+
+                    return new Promise(function (resolve, reject) {
+                        _this20.contract.refund(rnid, { from: options.from, value: value }, function (err, tx) {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                var event = _this20.contract.Refund(function (err, res) {
+                                    event.stopWatching();
+                                    if (err) {
+                                        reject(err);
+                                    } else {
+                                        resolve({
+                                            tx: tx,
+                                            vendor: res[0],
+                                            rnid: res[1]
+                                        });
+                                    }
+                                });
+                            }
+                        });
                     });
+                };
+                return this.roomNight(rnid).then(function (res) {
+                    var tokenId = res.tokenId;
+                    var price = res.price;
+                    if (tokenId == 0) {
+                        // ETH 
+                        return _refund(rnid, price);
+                    } else {
+                        // ERC2.0
+                        return _this21.getTokenContractInstance(token).then(function (contractInstance) {
+                            return Promise(function (resolve, reject) {
+                                contractInstance.approve(_this21.contractAddress, price, { from: options.from }, function (err, res) {
+                                    if (err) {
+                                        reject(err);
+                                    } else {
+                                        var event = contractInstance.Approval(function (err, res) {
+                                            event.stopWatching();
+                                            if (err) {
+                                                reject(err);
+                                            } else {
+                                                resolve(res);
+                                            }
+                                        });
+                                    }
+                                });
+                            });
+                        }).then(function (res) {
+                            return _refund(rnid, 0);
+                        });
+                    }
                 });
             }
         }]);

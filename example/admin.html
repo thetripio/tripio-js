@@ -15,31 +15,31 @@
     <div id="app">
         <Card>
             <p slot="title">
-                RoomNightVendor.createRatePlan
+                RoomNightAdmin.updateBaseTokenURI
             </p>
             <i-form 
                 label-position="right" 
                 :label-width="70"
-                :model="dataCreateRatePlan"
-                ref="formCreateRatePlan">
+                :model="dataUpdateBaseTokenURI"
+                ref="formUpdateBaseTokenURI">
                 <form-item 
-                    label="name" 
-                    prop="name"
-                    :rules="{required: true, message: 'Please enter name', trigger: 'blur'}">
-                    <i-input v-model="dataCreateRatePlan.name"></i-input>
-                </form-item>
-                <form-item 
-                    label="ipfs" 
-                    prop="ipfs"
-                    :rules="{required: true, message: 'Please enter ipfs', trigger: 'blur'}">
-                    <i-input v-model="dataCreateRatePlan.ipfs"></i-input>
+                    label="uri" 
+                    prop="uri"
+                    :rules="{required: true, message: 'Please enter uri', trigger: 'blur'}">
+                    <i-input v-model="dataUpdateBaseTokenURI.uri"></i-input>
                 </form-item>
                 <form-item>
                     <i-button 
                         type="primary" 
-                        @click="createRatePlan()">Submit</i-button>
+                        @click="updateBaseTokenURI()">Submit</i-button>
                 </form-item>
             </i-form>
+        </Card>
+        <Card>
+            <p slot="title">
+                RoomNightAdmin
+            </p>
+
         </Card>
     </div>
     <script type="text/JavaScript">
@@ -49,9 +49,8 @@
                 message: 'Hello Vue!',
                 tripio: null,
                 account: '',
-                dataCreateRatePlan: {
-                    name: 'test',
-                    ipfs: 'Qmaj8UWNjTzBMBHkkaqSiyax2nFgiwYP2ewxnhGBucn6S8'
+                dataUpdateBaseTokenURI: {
+                    uri: 'test'
                 }
             },
             mounted: function() {
@@ -67,11 +66,10 @@
                 });
             },
             methods: {
-                createRatePlan: function() {
-                    console.log(this.dataCreateRatePlan.name);
-                    this.$refs.formCreateRatePlan.validate((valid) => {
+                updateBaseTokenURI: function() {
+                    this.$refs.formUpdateBaseTokenURI.validate((valid) => {
                         if(valid) {
-                            var vendor = this.tripio.roomNightVendor.createRatePlan(this.dataCreateRatePlan.name, this.dataCreateRatePlan.ipfs, {
+                            var vendor = this.tripio.roomNightAdmin.updateBaseTokenURI(this.dataUpdateBaseTokenURI.uri, {
                                 from: this.account
                             });
                         }

@@ -6,6 +6,7 @@ RoomNightVendor
 **Kind**: global class  
 
 * [RoomNightVendor](#RoomNightVendor)
+    * [.ipfsBase58ToHex(ipfs)](#RoomNightVendor+ipfsBase58ToHex) ⇒ <code>String</code>
     * [.inventoriesOfDate(vendorId, rpid, options)](#RoomNightVendor+inventoriesOfDate) ⇒ <code>Promise</code>
     * [.pricesOfDate(vendorId, rpid, dates, token, options)](#RoomNightVendor+pricesOfDate) ⇒ <code>Promise</code>
     * [.priceOfDate(vendorId, rpid, date, token, options)](#RoomNightVendor+priceOfDate) ⇒ <code>Promise</code>
@@ -18,6 +19,18 @@ RoomNightVendor
     * [.createRatePlan(name, ipfs, options)](#RoomNightVendor+createRatePlan) ⇒ <code>Promise</code>
     * [.removeRatePlan(rpid, options)](#RoomNightVendor+removeRatePlan) ⇒ <code>Promise</code>
     * [.modifyRatePlan(rpid, name, ipfs, options)](#RoomNightVendor+modifyRatePlan) ⇒ <code>Promise</code>
+
+<a name="RoomNightVendor+ipfsBase58ToHex"></a>
+
+### roomNightVendor.ipfsBase58ToHex(ipfs) ⇒ <code>String</code>
+Convert IPFS address from base58 to hex format(begin with 0x)
+
+**Kind**: instance method of [<code>RoomNightVendor</code>](#RoomNightVendor)  
+**Returns**: <code>String</code> - IPFS with hex format(begin with 0x)  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| ipfs | <code>String</code> | IPFS address with base58 encoded |
 
 <a name="RoomNightVendor+inventoriesOfDate"></a>
 

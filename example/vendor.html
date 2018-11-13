@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>RoomNightVendor</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="lib/iview.css">
+    <link rel="stylesheet" href="style/main.css">
+    <script src='../dist/index.js'></script>
+    <script src='lib/vue.min.js'></script>
+    <script src='lib/iview.min.js'></script>
+</head>
+
+<body>
+    <div id="app">
+        <Card>
+            <p slot="title">
+                RoomNightVendor.updatePrices
+            </p>
+            <i-form 
+                label-position="right" 
+                :label-width="80" 
+                :model="dataUpdatePrices" 
+                ref="formUpdatePrices">
+                <form-item 
+                    label="rpid" 
+                    prop="rpid" 
+                    :rules="{required: true, message: 'Please enter rpid', trigger: 'blur'}">
+                    <i-input v-model="dataUpdatePrices.rpid"></i-input>
+                </form-item>
+                <form-item 
+                    label="dates" 
+                    prop="dates" 
+                    :rules="{required: true, message: 'Please enter dates', trigger: 'blur'}">
+                    <i-input v-model="dataUpdatePrices.dates"></i-input>
+                </form-item>
+                <form-item 
+                    label="inventory" 
+                    prop="inventory" 
+                    :rules="{required: true, message: 'Please enter inventory', trigger: 'blur'}">
+                    <i-input v-model="dataUpdatePrices.inventory"></i-input>
+                </form-item>
+                <form-item 
+                    label="tokens" 
+                    prop="tokens" 
+                    :rules="{required: true, message: 'Please enter tokens', trigger: 'blur'}">
+                    <i-input v-model="dataUpdatePrices.tokens"></i-input>
+                </form-item>
+                <form-item 
+                    label="prices" 
+                    prop="prices" 
+                    :rules="{required: true, message: 'Please enter prices', trigger: 'blur'}">
+                    <i-input v-model="dataUpdatePrices.prices"></i-input>
+                </form-item>
+                <form-item>
+                    <i-button type="primary" @click="updatePrices()">Submit</i-button>
+                </form-item>
+            </i-form>
+        </Card>
+        <Card>
+            <p slot="title">
+                RoomNightVendor.updateInventories
+            </p>
+            <i-form
+                label-position="right"
+                :label-width="80"
+                :model="dataUdateInventories"
+                ref="formUpdateInventories">
+                <form-item
+                    label="rpid"
+                    prop="rpid"
+                    :rules="{required: true, message: 'Please enter rpid', trigger: 'blur'}">
+                    <i-input v-model="dataUdateInventories.rpid"></i-input>
+                </form-item>
+                <form-item 
+                    label="dates" 
+                    prop="dates" 
+                    :rules="{required: true, message: 'Please enter dates', trigger: 'blur'}">
+                    <i-input v-model="dataUdateInventories.dates"></i-input>
+                </form-item>
+                <form-item 
+                    label="inventory" 
+                    prop="inventory" 
+                    :rules="{required: true, message: 'Please enter inventory', trigger: 'blur'}">
+                    <i-input v-model="dataUdateInventories.inventory"></i-input>
+                </form-item>
+                <form-item>
+                    <i-button type="primary" @click="updateInventories()">Submit</i-button>
+                </form-item>
+            </i-form>
+        </Card>
+        <Card>
+            <p slot="title">
+                RoomNightVendor.updateBasePrice
+            </p>
+            <i-form
+                label-position="right"
+                :label-width="80"
+                :model="dataUpdateBasePrice"
+                ref="formUpdateBasePrice">
+                <form-item 
+                    label="rpid" 
+                    prop="rpid" 
+                    :rules="{required: true, message: 'Please enter rpid', trigger: 'blur'}">
+                    <i-input v-model="dataUpdateBasePrice.rpid"></i-input>
+                </form-item>
+                <form-item 
+                    label="tokens" 
+                    prop="tokens" 
+                    :rules="{required: true, message: 'Please enter tokens', trigger: 'blur'}">
+                    <i-input v-model="dataUpdateBasePrice.tokens"></i-input>
+                </form-item>
+                <form-item 
+                    label="dates" 
+                    prop="dates" 
+                    :rules="{required: true, message: 'Please enter dates', trigger: 'blur'}">
+                    <i-input v-model="dataUpdateBasePrice.dates"></i-input>
+                </form-item>
+                <form-item 
+                    label="inventory" 
+                    prop="inventory" 
+                    :rules="{required: true, message: 'Please enter inventory', trigger: 'blur'}">
+                    <i-input v-model="dataUpdateBasePrice.inventory"></i-input>
+                </form-item>
+                <form-item>
+                    <i-button type="primary" @click="updateBasePrice()">Submit</i-button>
+                </form-item>
+            </i-form>
+        </Card>
+        <Card>
+            <p slot="title">
+                RoomNightVendor.createRatePlan
+            </p>
+            <i-form 
+                label-position="right" 
+                :label-width="70"
+                :model="dataCreateRatePlan"
+                ref="formCreateRatePlan">
+                <form-item 
+                    label="name" 
+                    prop="name"
+                    :rules="{required: true, message: 'Please enter name', trigger: 'blur'}">
+                    <i-input v-model="dataCreateRatePlan.name"></i-input>
+                </form-item>
+                <form-item 
+                    label="ipfs" 
+                    prop="ipfs"
+                    :rules="{required: true, message: 'Please enter ipfs', trigger: 'blur'}">
+                    <i-input v-model="dataCreateRatePlan.ipfs"></i-input>
+                </form-item>
+                <form-item>
+                    <i-button 
+                        type="primary" 
+                        @click="createRatePlan()">Submit</i-button>
+                </form-item>
+            </i-form>
+        </Card>
+        <Card>
+            <p slot="title">
+                RoomNightVendor.removeRatePlan
+            </p>
+            <i-form label-position="right" 
+                :label-width="70" 
+                :model="dataRemoveRatePlan" 
+                ref="formRemoveRatePlan">
+                <form-item 
+                    label="rpid" 
+                    prop="rpid" 
+                    :rules="{required: true, message: 'Please enter rpid', trigger: 'blur'}">
+                    <i-input v-model="dataRemoveRatePlan.rpid"></i-input>
+                </form-item>
+                <form-item>
+                    <i-button type="primary" 
+                        @click="removeRatePlan()">Submit</i-button>
+                </form-item>
+            </i-form>
+        </Card>
+        <Card>
+            <p slot="title">
+                RoomNightVendor.modifyRatePlan
+            </p>
+            <i-form label-position="right" 
+                :label-width="70" 
+                :model="dataModifyRatePlan" 
+                ref="formModifyRatePlan">
+                <form-item 
+                    label="rpid" 
+                    prop="rpid" 
+                    :rules="{required: true, message: 'Please enter rpid', trigger: 'blur'}">
+                    <i-input v-model="dataModifyRatePlan.rpid"></i-input>
+                </form-item>
+                <form-item label="name" prop="name" :rules="{required: true, message: 'Please enter name', trigger: 'blur'}">
+                    <i-input v-model="dataModifyRatePlan.name"></i-input>
+                </form-item>
+                <form-item label="ipfs" prop="ipfs" :rules="{required: true, message: 'Please enter ipfs', trigger: 'blur'}">
+                    <i-input v-model="dataModifyRatePlan.ipfs"></i-input>
+                </form-item>
+                <form-item>
+                    <i-button type="primary" @click="modifyRatePlan()">Submit</i-button>
+                </form-item>
+            
+            </i-form>
+        </Card>
+        
+    </div>
+    <script type="text/JavaScript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue!',
+                tripio: null,
+                account: '',
+                dataUpdatePrices: {
+                    rpid: '1',
+                    
+                },
+                dataUdateInventories: {
+
+                },
+                dataUpdateBasePrice: {
+
+                },
+                dataCreateRatePlan: {
+                    name: 'test',
+                    ipfs: 'Qmaj8UWNjTzBMBHkkaqSiyax2nFgiwYP2ewxnhGBucn6S8'
+                },
+                dataRemoveRatePlan: {
+                    rpid: '2'
+                },
+                dataModifyRatePlan: {
+                    rpid: '1'
+                }
+            },
+            mounted: function() {
+
+                this.tripio = new Tripio(web3, {
+                    env: 'ropsten'
+                });
+
+                web3.eth.getAccounts((error, accounts)=> {
+                    if (!error) {
+                        this.account = accounts[0]
+                    }
+                });
+            },
+            methods: {
+                updatePrices: function() {
+                    this.$refs.formUpdatePrices.validate((valid) => {
+                        if(valid) {
+                            var vendor = this.tripio.roomNightVendor.updatePrices(
+                                this.dataUpdatePrices.rpid, 
+                                this.dataUpdatePrices.dates,
+                                this.dataUpdatePrices.inventory, 
+                                this.dataUpdatePrices.tokens, 
+                                this.dataUpdatePrices.prices, 
+                                { 
+                                    from: this.account 
+                                }
+                            );
+                        }
+                    });
+
+                },
+                updateInventories: function() {
+
+                },
+                updateBasePrice: function() {
+
+                },
+                createRatePlan: function() {
+                    this.$refs.formCreateRatePlan.validate((valid) => {
+                        if(valid) {
+                            var vendor = this.tripio.roomNightVendor.createRatePlan(
+                                this.dataCreateRatePlan.name, 
+                                this.dataCreateRatePlan.ipfs, 
+                                {
+                                    from: this.account
+                                }
+                            );
+                        }
+                    });
+                },
+                removeRatePlan: function() {
+                    this.$refs.formRemoveRatePlan.validate((valid) => {
+                        if(valid) {
+                            var vendor = this.tripio.roomNightVendor.removeRatePlan(this.dataRemoveRatePlan.rpid, {
+                                from: this.account
+                            });
+                        }
+                    });
+
+                },
+                modifyRatePlan: function() {
+                    this.$refs.formModifyRatePlan.validate((valid) => {
+                        if(valid) {
+                            var vendor = this.tripio.roomNightVendor.modifyRatePlan(
+                                this.dataModifyRatePlan.rpid, 
+                                this.dataModifyRatePlan.name, 
+                                this.dataModifyRatePlan.ipfs, 
+                                {
+                                    from: this.account
+                                }
+                            );
+                        }
+                    });
+
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

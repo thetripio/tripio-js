@@ -19557,7 +19557,9 @@
                 var _this6 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this6.contract.updateBaseTokenURI(uri, {}, function (err, tx) {
+                    _this6.contract.updateBaseTokenURI(uri, {
+                        from: options.from
+                    }, function (err, tx) {
                         if (err) {
                             reject(err);
                         } else {
@@ -19595,7 +19597,9 @@
                 var _this7 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this7.contract.addVendor(address, name, {}, function (err, tx) {
+                    _this7.contract.addVendor(address, name, {
+                        from: options.from
+                    }, function (err, tx) {
                         if (err) {
                             reject(err);
                         } else {
@@ -19632,7 +19636,9 @@
                 var _this8 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this8.contract.removeVendorByAddress(address, {}, function (err, tx) {
+                    _this8.contract.removeVendorByAddress(address, {
+                        from: options.from
+                    }, function (err, tx) {
                         if (err) {
                             reject(err);
                         } else {
@@ -19668,7 +19674,9 @@
                 var _this9 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this9.contract.removeVendorById(vendorId, {}, function (err, tx) {
+                    _this9.contract.removeVendorById(vendorId, {
+                        from: options.from
+                    }, function (err, tx) {
                         if (err) {
                             reject(err);
                         } else {
@@ -19706,7 +19714,9 @@
                 var _this10 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this10.contract.makeVendorValid(vendorId, valid, {}, function (err, tx) {
+                    _this10.contract.makeVendorValid(vendorId, valid, {
+                        from: options.from
+                    }, function (err, tx) {
                         if (err) {
                             reject(err);
                         } else {
@@ -19743,7 +19753,9 @@
                 var _this11 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this11.contract.addToken(contractAddress, {}, function (err, tx) {
+                    _this11.contract.addToken(contractAddress, {
+                        from: options.from
+                    }, function (err, tx) {
                         if (err) {
                             reject(err);
                         } else {
@@ -19779,7 +19791,9 @@
                 var _this12 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this12.contract.removeToken(tokenId, {}, function (err, res) {
+                    _this12.contract.removeToken(tokenId, {
+                        from: options.from
+                    }, function (err, res) {
                         if (err) {
                             reject(err);
                         } else {

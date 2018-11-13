@@ -20,8 +20,8 @@ describe('create RoomNightAdmin', () => {
 
     test('RoomNightAdmin getVendorByAddress', async () => {
 
-        let vendor = await roomNightAdmin.getVendorByAddress('0x0b3cbb67ebafbf6c9d8d17f5db1bada4b2cffc5a');
-        expect(vendor.address).toBe('0x0b3cbb67ebafbf6c9d8d17f5db1bada4b2cffc5a');
+        let vendor = await roomNightAdmin.getVendorByAddress('0x49F405e17aea89AA9CA060c62c81ac7CFB45e77a');
+        expect(vendor.address).toBe('0x49F405e17aea89AA9CA060c62c81ac7CFB45e77a');
     }, 30000);
 
     test('RoomNightAdmin supportedTokens', async () => {

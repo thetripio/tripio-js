@@ -252,7 +252,7 @@ class RoomNightVendor {
      * * rpid: Rateplan Id
      */
     updateBasePrice(rpid, tokens, prices, inventory, options) {
-
+        
         return new Promise((resolve, reject) => {
             this.contract.updateBasePrice(rpid, tokens, prices, inventory, {
                 from: options.from

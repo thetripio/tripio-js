@@ -49,15 +49,18 @@ class RoomNightCustomer {
     /**
      * 
      * @param {token} token 
+     * @returns {Promise} {Contract instance}
      */
-    getTokenContractInstance(token) {
-        this.adminContract.getToken(token, (err, res) => {
-            if(err) {
-                reject(err);
-            }else {
-                let tokenContract = this.web3.eth.contract(TABI).at(res[3]);
-                resolve(tokenContract);
-            }
+    _getTokenContractInstance(token) {
+        return new Promise((resolve, reject) => {
+            this.adminContract.getToken(token, (err, res) => {
+                if(err) {
+                    reject(err);
+                }else {
+                    let tokenContract = this.web3.eth.contract(TABI).at(res[3]);
+                    resolve(tokenContract);
+                }
+            });
         });
     }
     
@@ -506,11 +509,10 @@ class RoomNightCustomer {
         }).then((total) => {
             if(token == 0) {
                 // ETH Pay
-                let value = total.toString();
-                return _buy(value);
+                return _buy(total);
             }else {
-                return this.getTokenContractInstance(token).then((contractInstance) => {
-                    return Promise((resolve, reject) => {
+                return this._getTokenContractInstance(token).then((contractInstance) => {
+                    return new Promise((resolve, reject) => {
                         contractInstance.approve(this.contractAddress, total, {from: options.from}, (err, res) => {
                             if(err) {
                                 reject(err);     
@@ -535,7 +537,6 @@ class RoomNightCustomer {
 
     /**
      * Apply room night refund
-     * @param {Number} vendorId The vendor Id
      * @param {Number} rnid Room night token id
      * @param {Boolean} isRefund if true the `rnid` can refund else not
      * @param {Dict} options {from: msg.sender}
@@ -545,9 +546,9 @@ class RoomNightCustomer {
      * * rnid: The rateplan id
      * * isRefund: if true the `rnid` can refund else not
      */
-    applyRefund(vendorId, rnid, isRefund, options) {
+    applyRefund(rnid, isRefund, options) {
         return new Promise((resolve, reject) => {
-            this.contract.applyRefund(vendorId, rnid, isRefund,{
+            this.contract.applyRefund(rnid, isRefund,{
                     from: options.from
                 }, (err, tx) => {
                 if(err) {
@@ -614,8 +615,8 @@ class RoomNightCustomer {
                 return _refund(rnid, price);
             }else {
                 // ERC2.0
-                return this.getTokenContractInstance(token).then((contractInstance) => {
-                    return Promise((resolve, reject) => {
+                return this._getTokenContractInstance(token).then((contractInstance) => {
+                    return new Promise((resolve, reject) => {
                         contractInstance.approve(this.contractAddress, price, {from: options.from}, (err, res) => {
                             if(err) {
                                 reject(err);     

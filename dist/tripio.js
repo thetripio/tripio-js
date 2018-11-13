@@ -20734,20 +20734,23 @@
             /**
              * 
              * @param {token} token 
+             * @returns {Promise} {Contract instance}
              */
 
         }, {
-            key: 'getTokenContractInstance',
-            value: function getTokenContractInstance(token) {
+            key: '_getTokenContractInstance',
+            value: function _getTokenContractInstance(token) {
                 var _this = this;
 
-                this.adminContract.getToken(token, function (err, res) {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        var tokenContract = _this.web3.eth.contract(TABI).at(res[3]);
-                        resolve(tokenContract);
-                    }
+                return new Promise(function (resolve, reject) {
+                    _this.adminContract.getToken(token, function (err, res) {
+                        if (err) {
+                            reject(err);
+                        } else {
+                            var tokenContract = _this.web3.eth.contract(TABI).at(res[3]);
+                            resolve(tokenContract);
+                        }
+                    });
                 });
             }
 
@@ -21004,6 +21007,7 @@
              * @param {String} from The current owner of the room night token
              * @param {String} to The new owner
              * @param {Number} tokenId The token to transfer
+             * @param {String} data Additional data with no specified format, sent in call to `to`
              * @param {Promise} {tx: String, from: BigNumber, to: BigNumber, tokenId: BigNumber}
              * * tx: Transaction number
              * * from: The current owner of the room night token
@@ -21013,11 +21017,11 @@
 
         }, {
             key: 'safeTransferFrom',
-            value: function safeTransferFrom(from, to, tokenId) {
+            value: function safeTransferFrom(from, to, tokenId, data) {
                 var _this12 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this12.contract.safeTransferFrom(from, to, tokenId, function (err, tx) {
+                    _this12.contract.safeTransferFrom(from, to, tokenId, data, function (err, tx) {
                         if (err) {
                             reject(err);
                         } else {
@@ -21216,17 +21220,16 @@
         }, {
             key: 'buyInBatch',
             value: function buyInBatch(vendorId, rpid, dates, token, options) {
-                var _this18 = this;
+                var _this17 = this;
 
+                var self = this;
                 var _buy = function _buy(value) {
-                    var _this17 = this;
-
                     return new Promise(function (resolve, reject) {
-                        _this17.contract.buyInBatch(vendorId, rpid, dates, token, { from: options.from, value: value }, function (err, tx) {
+                        self.contract.buyInBatch(vendorId, rpid, dates, token, { from: options.from, value: value }, function (err, tx) {
                             if (err) {
                                 reject(err);
                             } else {
-                                var event = _this17.contract.BuyInBatch(function (err, res) {
+                                var event = self.contract.BuyInBatch(function (err, res) {
                                     event.stopWatching();
                                     if (err) {
                                         reject(err);
@@ -21247,7 +21250,7 @@
                 };
 
                 return new Promise(function (resolve, reject) {
-                    _this18.vendorContract.pricesOfDate(vendorId, rpid, dates, token, function (err, prices) {
+                    _this17.vendorContract.pricesOfDate(vendorId, rpid, dates, token, function (err, prices) {
                         if (err) {
                             reject(err);
                         } else {
@@ -21260,12 +21263,11 @@
                 }).then(function (total) {
                     if (token == 0) {
                         // ETH Pay
-                        var value = total.toString();
-                        return _buy(value);
+                        return _buy(total);
                     } else {
-                        return _this18.getTokenContractInstance(token).then(function (contractInstance) {
-                            return Promise(function (resolve, reject) {
-                                contractInstance.approve(_this18.contractAddress, total, { from: options.from }, function (err, res) {
+                        return _this17._getTokenContractInstance(token).then(function (contractInstance) {
+                            return new Promise(function (resolve, reject) {
+                                contractInstance.approve(_this17.contractAddress, total, { from: options.from }, function (err, res) {
                                     if (err) {
                                         reject(err);
                                     } else {
@@ -21289,9 +21291,9 @@
 
             /**
              * Apply room night refund
-             * @param {Number} vendorId The vendor Id
              * @param {Number} rnid Room night token id
              * @param {Boolean} isRefund if true the `rnid` can refund else not
+             * @param {Dict} options {from: msg.sender}
              * @param {Promise} {tx: String, customer: String, rnid: BigNumber, isRefund: Boolean}
              * * tx: Transaction number
              * * customer: The customer address
@@ -21301,15 +21303,17 @@
 
         }, {
             key: 'applyRefund',
-            value: function applyRefund(vendorId, rnid, isRefund) {
-                var _this19 = this;
+            value: function applyRefund(rnid, isRefund, options) {
+                var _this18 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this19.contract.applyRefund(vendorId, rnid, isRefund, function (err, tx) {
+                    _this18.contract.applyRefund(rnid, isRefund, {
+                        from: options.from
+                    }, function (err, tx) {
                         if (err) {
                             reject(err);
                         } else {
-                            var event = _this19.contract.ApplyRefund(function (err, res) {
+                            var event = _this18.contract.ApplyRefund(function (err, res) {
                                 event.stopWatching();
                                 if (err) {
                                     reject(err);
@@ -21340,17 +21344,16 @@
         }, {
             key: 'refund',
             value: function refund(rnid, options) {
-                var _this21 = this;
+                var _this19 = this;
 
+                var self = this;
                 var _refund = function _refund(rnid, value) {
-                    var _this20 = this;
-
                     return new Promise(function (resolve, reject) {
-                        _this20.contract.refund(rnid, { from: options.from, value: value }, function (err, tx) {
+                        self.contract.refund(rnid, { from: options.from, value: value }, function (err, tx) {
                             if (err) {
                                 reject(err);
                             } else {
-                                var event = _this20.contract.Refund(function (err, res) {
+                                var event = self.contract.Refund(function (err, res) {
                                     event.stopWatching();
                                     if (err) {
                                         reject(err);
@@ -21374,9 +21377,9 @@
                         return _refund(rnid, price);
                     } else {
                         // ERC2.0
-                        return _this21.getTokenContractInstance(token).then(function (contractInstance) {
-                            return Promise(function (resolve, reject) {
-                                contractInstance.approve(_this21.contractAddress, price, { from: options.from }, function (err, res) {
+                        return _this19._getTokenContractInstance(token).then(function (contractInstance) {
+                            return new Promise(function (resolve, reject) {
+                                contractInstance.approve(_this19.contractAddress, price, { from: options.from }, function (err, res) {
                                     if (err) {
                                         reject(err);
                                     } else {
@@ -21433,7 +21436,7 @@
 
             this.roomNightVendor = new RoomNightVendor(this.web3, env.contract.rnVendor);
             this.roomNightAdmin = new RoomNightAdmin(this.web3, env.contract.rnAdmin);
-            this.roomNightCustomer = new RoomNightCustomer(this.web3, env.contract.rnCustomer);
+            this.roomNightCustomer = new RoomNightCustomer(this.web3, env.contract.rnCustomer, env.contract.rnVendor, env.contract.rnAdmin);
         }
 
         _createClass$3(Tripio, [{

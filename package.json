@@ -32,6 +32,7 @@
         "test": "BABEL_ENV=test jest",
         "coverage": "BABEL_ENV=test jest --coverage",
         "build": "BABEL_ENV=build rollup -c build/rollup.config.js",
+        "build:full": "BABEL_ENV=build rollup -c build/rollup.config.full.js",
         "deploy": "yarn build && yarn publish",
         "doc": "node build/jsdoc.js"
     },

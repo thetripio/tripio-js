@@ -2,11 +2,11 @@
 <html>
 
 <head>
-    <title>RoomNightVendor</title>
+    <title>RoomNightAdmin</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="lib/iview.css">
     <link rel="stylesheet" href="style/main.css">
-    <script src='../dist/index.js'></script>
+    <script src='../dist/tripio.js'></script>
     <script src='lib/vue.min.js'></script>
     <script src='lib/iview.min.js'></script>
 </head>
@@ -19,7 +19,7 @@
             </p>
             <i-form 
                 label-position="right" 
-                :label-width="70"
+                :label-width="80"
                 :model="dataUpdateBaseTokenURI"
                 ref="formUpdateBaseTokenURI">
                 <form-item 
@@ -37,21 +37,156 @@
         </Card>
         <Card>
             <p slot="title">
-                RoomNightAdmin
+                RoomNightAdmin.addVendor
+            </p>
+            <i-form 
+                label-position="right" 
+                :label-width="80" 
+                :model="dataAddVendor" 
+                ref="formAddVendor">
+                <form-item 
+                    label="address" 
+                    prop="address" 
+                    :rules="{required: true, message: 'Please enter address', trigger: 'blur'}">
+                    <i-input v-model="dataAddVendor.address"></i-input>
+                </form-item>
+                <form-item 
+                    label="name" 
+                    prop="name" 
+                    :rules="{required: true, message: 'Please enter address', trigger: 'blur'}">
+                    <i-input v-model="dataAddVendor.name"></i-input>
+                </form-item>
+                <form-item>
+                    <i-button type="primary" @click="addVendor()">Submit</i-button>
+                </form-item>
+            </i-form>
+        </Card>
+        <Card>
+            <p slot="title">
+                RoomNightAdmin.removeVendorByAddress
+            </p>
+            <i-form 
+                label-position="right" 
+                :label-width="80" 
+                :model="dataRemoveVendorByAddress" 
+                ref="formRemoveVendorByAddress">
+                <form-item 
+                    label="address" 
+                    prop="address" 
+                    :rules="{required: true, message: 'Please enter address', trigger: 'blur'}">
+                    <i-input v-model="dataRemoveVendorByAddress.address"></i-input>
+                </form-item>
+                <form-item>
+                    <i-button type="primary" @click="removeVendorByAddress()">Submit</i-button>
+                </form-item>
+            </i-form>
+        </Card>
+        <Card>
+            <p slot="title">
+                RoomNightAdmin.removeVendorById
+            </p>
+            <i-form 
+                label-position="right" 
+                :label-width="80" 
+                :model="dataRemoveVendorById" 
+                ref="formRemoveVendorById">
+                <form-item 
+                    label="vendorId" 
+                    prop="vendorId" 
+                    :rules="{required: true, message: 'Please enter vendorId', trigger: 'blur'}">
+                    <i-input v-model="dataRemoveVendorById.vendorId"></i-input>
+                </form-item>
+                <form-item>
+                    <i-button type="primary" @click="removeVendorById()">Submit</i-button>
+                </form-item>
+            </i-form>
+        </Card>
+        <Card>
+            <p slot="title">
+                RoomNightAdmin.makeVendorValid
             </p>
 
+            <i-form 
+                label-position="right" 
+                :label-width="80" 
+                :model="dataMakeVendorValid" 
+                ref="formMakeVendorValid">
+                <form-item 
+                    label="vendorId" 
+                    prop="vendorId" 
+                    :rules="{required: true, message: 'Please enter vendorId', trigger: 'blur'}">
+                    <i-input v-model="dataMakeVendorValid.vendorId"></i-input>
+                </form-item>
+                <form-item 
+                    label="valid" 
+                    prop="valid">
+                    <Checkbox v-model="dataMakeVendorValid.valid">{{dataMakeVendorValid.valid}}</Checkbox>
+                </form-item>
+                <form-item>
+                    <i-button type="primary" @click="makeVendorValid()">Submit</i-button>
+                </form-item>
+            </i-form>
+        </Card>
+        <Card>
+            <p slot="title">
+                RoomNightAdmin.addToken
+            </p>
+            <i-form 
+                label-position="right" 
+                :label-width="80" 
+                :model="dataAddToken" 
+                ref="formAddToken">
+                <form-item 
+                    label="address" 
+                    prop="address" :rules="{required: true, message: 'Please enter address', trigger: 'blur'}">
+                    <i-input v-model="dataAddToken.address"></i-input>
+                </form-item>
+                <form-item>
+                    <i-button type="primary" @click="addToken()">Submit</i-button>
+                </form-item>
+            </i-form>
+        </Card>
+        <Card>
+            <p slot="title">
+                RoomNightAdmin.removeToken
+            </p>
+
+            <i-form 
+                label-position="right" 
+                :label-width="80" 
+                :model="dataRemoveToken" 
+                ref="formRemoveToken">
+                <form-item 
+                    label="tokenId" 
+                    prop="tokenId" 
+                    :rules="{required: true, message: 'Please enter tokenId', trigger: 'blur'}">
+                    <i-input v-model="dataRemoveToken.tokenId"></i-input>
+                </form-item>
+                <form-item>
+                    <i-button type="primary" @click="removeToken()">Submit</i-button>
+                </form-item>
+            </i-form>
         </Card>
     </div>
     <script type="text/JavaScript">
+    tripio = new Tripio(web3, {
+                    env: 'ropsten'
+                });
         var app = new Vue({
             el: '#app',
             data: {
                 message: 'Hello Vue!',
                 tripio: null,
                 account: '',
-                dataUpdateBaseTokenURI: {
-                    uri: 'test'
-                }
+                dataUpdateBaseTokenURI: {},
+                dataAddVendor: { },
+                dataRemoveVendorByAddress: { },
+                dataRemoveVendorById: { },
+                dataMakeVendorValid: {
+                    valid: true
+                },
+                dataAddToken: { },
+                dataRemoveToken: { }
             },
             mounted: function() {
 
@@ -67,14 +202,96 @@
             },
             methods: {
                 updateBaseTokenURI: function() {
+                    
                     this.$refs.formUpdateBaseTokenURI.validate((valid) => {
                         if(valid) {
-                            var vendor = this.tripio.roomNightAdmin.updateBaseTokenURI(this.dataUpdateBaseTokenURI.uri, {
+                            var admin = this.tripio.roomNightAdmin.updateBaseTokenURI(this.dataUpdateBaseTokenURI.uri, {
                                 from: this.account
                             });
                         }
                     });
+                },
+                addVendor: function() {
                     
+                    this.$refs.formAddVendor.validate((valid) => {
+                        if(valid) {
+                            var admin = this.tripio.roomNightAdmin.addVendor(
+                                this.dataAddVendor.address, 
+                                this.dataAddVendor.name,
+                                {
+                                    from: this.account
+                                }
+                            );
+                        }
+                    });
+                },
+                removeVendorByAddress: function() {
+                    
+                    this.$refs.formRemoveVendorByAddress.validate((valid) => {
+                        if(valid) {
+                            var admin = this.tripio.roomNightAdmin.removeVendorByAddress(
+                                this.dataRemoveVendorByAddress.address, 
+                                {
+                                    from: this.account
+                                }
+                            );
+                        }
+                    });
+                },
+                removeVendorById: function() {
+                    
+                    this.$refs.formRemoveVendorById.validate((valid) => {
+                        if(valid) {
+                            var admin = this.tripio.roomNightAdmin.removeVendorById(
+                                this.dataRemoveVendorById.vendorId, 
+                                {
+                                    from: this.account
+                                }
+                            );
+                        }
+                    });
+
+                },
+                makeVendorValid: function() {
+                    
+                    this.$refs.formMakeVendorValid.validate((valid) => {
+                        if(valid) {
+                            var admin = this.tripio.roomNightAdmin.makeVendorValid(
+                                this.dataMakeVendorValid.vendorId,
+                                this.dataMakeVendorValid.valid,
+                                {
+                                    from: this.account
+                                }
+                            );
+                        }
+                    });
+
+                },
+                addToken: function() {
+                    
+                    this.$refs.formAddToken.validate((valid) => {
+                        if(valid) {
+                            var admin = this.tripio.roomNightAdmin.addToken(
+                                this.dataAddToken.address, 
+                                {
+                                    from: this.account
+                                }
+                            );
+                        }
+                    });
+                },
+                removeToken: function() {
+                    
+                    this.$refs.formRemoveToken.validate((valid) => {
+                        if(valid) {
+                            var admin = this.tripio.roomNightAdmin.removeToken(
+                                this.dataRemoveToken.tokenId, 
+                                {
+                                    from: this.account
+                                }
+                            );
+                        }
+                    });
                 }
             }
         })

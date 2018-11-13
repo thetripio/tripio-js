@@ -21,7 +21,7 @@ class RoomNightAdmin {
      * * nextVendorId: The next id of vendor, if id = 0 the next vendor is null
      */
     getVendorIds(offset, limit, options) {
-
+        
         return new Promise((resolve, reject) => {
             this.contract.getVendorIds(offset, limit, {}, (err, res) => {
                 if(err) {
@@ -160,9 +160,11 @@ class RoomNightAdmin {
      * * uri: The base URI of token
      */
     updateBaseTokenURI(uri, options) {
-
+        
         return new Promise((resolve, reject) => {
-            this.contract.updateBaseTokenURI(uri, {}, (err, tx) => {
+            this.contract.updateBaseTokenURI(uri, {
+                from: options.from
+            }, (err, tx) => {
                 if(err) {
                     reject(err);
                 }
@@ -198,7 +200,9 @@ class RoomNightAdmin {
     addVendor(address, name, options) {
 
         return new Promise((resolve, reject) => {
-            this.contract.addVendor(address, name, {}, (err, tx) => {
+            this.contract.addVendor(address, name, {
+                from: options.from
+            }, (err, tx) => {
                 if(err) {
                     reject(err);
                 }
@@ -233,7 +237,9 @@ class RoomNightAdmin {
     removeVendorByAddress(address, options) {
 
         return new Promise((resolve, reject) => {
-            this.contract.removeVendorByAddress(address, {}, (err, tx) => {
+            this.contract.removeVendorByAddress(address, {
+                from: options.from
+            }, (err, tx) => {
                 if(err) {
                     reject(err);
                 }
@@ -267,7 +273,9 @@ class RoomNightAdmin {
     removeVendorById(vendorId, options) {
 
         return new Promise((resolve, reject) => {
-            this.contract.removeVendorById(vendorId, {}, (err, tx) => {
+            this.contract.removeVendorById(vendorId, {
+                from: options.from
+            }, (err, tx) => {
                 if(err) {
                     reject(err);
                 }
@@ -303,7 +311,9 @@ class RoomNightAdmin {
     makeVendorValid(vendorId, valid, options) {
 
         return new Promise((resolve, reject) => {
-            this.contract.makeVendorValid(vendorId, valid, {}, (err, tx) => {
+            this.contract.makeVendorValid(vendorId, valid, {
+                from: options.from
+            }, (err, tx) => {
                 if(err) {
                     reject(err);
                 }
@@ -338,7 +348,9 @@ class RoomNightAdmin {
     addToken(contractAddress, options) {
 
         return new Promise((resolve, reject) => {
-            this.contract.addToken(contractAddress, {}, (err, tx) => {
+            this.contract.addToken(contractAddress, {
+                from: options.from
+            }, (err, tx) => {
                 if (err) {
                     reject(err);
                 }
@@ -373,7 +385,9 @@ class RoomNightAdmin {
     removeToken(tokenId, options) {
 
         return new Promise((resolve, reject) => {
-            this.contract.removeToken(tokenId, {}, (err, res) => {
+            this.contract.removeToken(tokenId, {
+                from: options.from
+            }, (err, res) => {
                 if (err) {
                     reject(err);
                 }

@@ -28,7 +28,7 @@ class Tripio {
 
         this.roomNightVendor = new RoomNightVendor(this.web3, env.contract.rnVendor);
         this.roomNightAdmin = new RoomNightAdmin(this.web3, env.contract.rnAdmin);
-        this.roomNightCustomer = new RoomNightCustomer(this.web3, env.contract.rnCustomer);
+        this.roomNightCustomer = new RoomNightCustomer(this.web3, env.contract.rnCustomer, env.contract.rnVendor, env.contract.rnAdmin);
     }
 
     initEnv(env) {

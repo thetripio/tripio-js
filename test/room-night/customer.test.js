@@ -5,7 +5,7 @@ import to from 'await-to-js';
 describe('create RoomNightCustomer', () => {
     let web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/9WfBzi6QFGrAWBYZKq57'));
 
-    let customer = new RoomNightCustomer(web3, '0x8A1f185EFC5c2a9a5F7A92894d74f4F6e17d42F1');
+    let customer = new RoomNightCustomer(web3, '0x8A1f185EFC5c2a9a5F7A92894d74f4F6e17d42F1', '0x8ce76Ec4F7D39B274a87123730870309B6F708e5', '0x0D53Ca8D45072c29fA45A3854685ff80ce95E8b2');
 
     let account = '0x262bab6a90aa1741390c4a3ec58855c81d9728e1';
     let account0 = '0x0000000000000000000000000000000000000000';

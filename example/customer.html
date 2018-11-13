@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>RoomNightVendor</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="lib/iview.css">
+    <link rel="stylesheet" href="style/main.css">
+    <script src='../dist/index.js'></script>
+    <script src='lib/vue.min.js'></script>
+    <script src='lib/iview.min.js'></script>
+</head>
+
+<body>
+    <div id="app">
+        <Card>
+            <p slot="title">
+                RoomNightCustomer.safeTransferFrom
+            </p>
+            <i-form label-position="right" :label-width="70" :model="dataSafeTransferFrom" ref="formSafeTransferFrom">
+                <form-item label="from" prop="from" :rules="{required: true, message: 'Please enter from', trigger: 'blur'}">
+                    <i-input v-model="dataSafeTransferFrom.from"></i-input>
+                </form-item>
+                <form-item label="to" prop="to" :rules="{required: true, message: 'Please enter to', trigger: 'blur'}">
+                    <i-input v-model="dataSafeTransferFrom.to"></i-input>
+                </form-item>
+                <form-item label="tokenId" prop="tokenId" :rules="{required: true, message: 'Please enter tokenId', trigger: 'blur'}">
+                    <i-input v-model="dataSafeTransferFrom.tokenId"></i-input>
+                </form-item>
+                <form-item label="data" prop="data" :rules="{required: false, trigger: 'blur'}">
+                    <i-input v-model="dataSafeTransferFrom.data"></i-input>
+                </form-item>
+                <form-item>
+                    <i-button type="primary" @click="safeTransferFrom()">Submit</i-button>
+                </form-item>
+            </i-form>
+        </Card>
+
+        <Card>
+            <p slot="title">
+                RoomNightCustomer.transferFrom
+            </p>
+            <i-form label-position="right" :label-width="70" :model="dataTransferFrom" ref="formTransferFrom">
+                <form-item label="from" prop="from" :rules="{required: true, message: 'Please enter from', trigger: 'blur'}">
+                    <i-input v-model="dataTransferFrom.from"></i-input>
+                </form-item>
+                <form-item label="to" prop="to" :rules="{required: true, message: 'Please enter to', trigger: 'blur'}">
+                    <i-input v-model="dataTransferFrom.to"></i-input>
+                </form-item>
+                <form-item label="tokenId" prop="tokenId" :rules="{required: true, message: 'Please enter tokenId', trigger: 'blur'}">
+                    <i-input v-model="dataTransferFrom.tokenId"></i-input>
+                </form-item>
+                <form-item>
+                    <i-button type="primary" @click="transferFrom()">Submit</i-button>
+                </form-item>
+            </i-form>
+        </Card>
+
+        <Card>
+            <p slot="title">
+                RoomNightCustomer.transferFromInBatch
+            </p>
+            <i-form label-position="right" :label-width="70" :model="dataTransferFromInBatch" ref="formTransferFromInBatch">
+                <form-item label="from" prop="from" :rules="{required: true, message: 'Please enter from', trigger: 'blur'}">
+                    <i-input v-model="dataTransferFromInBatch.from"></i-input>
+                </form-item>
+                <form-item label="to" prop="to" :rules="{required: true, message: 'Please enter to', trigger: 'blur'}">
+                    <i-input v-model="dataTransferFromInBatch.to"></i-input>
+                </form-item>
+                <form-item label="tokenIds" prop="tokenIds" :rules="{required: true, message: 'Please enter tokenIds, separate with commas', trigger: 'blur'}">
+                    <i-input v-model="dataTransferFromInBatch.tokenIds"></i-input>
+                </form-item>
+                <form-item>
+                    <i-button type="primary" @click="transferFromInBatch()">Submit</i-button>
+                </form-item>
+            </i-form>
+        </Card>
+
+        <Card>
+            <p slot="title">
+                RoomNightCustomer.approve
+            </p>
+            <i-form label-position="right" :label-width="70" :model="dataApprove" ref="formApprove">
+                <form-item label="approved" prop="approved" :rules="{required: true, message: 'Please enter approved', trigger: 'blur'}">
+                    <i-input v-model="dataApprove.approved"></i-input>
+                </form-item>
+                <form-item label="tokenId" prop="tokenId" :rules="{required: true, message: 'Please enter tokenId', trigger: 'blur'}">
+                    <i-input v-model="dataApprove.tokenId"></i-input>
+                </form-item>
+                <form-item>
+                    <i-button type="primary" @click="approve()">Submit</i-button>
+                </form-item>
+            </i-form>
+        </Card>
+
+        <Card>
+            <p slot="title">
+                RoomNightCustomer.setApprovalForAll
+            </p>
+            <i-form label-position="right" :label-width="70" :model="dataSetApprovalForAll" ref="formSetApprovalForAll">
+                <form-item label="operator" prop="operator" :rules="{required: true, message: 'Please enter operator', trigger: 'blur'}">
+                    <i-input v-model="dataSetApprovalForAll.operator"></i-input>
+                </form-item>
+                <form-item label="approved" prop="approved" :rules="{required: true, message: 'Please enter approved', trigger: 'blur'}">
+                    <i-input v-model="dataSetApprovalForAll.approved"></i-input>
+                </form-item>
+                <form-item>
+                    <i-button type="primary" @click="setApprovalForAll()">Submit</i-button>
+                </form-item>
+            </i-form>
+        </Card>
+
+        <Card>
+            <p slot="title">
+                RoomNightCustomer.buyInBatch
+            </p>
+            <i-form label-position="right" :label-width="70" :model="dataBuyInBatch" ref="formBuyInBatch">
+                <form-item label="vendorId" prop="vendorId" :rules="{required: true, message: 'Please enter vendorId', trigger: 'blur'}">
+                    <i-input v-model="dataBuyInBatch.vendorId"></i-input>
+                </form-item>
+                <form-item label="rpid" prop="rpid" :rules="{required: true, message: 'Please enter rpid', trigger: 'blur'}">
+                    <i-input v-model="dataBuyInBatch.rpid"></i-input>
+                </form-item>
+                <form-item label="dates" prop="dates" :rules="{required: true, message: 'Please enter dates', trigger: 'blur'}">
+                    <i-input v-model="dataBuyInBatch.dates"></i-input>
+                </form-item>
+                <form-item label="token" prop="token" :rules="{required: true, message: 'Please enter token', trigger: 'blur'}">
+                    <i-input v-model="dataBuyInBatch.token"></i-input>
+                </form-item>
+                <form-item>
+                    <i-button type="primary" @click="buyInBatch()">Submit</i-button>
+                </form-item>
+            </i-form>
+        </Card>
+
+        <Card>
+            <p slot="title">
+                RoomNightCustomer.applyRefund
+            </p>
+            <i-form label-position="right" :label-width="70" :model="dataApplyRefund" ref="formApplyRefund">
+                <form-item label="vendorId" prop="vendorId" :rules="{required: true, message: 'Please enter vendorId', trigger: 'blur'}">
+                    <i-input v-model="dataApplyRefund.vendorId"></i-input>
+                </form-item>
+                <form-item label="rnid" prop="rnid" :rules="{required: true, message: 'Please enter rnid', trigger: 'blur'}">
+                    <i-input v-model="dataApplyRefund.rpid"></i-input>
+                </form-item>
+                <form-item label="isRefund" prop="isRefund" :rules="{required: true, message: 'Please enter isRefund', trigger: 'blur'}">
+                    <i-input v-model="dataApplyRefund.isRefund"></i-input>
+                </form-item>
+                <form-item>
+                    <i-button type="primary" @click="applyRefund()">Submit</i-button>
+                </form-item>
+            </i-form>
+        </Card>
+
+        <Card>
+            <p slot="title">
+                RoomNightCustomer.refund
+            </p>
+            <i-form label-position="right" :label-width="70" :model="dataRefund" ref="formRefund">
+                <form-item label="rnid" prop="rnid" :rules="{required: true, message: 'Please enter rnid', trigger: 'blur'}">
+                    <i-input v-model="dataRefund.rnid"></i-input>
+                </form-item>
+                <form-item>
+                    <i-button type="primary" @click="applyRefund()">Submit</i-button>
+                </form-item>
+            </i-form>
+        </Card>
+    </div>
+    <script type="text/JavaScript">
+        var app = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue!',
+                tripio: null,
+                account: '',
+                dataSafeTransferFrom: {
+                    from: null,
+                    to: null,
+                    tokenId: null,
+                    data: null
+                },
+                dataTransferFrom:  {
+                    from: null,
+                    to: null,
+                    tokenId: null
+                },
+                dataTransferFromInBatch: {
+                    from: null,
+                    to: null,
+                    tokenIds: null
+                },
+                dataApprove: {
+                    approved: null,
+                    tokenId: null
+                },
+                dataSetApprovalForAll: {
+                    operator: null,
+                    approved: null
+                },
+                dataBuyInBatch: {
+                    vendorId: null,
+                    rpid: null,
+                    dates: null, 
+                    token: null
+                },
+                dataApplyRefund: {
+                    vendorId: null, 
+                    rnid: null, 
+                    isRefund: true
+                },
+                dataRefund: {
+                    rnid: null
+                }
+            },
+            mounted: function() {
+
+                this.tripio = new Tripio(web3, {
+                    env: 'ropsten'
+                });
+
+                web3.eth.getAccounts((error, accounts)=> {
+                    if (!error) {
+                        this.account = accounts[0]
+                    }
+                });
+            },
+            methods: {
+                safeTransferFrom: function() {
+                    this.$refs.formSafeTransferFrom.validate((valid) => {
+                        if(valid) {
+                            var vendor = this.tripio.roomNightCustomer.safeTransferFrom(
+                                this.dataSafeTransferFrom.from, 
+                                this.dataSafeTransferFrom.to, 
+                                this.dataSafeTransferFrom.tokenId,
+                                this.dataSafeTransferFrom.data
+                            );
+                        }
+                    });
+                },
+                transferFrom: function() {
+                    this.$refs.formTransferFrom.validate((valid) => {
+                        if(valid) {
+                            var vendor = this.tripio.roomNightCustomer.transferFrom(
+                                this.dataTransferFrom.from, 
+                                this.dataTransferFrom.to, 
+                                this.dataTransferFrom.tokenId
+                            );
+                        }
+                    });
+                },
+                transferFromInBatch: function() {
+                    this.$refs.formTransferFromInBatch.validate((valid) => {
+                        if(valid) {
+                            var vendor = this.tripio.roomNightCustomer.transferFromInBatch(
+                                this.dataTransferFromInBatch.from, 
+                                this.dataTransferFromInBatch.to, 
+                                this.dataTransferFromInBatch.tokenIds.split(',')
+                            );
+                        }
+                    });
+                },
+                approve: function() {
+                    this.$refs.formApprove.validate((valid) => {
+                        if(valid) {
+                            var vendor = this.tripio.roomNightCustomer.approve(
+                                this.dataApprove.approved, 
+                                this.dataApprove.tokenId
+                            );
+                        }
+                    });
+                },
+                setApprovalForAll: function() {
+                    this.$refs.formSetApprovalForAll.validate((valid) => {
+                        if(valid) {
+                            var vendor = this.tripio.roomNightCustomer.setApprovalForAll(
+                                this.dataSetApprovalForAll.operator, 
+                                this.dataSetApprovalForAll.approved
+                            );
+                        }
+                    });
+                },
+                buyInBatch: function() {
+                    this.$refs.formBuyInBatch.validate((valid) => {
+                        if(valid) {
+                            var vendor = this.tripio.roomNightCustomer.buyInBatch(
+                                this.dataBuyInBatch.vendorId, 
+                                this.dataBuyInBatch.rpid,
+                                this.dataBuyInBatch.dates.split(','),
+                                this.dataBuyInBatch.token,{
+                                    from: this.account
+                                }
+                            );
+                        }
+                    });
+                },
+                applyRefund: function() {
+                    this.$refs.formApplyRefund.validate((valid) => {
+                        if(valid) {
+                            var vendor = this.tripio.roomNightCustomer.applyRefund(
+                                this.dataApplyRefund.vendorId, 
+                                this.dataApplyRefund.rnid,
+                                this.dataApplyRefund.isRefund,{
+                                    from: this.account
+                                }
+                            );
+                        }
+                    });
+                },
+                refund: function() {
+                    this.$refs.formRefund.validate((valid) => {
+                        if(valid) {
+                            var vendor = this.tripio.roomNightCustomer.refund(
+                                this.dataRefund.rnid,{
+                                    from: this.account
+                                }
+                            );
+                        }
+                    });
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

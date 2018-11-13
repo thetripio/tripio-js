@@ -274,15 +274,16 @@ class RoomNightCustomer {
      * @param {String} from The current owner of the room night token
      * @param {String} to The new owner
      * @param {Number} tokenId The token to transfer
+     * @param {String} data Additional data with no specified format, sent in call to `to`
      * @param {Promise} {tx: String, from: BigNumber, to: BigNumber, tokenId: BigNumber}
      * * tx: Transaction number
      * * from: The current owner of the room night token
      * * to: The new owner
      * * tokenId: The token to transfer
      */
-    safeTransferFrom(from, to, tokenId) {
+    safeTransferFrom(from, to, tokenId, data) {
         return new Promise((resolve, reject) => {
-            this.contract.safeTransferFrom(from, to, tokenId, (err, tx) => {
+            this.contract.safeTransferFrom(from, to, tokenId, data, (err, tx) => {
                 if(err) {
                     reject(err);
                 }
@@ -463,14 +464,15 @@ class RoomNightCustomer {
      * * token: The digital currency token
      */
     buyInBatch(vendorId, rpid, dates, token, options) {
+        let self = this;
         let _buy = function(value) {
             return new Promise((resolve, reject) => {
-                this.contract.buyInBatch(vendorId, rpid, dates, token, {from: options.from, value: value}, (err, tx) => {
+                self.contract.buyInBatch(vendorId, rpid, dates, token, {from: options.from, value: value}, (err, tx) => {
                     if(err) {
                         reject(err);
                     }
                     else {
-                        let event = this.contract.BuyInBatch((err, res) => {
+                        let event = self.contract.BuyInBatch((err, res) => {
                             event.stopWatching();
                             if (err) {
                                 reject(err);
@@ -536,15 +538,18 @@ class RoomNightCustomer {
      * @param {Number} vendorId The vendor Id
      * @param {Number} rnid Room night token id
      * @param {Boolean} isRefund if true the `rnid` can refund else not
+     * @param {Dict} options {from: msg.sender}
      * @param {Promise} {tx: String, customer: String, rnid: BigNumber, isRefund: Boolean}
      * * tx: Transaction number
      * * customer: The customer address
      * * rnid: The rateplan id
      * * isRefund: if true the `rnid` can refund else not
      */
-    applyRefund(vendorId, rnid, isRefund) {
+    applyRefund(vendorId, rnid, isRefund, options) {
         return new Promise((resolve, reject) => {
-            this.contract.applyRefund(vendorId, rnid, isRefund, (err, tx) => {
+            this.contract.applyRefund(vendorId, rnid, isRefund,{
+                    from: options.from
+                }, (err, tx) => {
                 if(err) {
                     reject(err);
                 }
@@ -577,14 +582,15 @@ class RoomNightCustomer {
      * * rnid: Room night token id
      */
     refund(rnid, options) {
+        let self = this;
         let _refund = function(rnid, value) {
             return new Promise((resolve, reject) => {
-                this.contract.refund(rnid, {from: options.from, value: value}, (err, tx) => {
+                self.contract.refund(rnid, {from: options.from, value: value}, (err, tx) => {
                     if(err) {
                         reject(err);
                     }
                     else {
-                        let event = this.contract.Refund((err, res) => {
+                        let event = self.contract.Refund((err, res) => {
                             event.stopWatching();
                             if (err) {
                                 reject(err);

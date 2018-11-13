@@ -18564,6 +18564,7 @@
          * Get inventories of dates
          * @param {Number} vendorId - Vendor id
          * @param {Number} rpid - Rateplan id
+         * @param {Number} dates - Dates E.g: [20180610,20180611]
          * @param {Object} options
          * @returns {Promise}
          */
@@ -18793,7 +18794,9 @@
                 var _this8 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this8.contract.updateInventories(rpid, dates, inventory, {}, function (err, tx) {
+                    _this8.contract.updateInventories(rpid, dates, inventory, {
+                        from: options.from
+                    }, function (err, tx) {
                         if (err) {
                             reject(err);
                         } else {
@@ -18832,7 +18835,9 @@
                 var _this9 = this;
 
                 return new Promise(function (resolve, reject) {
-                    _this9.contract.updateBasePrice(rpid, tokens, prices, inventory, {}, function (err, tx) {
+                    _this9.contract.updateBasePrice(rpid, tokens, prices, inventory, {
+                        from: options.from
+                    }, function (err, tx) {
                         if (err) {
                             reject(err);
                         } else {

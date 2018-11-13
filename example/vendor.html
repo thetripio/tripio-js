@@ -111,10 +111,10 @@
                     <i-input v-model="dataUpdateBasePrice.tokens"></i-input>
                 </form-item>
                 <form-item 
-                    label="dates" 
-                    prop="dates" 
-                    :rules="{required: true, message: 'Please enter dates', trigger: 'blur'}">
-                    <i-input v-model="dataUpdateBasePrice.dates"></i-input>
+                    label="prices" 
+                    prop="prices" 
+                    :rules="{required: true, message: 'Please enter prices', trigger: 'blur'}">
+                    <i-input v-model="dataUpdateBasePrice.prices"></i-input>
                 </form-item>
                 <form-item 
                     label="inventory" 
@@ -211,17 +211,20 @@
                 tripio: null,
                 account: '',
                 dataUpdatePrices: {
-                    rpid: '1',
-                    
+                    rpid: '3',
+                    dates: '20181111,20181112',
+                    inventory: '3',
+                    tokens: '1',
+                    prices: '321,210'
                 },
                 dataUdateInventories: {
-
+                    rpid: '3'
                 },
                 dataUpdateBasePrice: {
-
+                    rpid: '3'
                 },
                 dataCreateRatePlan: {
-                    name: 'test',
+                    name: '',
                     ipfs: 'Qmaj8UWNjTzBMBHkkaqSiyax2nFgiwYP2ewxnhGBucn6S8'
                 },
                 dataRemoveRatePlan: {
@@ -249,10 +252,10 @@
                         if(valid) {
                             var vendor = this.tripio.roomNightVendor.updatePrices(
                                 this.dataUpdatePrices.rpid, 
-                                this.dataUpdatePrices.dates,
+                                this.dataUpdatePrices.dates.split(','),
                                 this.dataUpdatePrices.inventory, 
-                                this.dataUpdatePrices.tokens, 
-                                this.dataUpdatePrices.prices, 
+                                this.dataUpdatePrices.tokens.split(','), 
+                                this.dataUpdatePrices.prices.split(','), 
                                 { 
                                     from: this.account 
                                 }
@@ -262,10 +265,33 @@
 
                 },
                 updateInventories: function() {
-
+                    this.$refs.formUpdateInventories.validate((valid) => {
+                        if(valid) {
+                            var vendor = this.tripio.roomNightVendor.updateInventories(
+                                this.dataUdateInventories.rpid, 
+                                this.dataUdateInventories.dates.split(','),
+                                this.dataUdateInventories.inventory, 
+                                { 
+                                    from: this.account 
+                                }
+                            );
+                        }
+                    });
                 },
                 updateBasePrice: function() {
-
+                    this.$refs.formUpdateBasePrice.validate((valid) => {
+                        if(valid) {
+                            var vendor = this.tripio.roomNightVendor.updateBasePrice(
+                                this.dataUpdateBasePrice.rpid, 
+                                this.dataUpdateBasePrice.tokens.split(','), 
+                                this.dataUpdateBasePrice.prices.split(','), 
+                                this.dataUpdateBasePrice.inventory, 
+                                {
+                                    from: this.account
+                                }
+                            );
+                        }
+                    });
                 },
                 createRatePlan: function() {
                     this.$refs.formCreateRatePlan.validate((valid) => {

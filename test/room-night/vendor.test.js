@@ -8,13 +8,15 @@ describe('create RoomNightVendor', () => {
 
     test('RoomNightVendor inventoriesOfDate', async () => {
 
-        let inventories = await vendor.inventoriesOfDate(1, 3, [20180610, 20180611]);
+        let inventories = await vendor.inventoriesOfDate(2, 1, [20181111, 20181112]);
+        console.log('inventories');
         console.log(inventories);
     }, 30000);
 
     test('RoomNightVendor pricesOfDate', async() => {
 
-        let prices = await vendor.pricesOfDate(1, 3, [20180610, 20180611], 0);
+        let prices = await vendor.pricesOfDate(2, 1, [20181111, 20181112], 0);
+        console.log('prices');
         console.log(prices);
     }, 30000);
 

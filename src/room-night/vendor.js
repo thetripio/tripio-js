@@ -16,6 +16,7 @@ class RoomNightVendor {
      * Get inventories of dates
      * @param {Number} vendorId - Vendor id
      * @param {Number} rpid - Rateplan id
+     * @param {Number} dates - Dates E.g: [20180610,20180611]
      * @param {Object} options
      * @returns {Promise}
      */
@@ -214,7 +215,9 @@ class RoomNightVendor {
     updateInventories(rpid, dates, inventory, options) {
 
         return new Promise((resolve, reject) => {
-            this.contract.updateInventories(rpid, dates, inventory, {}, (err, tx) => {
+            this.contract.updateInventories(rpid, dates, inventory, {
+                from: options.from
+            }, (err, tx) => {
                 if (err) {
                     reject(err);
                 }
@@ -251,7 +254,9 @@ class RoomNightVendor {
     updateBasePrice(rpid, tokens, prices, inventory, options) {
 
         return new Promise((resolve, reject) => {
-            this.contract.updateBasePrice(rpid, tokens, prices, inventory, {}, (err, tx) => {
+            this.contract.updateBasePrice(rpid, tokens, prices, inventory, {
+                from: options.from
+            }, (err, tx) => {
                 if (err) {
                     reject(err);
                 }

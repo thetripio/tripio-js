@@ -2,15 +2,8 @@
     "root": "mds/",
     "title": "Tripio.js",
     "description": "A tripio javascript SDK",
-    "links": {
-        "sidebar": {
-            "Custom link name": "https://developers.trip.io/"
-        }
-    },
-    "sharing": {
-        "twitter": "https://twitter.com/thetripio",
-        "youtube": "https://www.youtube.com/channel/UCcSWmNP8uQFLhx0YGtev_Sw",
-        "medium": "https://medium.com/tripio",
-        "reddit": "https://www.reddit.com/comments/8y7qbg"
+    "plugins": ["toggle-chapters"],
+    "styles": {
+        "website": "website.css"
     }
 }

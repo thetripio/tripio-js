@@ -545,7 +545,7 @@ If so, it calls onERC721Received on _to and throws if the return value is not by
 | --- | --- | --- |
 | from | String | The current owner of the room night token |
 | to | String | The new owner |
-| tokenIds | Number \| Array | The tokens to transfer |
+| tokenIds | Array.&lt;Number&gt; | The tokens to transfer |
 | {tx: | Promise | String, from: BigNumber, to: BigNumber, tokenIds: Number|Array} * tx: Transaction number * from: The current owner of the room night token * to: The new owner * tokenIds: The token to transfer |
 
 
@@ -594,7 +594,7 @@ If so, it calls onERC721Received on _to and throws if the return value is not by
 | --- | --- | --- |
 | vendorId | Number | The vendor Id |
 | rpid | Number | The vendor's rate plan id |
-| dates | Number \| Array | The booking dates |
+| dates | Array.&lt;Number&gt; | The booking dates |
 | token | Number | The digital currency token |
 | options | Dict | {from: msg.sender} |
 | {tx: | Promise | String, customer: String, vendor: String, rpid: BigNumber, dates: Number|Array, token: BigNumber} * tx: Transaction number * customer: The customer address * vendor: Then vendor address * rpid: The rateplan id * dates: The booking dates * token: The digital currency token |

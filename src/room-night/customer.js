@@ -350,7 +350,7 @@ class RoomNightCustomer {
      * Transfers the ownership of tokens from one address to another address
      * @param {String} from The current owner of the room night token
      * @param {String} to The new owner
-     * @param {Number|Array} tokenIds The tokens to transfer
+     * @param {Number[]} tokenIds The tokens to transfer
      * @param {Promise} {tx: String, from: BigNumber, to: BigNumber, tokenIds: Number|Array}
      * * tx: Transaction number
      * * from: The current owner of the room night token
@@ -456,7 +456,7 @@ class RoomNightCustomer {
      * By room nigth in batch through ETH(`token` == 0) or other digital token(`token` != 0)
      * @param {Number} vendorId The vendor Id
      * @param {Number} rpid The vendor's rate plan id
-     * @param {Number|Array} dates The booking dates
+     * @param {Number[]} dates The booking dates
      * @param {Number} token The digital currency token
      * @param {Dict} options {from: msg.sender}
      * @param {Promise} {tx: String, customer: String, vendor: String, rpid: BigNumber, dates: Number|Array, token: BigNumber}

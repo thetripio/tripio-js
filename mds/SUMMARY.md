@@ -17,7 +17,7 @@
     * [makeVendorValid](api.md#RoomNightAdmin_makeVendorValid)
     * [addToken](api.md#RoomNightAdmin_addToken)
     * [removeToken](api.md#RoomNightAdmin_removeToken)
-* [TripioRoomNightCustomer](api.md#NightCustomer)
+* [TripioRoomNightCustomer](api.md#RoomNightCustomer)
     * [ipfsBase58ToHex](api.md#RoomNightCustomer_ipfsBase58ToHex)
     * [ipfsHexToBase58](api.md#RoomNightCustomer_ipfsHexToBase58)
     * [name](api.md#RoomNightCustomer_name)

@@ -1,10 +1,12 @@
 # Summary
 
+## Summary
+
 ## Room Night
 
-* [TripioRoomNightAdmin](admin.md)
-* [TripioRoomNightVendor](vendor.md)
-* [TripioRoomNightCustomer](customer.md)
+* [TripioRoomNightAdmin](api.md#RoomNightAdmin)
+* [TripioRoomNightCustomer](api.md#NightCustomer)
+* [TripioRoomNightVendor](api.md#RoomNightVendor)
 
 ---
 

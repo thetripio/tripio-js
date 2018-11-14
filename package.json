@@ -34,6 +34,9 @@
         "build": "BABEL_ENV=build rollup -c build/rollup.config.js",
         "build:full": "BABEL_ENV=build rollup -c build/rollup.config.full.js",
         "deploy": "yarn build && yarn publish",
+        "docs:api": "jsdoc2md --partial build/docs/header.hbs --partial build/docs/link.hbs --files src/**/*.js > mds/api.md",
+        "docs:build": "rimraf docs && gitbook build ./mds ./docs",
+        "docs": "yarn docs:api && yarn docs:build",
         "doc": "node build/jsdoc.js && gitbook build ./mds ./docs"
     },
     "devDependencies": {
@@ -44,6 +47,7 @@
         "babel-preset-stage-2": "^6.24.1",
         "jest": "^23.6.0",
         "jsdoc-to-markdown": "^4.0.1",
+        "rimraf": "^2.6.2",
         "rollup": "^0.67.0",
         "rollup-plugin-babel": "3.0.7",
         "rollup-plugin-commonjs": "^9.2.0",

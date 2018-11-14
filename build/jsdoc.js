@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 const srcPath = './src/';
-const distPath = './docs/';
+const distPath = './mds/';
 
 function createDoc(path, filesList = []) {
     fs.readdirSync(path).forEach((file, index) => {

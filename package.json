@@ -34,7 +34,7 @@
         "build": "BABEL_ENV=build rollup -c build/rollup.config.js",
         "build:full": "BABEL_ENV=build rollup -c build/rollup.config.full.js",
         "deploy": "yarn build && yarn publish",
-        "doc": "node build/jsdoc.js"
+        "doc": "node build/jsdoc.js && gitbook build ./mds ./docs"
     },
     "devDependencies": {
         "babel-core": "^6.26.3",

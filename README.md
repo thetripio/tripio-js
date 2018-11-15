@@ -35,3 +35,5 @@ tripio.roomNightAdmin.getVendorIds(0, 100).then(res => {
 * [TripioRoomNightCustomer](./mds/customer.md)
 
 ## [Document](https://thetripio.github.io/tripio-js/)
+
+## [Debugger](https://debug.tripiochina.cn/)

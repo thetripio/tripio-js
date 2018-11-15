@@ -1,7 +1,5 @@
 # Tripio.js
 
-# Tripio.js
-
 ## Install
 
 ```

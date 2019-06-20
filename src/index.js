@@ -6,6 +6,7 @@ import RoomNightCustomer from './room-night/customer';
 /** 
  * Tripio
  * @class
+ * 
  */
 class Tripio {
     /**
